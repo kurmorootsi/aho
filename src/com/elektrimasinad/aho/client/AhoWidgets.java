@@ -1,5 +1,9 @@
 package com.elektrimasinad.aho.client;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -21,6 +25,21 @@ public class AhoWidgets {
 		Label lDeviceHeader = new Label(labelText);
 		lDeviceHeader.setStyleName("aho-label2");
 		headerPanel.add(lDeviceHeader);
+		if (labelText.equals("Seadme \u00FCldandmed")) {
+			Button maintainanceLink = new Button();
+			Label lMaintainanceLink = new Label("Hooldustegevused");
+			lMaintainanceLink.setStyleName("aho-label2-maintLink");
+			maintainanceLink.setStyleName("maintainanceLink");
+			maintainanceLink.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					Window.Location.assign("/Maintenance.html");
+				}
+			});
+			headerPanel.add(lMaintainanceLink);
+			headerPanel.add(maintainanceLink);
+			
+		}
 		
 		return headerPanel;
 	}
