@@ -112,9 +112,9 @@ public class Index implements EntryPoint {
 		
 		Label lLabel1 = new Label("");
 		lLabel1.setStyleName("backSaveLabel noPointer");
-		Label lMeasurements = new Label("M\u00F5\u00F5tmised");
-		lMeasurements.setStyleName("backSaveLabel");
-		lMeasurements.addClickHandler(new ClickHandler() {
+		Image measurementsImage = new Image("res/avakuva.png");
+		measurementsImage.setStyleName("aho-navigationImage");
+		measurementsImage.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -122,9 +122,9 @@ public class Index implements EntryPoint {
 				else Window.Location.assign("/Aho.html");
 			}
 		});
-		Label lRaports = new Label("Raportid");
-		lRaports.setStyleName("backSaveLabel");
-		lRaports.addClickHandler(new ClickHandler() {
+		Image raportsImage = new Image("res/avakuva.png");
+		raportsImage.setStyleName("aho-navigationImage");
+		raportsImage.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -132,9 +132,9 @@ public class Index implements EntryPoint {
 				else Window.Location.assign("/Raports.html");
 			}
 		});
-		Label lDeviceCard = new Label("Seadmekaart");
-		lDeviceCard.setStyleName("backSaveLabel");
-		lDeviceCard.addClickHandler(new ClickHandler() {
+		Image devicecardImage = new Image("res/avakuva.png");
+		devicecardImage.setStyleName("aho-navigationImage");
+		devicecardImage.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -142,9 +142,9 @@ public class Index implements EntryPoint {
 				else Window.Location.assign("/DeviceCard.html");
 			}
 		});
-		Label lMaintenance = new Label("Hooldus");
-		lMaintenance.setStyleName("backSaveLabel");
-		lMaintenance.addClickHandler(new ClickHandler() {
+		Image maintenanceImage = new Image("res/avakuva.png");
+		maintenanceImage.setStyleName("aho-navigationImage");
+		maintenanceImage.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
@@ -154,10 +154,10 @@ public class Index implements EntryPoint {
 		});
 			
 		navPanel.add(lLabel1);
-		navPanel.add(lMeasurements);
-		navPanel.add(lRaports);
-		navPanel.add(lDeviceCard);
-		navPanel.add(lMaintenance);
+		navPanel.add(measurementsImage);
+		navPanel.add(raportsImage);
+		navPanel.add(devicecardImage);
+		navPanel.add(maintenanceImage);
 	}
 
 }
