@@ -142,11 +142,22 @@ public class Index implements EntryPoint {
 				else Window.Location.assign("/DeviceCard.html");
 			}
 		});
-		
+		Label lMaintenance = new Label("Hooldus");
+		lMaintenance.setStyleName("backSaveLabel");
+		lMaintenance.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				if (isDevMode) Window.Location.assign(Window.Location.getHref().replace("index", "Maintenance"));
+				else Window.Location.assign("/Maintenance.html");
+			}
+		});
+			
 		navPanel.add(lLabel1);
 		navPanel.add(lMeasurements);
 		navPanel.add(lRaports);
 		navPanel.add(lDeviceCard);
+		navPanel.add(lMaintenance);
 	}
 
 }

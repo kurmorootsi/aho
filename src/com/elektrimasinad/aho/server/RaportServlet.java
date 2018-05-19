@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+/*import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFRun;*/
 
 public class RaportServlet extends HttpServlet {
     /**
@@ -39,7 +39,7 @@ public class RaportServlet extends HttpServlet {
         //File file = new File(docxFile.toString());
         
       //Blank Document
-        XWPFDocument document = null;
+        /*XWPFDocument document = null;
 		try {
 			document = new XWPFDocument(OPCPackage.open("res/RaportTemplate.docx"));
 		} catch (InvalidFormatException e) {
@@ -84,9 +84,9 @@ public class RaportServlet extends HttpServlet {
             out.write(buffer, 0, bytes);
         bis.close();      
         fis.close();*/
-        document.write(out);
+        /*document.write(out);
         out.flush();
-        out.close();
+        out.close();*/
 
     }
 }
