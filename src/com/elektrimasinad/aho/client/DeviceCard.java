@@ -15,6 +15,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -78,10 +80,32 @@ public class DeviceCard implements EntryPoint {
 	private Panel measurementListPanel = new VerticalPanel();
 	private AsyncCallback<List<Measurement>> getMeasurementsCallback;
 	protected List<Measurement> measurements;
+	private boolean isDevMode;
+	private boolean isMobileView;
 	
 
 	@Override
 	public void onModuleLoad() {
+		if (Window.Location.getHref().contains("127.0.0.1")) isDevMode = true;
+		else isDevMode = false;
+		if (Window.getClientWidth() < 1000) {
+			isMobileView = true;
+		} else {
+			isMobileView = false;
+		}
+		Window.addResizeHandler(new ResizeHandler() {
+
+		    @Override
+		    public void onResize(ResizeEvent event) {
+		    	if (Window.getClientWidth() < 1000) {
+					isMobileView = true;
+				} else {
+					isMobileView = false;
+				}
+		    	updateWidgetSizes();
+		    }
+		});
+		
 		getCompanyListCallback = new AsyncCallback<List<Company>>() {
 			
 			@Override
@@ -232,8 +256,25 @@ public class DeviceCard implements EntryPoint {
 		mainPanel = new VerticalPanel();
 		mainPanel.setStyleName("panelBackground");
 		
+		Image headerImage = new Image("res/hes-symbol.jpg");
+		headerImage.setStyleName("aho-headerImage");
+		headerImage.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				if(isDevMode) Window.Location.assign(Window.Location.getHref().replace("index", "index"));
+				else Window.Location.assign("/Index.html");
+			}
+			
+		});
+		
+		HorizontalPanel navigationPanel = new HorizontalPanel();
+		navigationPanel.setStyleName("aho-navigationPanel");
+		navigationPanel.add(headerImage);
+		navigationPanel.setCellWidth(headerImage, "52px");
 		headerPanel = new AbsolutePanel();
 		headerPanel.setStyleName("headerBackground");
+		headerPanel.add(navigationPanel);
 		mainPanel.add(headerPanel);
 		
 		contentPanel = new DeckPanel();
@@ -249,6 +290,12 @@ public class DeviceCard implements EntryPoint {
 	}
 	
 	private void updateWidgetSizes() {
+		String contentWidth = "90%";
+		MAIN_WIDTH = 700;
+		if (isMobileView) {
+			MAIN_WIDTH = Window.getClientWidth();
+			contentWidth = "95%";
+		}
 		mainPanel.setWidth(MAIN_WIDTH + "px");
 		mainPanel.setHeight(Window.getClientHeight() + "px");
 		contentPanel.setWidth(CONTENT_WIDTH + "px");

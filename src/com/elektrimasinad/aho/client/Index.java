@@ -9,6 +9,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -24,7 +25,7 @@ public class Index implements EntryPoint {
 	private VerticalPanel mainPanel;
 	private AbsolutePanel headerPanel;
 	private DeckPanel contentPanel;
-	private VerticalPanel navPanel;
+	private HorizontalPanel navPanel;
 
 	@Override
 	public void onModuleLoad() {
@@ -50,25 +51,23 @@ public class Index implements EntryPoint {
 		mainPanel = new VerticalPanel();
 		mainPanel.setStyleName("panelBackground");
 		
-		Image measurementsImage = new Image("res/Diagnostika.gif");
-		measurementsImage.setStyleName("aho-navigationImage");
-		measurementsImage.addClickHandler(new ClickHandler() {
-
+		Image headerImage = new Image("res/hes-symbol.jpg");
+		headerImage.setStyleName("aho-headerImage");
+		headerImage.addClickHandler(new ClickHandler() {
+			
 			@Override
 			public void onClick(ClickEvent event) {
-				if (isDevMode) Window.Location.assign(Window.Location.getHref().replace("index", "Aho"));
-				else Window.Location.assign("/Aho.html");
+				if(isDevMode) Window.Location.assign(Window.Location.getHref().replace("index", "index"));
+				else Window.Location.assign("/Index.html");
 			}
+			
 		});
+		
+		
 		HorizontalPanel navigationPanel = new HorizontalPanel();
 		navigationPanel.setStyleName("aho-navigationPanel");
-		AbsolutePanel blankPanel = new AbsolutePanel();
-		blankPanel.setHeight("100%");
-		blankPanel.setWidth("100%");
-		navigationPanel.add(blankPanel);
-		navigationPanel.add(measurementsImage);
-		navigationPanel.setCellWidth(blankPanel, "100%");
-		navigationPanel.setCellWidth(measurementsImage, "52px");
+		navigationPanel.add(headerImage);
+		navigationPanel.setCellWidth(headerImage, "52px");
 		headerPanel = new AbsolutePanel();
 		headerPanel.setStyleName("headerBackground");
 		headerPanel.add(navigationPanel);
@@ -107,14 +106,12 @@ public class Index implements EntryPoint {
 	}
 	
 	private void createNavigationPanel() {
-		navPanel = new VerticalPanel();
+		navPanel = new HorizontalPanel();
 		navPanel.setWidth("100%");
 		
-		Label lLabel1 = new Label("");
-		lLabel1.setStyleName("backSaveLabel noPointer");
-		Image measurementsImage = new Image("res/avakuva.png");
-		measurementsImage.setStyleName("aho-navigationImage");
-		measurementsImage.addClickHandler(new ClickHandler() {
+		Image measurementImage = new Image("res/pik-mootmine.png");
+		measurementImage.setStyleName("aho-piktoImage");
+		measurementImage.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -122,8 +119,9 @@ public class Index implements EntryPoint {
 				else Window.Location.assign("/Aho.html");
 			}
 		});
-		Image raportsImage = new Image("res/avakuva.png");
-		raportsImage.setStyleName("aho-navigationImage");
+		
+		Image raportsImage = new Image("res/pik-Raport.png");
+		raportsImage.setStyleName("aho-piktoImage");
 		raportsImage.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -132,8 +130,9 @@ public class Index implements EntryPoint {
 				else Window.Location.assign("/Raports.html");
 			}
 		});
-		Image devicecardImage = new Image("res/avakuva.png");
-		devicecardImage.setStyleName("aho-navigationImage");
+		
+		Image devicecardImage = new Image("res/pik-seadmed.png");
+		devicecardImage.setStyleName("aho-piktoImage");
 		devicecardImage.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -142,8 +141,9 @@ public class Index implements EntryPoint {
 				else Window.Location.assign("/DeviceCard.html");
 			}
 		});
-		Image maintenanceImage = new Image("res/avakuva.png");
-		maintenanceImage.setStyleName("aho-navigationImage");
+		
+		Image maintenanceImage = new Image("res/pik-hooldus.png");
+		maintenanceImage.setStyleName("aho-piktoImage");
 		maintenanceImage.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -153,11 +153,38 @@ public class Index implements EntryPoint {
 			}
 		});
 			
-		navPanel.add(lLabel1);
-		navPanel.add(measurementsImage);
-		navPanel.add(raportsImage);
+		
 		navPanel.add(devicecardImage);
 		navPanel.add(maintenanceImage);
+		navPanel.add(raportsImage);
+		navPanel.add(measurementImage);
+		
 	}
+	
+	/*private void createNavigation2Panel() {
+		nav2Panel = new HorizontalPanel();
+		nav2Panel.setWidth("100%");
+				
+		Label lLabel1 = new Label("Monitooring");
+		lLabel1.setStyleName("backSaveLabel noPointer");
+		lLabel1.setHorizontalAlignment(lLabel1.ALIGN_CENTER);
+				
+		Label lLabel2 = new Label("Raportid");
+		lLabel2.setStyleName("backSaveLabel noPointer");
+		lLabel2.setHorizontalAlignment(lLabel1.ALIGN_CENTER);
+				
+		Label lLabel3 = new Label("Seadmed");
+		lLabel3.setStyleName("backSaveLabel noPointer");
+		lLabel3.setHorizontalAlignment(lLabel1.ALIGN_CENTER);
+				
+		Label lLabel4 = new Label("Hooldus");
+		lLabel4.setStyleName("backSaveLabel noPointer");
+		lLabel4.setHorizontalAlignment(lLabel1.ALIGN_CENTER);
+				
+		navPanel.add(lLabel3);
+		navPanel.add(lLabel4);
+		navPanel.add(lLabel2);
+		navPanel.add(lLabel1);
+	}*/
 
 }

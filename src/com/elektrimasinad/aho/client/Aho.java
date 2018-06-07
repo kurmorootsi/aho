@@ -85,8 +85,29 @@ public class Aho implements EntryPoint {
 	private Image imgA;
 	private Image imgH;
 	private Image imgO;
+	private boolean isDevMode;
 	
 	public void onModuleLoad() {
+		if (Window.Location.getHref().contains("127.0.0.1")) isDevMode = true;
+		else isDevMode = false;
+		if (Window.getClientWidth() < 1000) {
+			isMobileView = true;
+		} else {
+			isMobileView = false;
+		}
+		Window.addResizeHandler(new ResizeHandler() {
+
+		    @Override
+		    public void onResize(ResizeEvent event) {
+		    	if (Window.getClientWidth() < 1000) {
+					isMobileView = true;
+				} else {
+					isMobileView = false;
+				}
+		    	updateWidgetSizes();
+		    }
+		});
+		
 		storeMeasurementCallback = new AsyncCallback<String>() {
 			
 			@Override
@@ -148,10 +169,28 @@ public class Aho implements EntryPoint {
 		    }
 		});
 		mainPanel = new VerticalPanel();
+		mainPanel.setSize(MAIN_WIDTH + "px", "900px");
 		mainPanel.setStyleName("panelBackground");
 		
+		Image headerImage = new Image("res/hes-symbol.jpg");
+		headerImage.setStyleName("aho-headerImage");
+		headerImage.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				if(isDevMode) Window.Location.assign(Window.Location.getHref().replace("index", "index"));
+				else Window.Location.assign("/Index.html");
+			}
+			
+		});
+		
+		HorizontalPanel navigationPanel = new HorizontalPanel();
+		navigationPanel.setStyleName("aho-navigationPanel");
+		navigationPanel.add(headerImage);
+		navigationPanel.setCellWidth(headerImage, "52px");
 		headerPanel = new AbsolutePanel();
 		headerPanel.setStyleName("headerBackground");
+		headerPanel.add(navigationPanel);
 		mainPanel.add(headerPanel);
 		
 		contentPanel = new DeckPanel();
