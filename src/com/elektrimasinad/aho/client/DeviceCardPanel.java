@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -134,8 +135,8 @@ public class DeviceCardPanel extends VerticalPanel {
 	
 	private void createDeviceCard(boolean isEditable) {
 		//Header panel
-		HorizontalPanel deviceHeaderPanel = AhoWidgets.createContentHeader("Seadme \u00FCldandmed");
-		add(deviceHeaderPanel);
+		//HorizontalPanel deviceHeaderPanel = AhoWidgets.createContentHeader("Seadme \u00FCldandmed");
+		//add(deviceHeaderPanel);
 		
 		//Content panels
 		if (isEditable) {

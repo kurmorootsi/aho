@@ -41,4 +41,6 @@ public interface DeviceTreeService extends RemoteService {
 	List<Raport> getRaports(String unitKey) throws IllegalArgumentException;
 	Raport getRaport(String raportKeyString) throws IllegalArgumentException;
 	List<Measurement> getRaportData(Raport raport) throws IllegalArgumentException;
+	
+	String storeLogEntry(String action, String user);
 }

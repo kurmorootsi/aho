@@ -36,7 +36,9 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -62,6 +64,7 @@ public class DeviceCard implements EntryPoint {
 	
 	private VerticalPanel mainPanel;
 	private DeviceCardPanel deviceCardPanel = new DeviceCardPanel();;
+	private DeviceMaintenancePanel deviceMaintenancePanel = new DeviceMaintenancePanel();
 	private VerticalPanel lastMeasurementPanel = new VerticalPanel();
 	private AbsolutePanel headerPanel;
 	private DeckPanel contentPanel;
@@ -312,6 +315,7 @@ public class DeviceCard implements EntryPoint {
 		contentPanel.add(measurementListPanel);
 		contentPanel.add(lastMeasurementPanel);
 		contentPanel.add(deviceCardPanel);
+		contentPanel.add(deviceMaintenancePanel);
 		
 		//devTree = new DeviceTree();
 		//generateDemoTreeData();
@@ -460,7 +464,8 @@ public class DeviceCard implements EntryPoint {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				deviceTreeService.deleteCompany(selectedCompany.getCompanyKey(), storeCompanyCallback);
+				String deleteKey = selectedCompany.getCompanyKey();
+				showDeletePrompt(deleteKey, "Company");
 			}
 			
 		});
@@ -556,7 +561,8 @@ public class DeviceCard implements EntryPoint {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				deviceTreeService.deleteUnit(selectedUnit.getUnitKey(), storeUnitCallback);
+				String deleteKey = selectedUnit.getUnitKey();
+				showDeletePrompt(deleteKey, "Unit");
 			}
 			
 		});
@@ -676,7 +682,7 @@ public class DeviceCard implements EntryPoint {
 		
 		contentPanel.showWidget(contentPanel.getWidgetIndex(measurementListPanel));
 	}
-
+	
 	private CompanyPanel createNewCompanyView() {
 		newCompanyPanel.clear();
 		
@@ -788,15 +794,39 @@ public class DeviceCard implements EntryPoint {
 		return newUnitPanel ;
 	}
 	
+	public void createMaintenancePanelView() {
+		deviceMaintenancePanel.clear();
+		deviceMaintenancePanel.createNewDeviceMaintenancePanel();
+		
+		final Label lBack = new Label("T\u00FChista");
+		lBack.setStyleName("backSaveLabel");
+		lBack.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				contentPanel.showWidget(contentPanel.getWidgetIndex(deviceCardPanel));
+			}
+			
+		});
+		Button lBackButton = new Button();
+		lBackButton.setStyleName("backButton");
+		lBackButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				lBack.fireEvent(event);
+			}	
+		});
+		deviceMaintenancePanel.add(lBack);
+		deviceMaintenancePanel.add(lBackButton);
+		
+		contentPanel.showWidget(contentPanel.getWidgetIndex(deviceMaintenancePanel));
+	}
+	
 	private void createEditLocationView() {
 		createNewLocationView();
 		newUnitPanel.createEditLocationPanel(selectedUnit);
 	}
-	
-	
-	
-	
-	
 
 	private void showDeviceCardView(String deviceName) {
 		deviceCardPanel.clear();
@@ -841,7 +871,8 @@ public class DeviceCard implements EntryPoint {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				deviceTreeService.deleteDevice(selectedDevice.getDeviceKey(), storeDeviceCallback);
+				String deleteKey = selectedDevice.getDeviceKey();
+				showDeletePrompt(deleteKey, "Device");
 			}
 			
 		});
@@ -872,11 +903,32 @@ public class DeviceCard implements EntryPoint {
 		backSavePanel.add(lDeleteDevice);
 		backSavePanel.setCellHorizontalAlignment(lDeleteDevice, HasHorizontalAlignment.ALIGN_RIGHT);
 		backSavePanel.setCellWidth(lDeleteDevice, "16%");
-
+		String labelText = "Seadme \u00FCldandmed";
+		HorizontalPanel headerPanel = new HorizontalPanel();
+		headerPanel.setStyleName("aho-measurementHeaderPanel");
+		Label lDeviceHeader = new Label(labelText);
+		lDeviceHeader.setStyleName("aho-label2");
+		headerPanel.add(lDeviceHeader);
+		if (labelText.equals("Seadme \u00FCldandmed")) {
+			Button maintainanceLink = new Button();
+			Label lMaintainanceLink = new Label("Hooldustegevused");
+			lMaintainanceLink.setStyleName("aho-label2-maintLink");
+			maintainanceLink.setStyleName("maintainanceLink");
+			maintainanceLink.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					createMaintenancePanelView();
+				}
+			});
+			headerPanel.add(lMaintainanceLink);
+			headerPanel.add(maintainanceLink);
+		}
 		deviceCardPanel.createDeviceView(selectedCompany, selectedUnit, selectedDevice);
 		deviceCardPanel.insert(backSavePanel, 0);
+		deviceCardPanel.insert(headerPanel, 1);
 		contentPanel.showWidget(contentPanel.getWidgetIndex(deviceCardPanel));
 	}
+
 	private void showEditDeviceView() {
 		deviceCardPanel.clear();
 		
@@ -927,6 +979,53 @@ public class DeviceCard implements EntryPoint {
 		deviceCardPanel.createEditDeviceView(selectedCompany, selectedUnit, selectedDevice);
 		deviceCardPanel.insert(backSavePanel, 0);
 		contentPanel.showWidget(contentPanel.getWidgetIndex(deviceCardPanel));
+	}
+	
+	private void showDeletePrompt(String key, String deleteType) {
+		PopupPanel popupPanel = new PopupPanel();
+		VerticalPanel popupContainer = new VerticalPanel();
+		HorizontalPanel buttonRow = new HorizontalPanel();
+		Button yesButton = new Button("Jah");
+		Button noButton = new Button("Ei");
+		Label popupText = new Label("Kas soovid kindlasti kustutada?");
+		popupPanel.setTitle("Kustuta");
+		popupPanel.setStyleName("deletePrompt");
+		popupText.setStyleName("popupText");
+		yesButton.setStyleName("promptButton");
+		noButton.setStyleName("promptButton");
+		buttonRow.setStyleName("promptButtonRow");
+		buttonRow.setCellHorizontalAlignment(yesButton, HasHorizontalAlignment.ALIGN_CENTER);
+		buttonRow.setCellHorizontalAlignment(noButton, HasHorizontalAlignment.ALIGN_CENTER);
+		popupContainer.add(popupText);
+		buttonRow.add(yesButton);
+		buttonRow.add(noButton);
+		popupContainer.add(buttonRow);
+		popupPanel.setWidget(popupContainer);
+		popupPanel.center();
+		yesButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				switch(deleteType) {
+					case "Device":
+						deviceTreeService.deleteDevice(key, storeDeviceCallback);
+						break;
+					case "Unit":
+						deviceTreeService.deleteUnit(key, storeUnitCallback);
+						break;
+					case "Company":
+						deviceTreeService.deleteCompany(key, storeCompanyCallback);
+						break;
+				}
+				popupPanel.hide();
+			}
+		});
+		noButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				popupPanel.hide();
+			}
+		});
+		popupPanel.show();
 	}
 	
 	private void cancelDeviceEditing() {

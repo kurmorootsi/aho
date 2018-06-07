@@ -1,6 +1,7 @@
 package com.elektrimasinad.aho.server;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -30,7 +31,20 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class DeviceTreeServiceImpl extends RemoteServiceServlet implements DeviceTreeService {
 	private DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 	private String userCompanyName = "Elektrimasinad";
-
+	
+	@Override
+	public String storeLogEntry(String action, String user) {
+		Entity l = new Entity("Log");
+		Date today = new Date();
+		l.setProperty("Date", today.toString());
+		l.setProperty("Action", action);
+		l.setProperty("User", user);
+		
+		ds.put(l);
+		
+		return "Action logged";
+	}
+	
 	@Override
 	public String storeCompany(Company company) throws IllegalArgumentException {
 		//Check if company with specified name already exists

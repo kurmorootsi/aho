@@ -1,9 +1,14 @@
 package com.elektrimasinad.aho.client;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
@@ -24,7 +29,36 @@ public class AhoWidgets {
 		
 		return headerPanel;
 	}
-	
+	public static HorizontalPanel createDeviceContentHeader(String labelText, String deviceId, AsyncCallback<String> storeLogCallback) {
+		HorizontalPanel headerPanel = new HorizontalPanel();
+		headerPanel.setStyleName("aho-measurementHeaderPanel");
+		Label lDeviceHeader = new Label(labelText);
+		lDeviceHeader.setStyleName("aho-label2");
+		headerPanel.add(lDeviceHeader);
+		if (labelText.equals("Seadme \u00FCldandmed")) {
+			Button maintainanceLink = new Button();
+			Label lMaintainanceLink = new Label("Hooldustegevused");
+			lMaintainanceLink.setStyleName("aho-label2-maintLink");
+			maintainanceLink.setStyleName("maintainanceLink");
+			maintainanceLink.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					DeviceCard.getDevicetreeservice().storeLogEntry("Maintainance", "test", storeLogCallback);
+					PopupPanel testPop = new PopupPanel();
+					Label testPopLabel = new Label("ID: " + deviceId);
+					testPop.setWidget(testPopLabel);
+					testPop.center();
+					testPop.show();
+					testPop.setAutoHideEnabled(true);
+				}
+			});
+			headerPanel.add(lMaintainanceLink);
+			headerPanel.add(maintainanceLink);
+			
+		}
+		
+		return headerPanel;
+	}
 	/**
 	 * Create content header panel.
 	 * @param labelText	- content header text.
