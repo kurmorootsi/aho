@@ -1,7 +1,7 @@
 package com.elektrimasinad.aho.client;
 
 import com.elektrimasinad.aho.shared.Device;
-
+import com.elektrimasinad.aho.shared.MaintenanceItem;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -84,8 +84,18 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		    	  } else {
 		    		  state = null;
 		    	  }
-		    	  deviceTreeService.storeMaintenanceEntry(tb0.getValue(), tb1.getValue(), tb2.getValue(), state, null);
-		    	  Window.alert("Teie teenus on sisestatud!");
+		    	  if (tb0.getVisibleLength() > 0 && tb1.getVisibleLength() > 0 && tb2.getVisibleLength() > 0 && state != null) {
+		    		  MaintenanceItem m = new MaintenanceItem();
+		    		  m.setMaintenanceName(tb0.getValue());
+		    		  m.setMaintenanceDescription(tb1.getValue());
+		    		  m.setMaintenanceProblemDescription(tb2.getValue());
+		    		  m.setMaintenanceState(state);
+		    		  deviceTreeService.storeMaintenanceEntry(m, null);
+			    	  Window.alert("Teie teenus on sisestatud!");
+		    	  } else {
+		    		  Window.alert("Probleem");
+		    	  }
+		    	  
 		      }
 		});
 		

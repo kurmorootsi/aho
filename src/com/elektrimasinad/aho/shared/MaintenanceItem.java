@@ -1,6 +1,12 @@
 package com.elektrimasinad.aho.shared;
 
-public class MaintenanceItem {
+import java.io.Serializable;
+
+public class MaintenanceItem implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private String desc;
 	private String problemDesc;

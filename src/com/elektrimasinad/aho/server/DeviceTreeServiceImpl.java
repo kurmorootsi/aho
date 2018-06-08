@@ -47,16 +47,16 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 	}
 	
 	@Override
-	public String storeMaintenanceEntry(String name, String desc, String problemDesc, String state) {
-		Key maintenanceKey = KeyFactory.createKey("Maintenance", name);
+	public String storeMaintenanceEntry(MaintenanceItem m) {
+		Key maintenanceKey = KeyFactory.createKey("Maintenance", m.getMaintenanceName());
 		Key userCompanyKey = KeyFactory.createKey("Companies", userCompanyName);
 		Entity e = new Entity("MaintenanceEntry", userCompanyKey);
 		
 		e.setProperty("Key", maintenanceKey);
-		e.setProperty("Name", name);
-		e.setProperty("Description", desc);
-		e.setProperty("ProblemDescription", problemDesc);
-		e.setProperty("State", state);
+		e.setProperty("Name", m.getMaintenanceName());
+		e.setProperty("Description", m.getMaintenanceDescription());
+		e.setProperty("ProblemDescription", m.getMaintenanceProblemDescription());
+		e.setProperty("State", m.getMaintenanceState());
 		
 		ds.put(e);
 		return "Task stored";
@@ -77,6 +77,23 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		}
 		
 		return maintenanceItems;
+	}
+	public MaintenanceItem getMaintenanceEntry(String maintenanceString) throws IllegalArgumentException {
+		Key maintenanceKey = KeyFactory.stringToKey(maintenanceString);
+		MaintenanceItem m = new MaintenanceItem();
+		Entity e;
+		try {
+			e = ds.get(maintenanceKey);
+			m.setMaintenanceName(e.getProperty("Name").toString());
+			m.setMaintenanceDescription(e.getProperty("Description").toString());
+			m.setMaintenanceProblemDescription(e.getProperty("ProblemDescription").toString());
+			m.setMaintenanceState(e.getProperty("State").toString());
+		} catch (EntityNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		return m;
 	}
 	@Override
 	public String storeCompany(Company company) throws IllegalArgumentException {
