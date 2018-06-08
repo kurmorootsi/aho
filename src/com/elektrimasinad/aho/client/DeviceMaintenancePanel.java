@@ -1,6 +1,7 @@
 package com.elektrimasinad.aho.client;
 
 import java.util.Date;
+import com.elektrimasinad.aho.shared.Device;
 
 import com.elektrimasinad.aho.shared.Device;
 import com.elektrimasinad.aho.shared.MaintenanceItem;
