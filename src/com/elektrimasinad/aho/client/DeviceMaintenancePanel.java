@@ -17,10 +17,10 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	public DeviceMaintenancePanel() {
 		super();
 	}
-	public void createNewDeviceMaintenancePanel() {
+	public void createNewDeviceMaintenancePanel(Device device) {
 		super.clear();
 		DeviceTreeServiceAsync deviceTreeService = DeviceCard.getDevicetreeservice();
-		HorizontalPanel headerPanel = AhoWidgets.createContentHeader("Konkreetse seadme muutmine");
+		HorizontalPanel headerPanel = AhoWidgets.createContentHeader("Seadme " + device.getDeviceName() + " hooldustoo");
 		add(headerPanel);
 		
 		VerticalPanel RadioPanel = new VerticalPanel();
@@ -86,6 +86,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		    	  }
 		    	  if (tb0.getVisibleLength() > 0 && tb1.getVisibleLength() > 0 && tb2.getVisibleLength() > 0 && state != null) {
 		    		  MaintenanceItem m = new MaintenanceItem();
+		    		  m.setMaintenanceDevice(device.getDeviceKey().toString());
 		    		  m.setMaintenanceName(tb0.getValue());
 		    		  m.setMaintenanceDescription(tb1.getValue());
 		    		  m.setMaintenanceProblemDescription(tb2.getValue());

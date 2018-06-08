@@ -48,11 +48,12 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 	
 	@Override
 	public String storeMaintenanceEntry(MaintenanceItem m) {
-		Key maintenanceKey = KeyFactory.createKey("Maintenance", m.getMaintenanceName());
+		String maintenanceKey = m.getMaintenanceDevice() + m.getMaintenanceName();
 		Key userCompanyKey = KeyFactory.createKey("Companies", userCompanyName);
 		Entity e = new Entity("MaintenanceEntry", userCompanyKey);
 		
 		e.setProperty("Key", maintenanceKey);
+		e.setProperty("Device", m.getMaintenanceDevice());
 		e.setProperty("Name", m.getMaintenanceName());
 		e.setProperty("Description", m.getMaintenanceDescription());
 		e.setProperty("ProblemDescription", m.getMaintenanceProblemDescription());

@@ -11,11 +11,14 @@ public class MaintenanceItem implements Serializable{
 	private String desc;
 	private String problemDesc;
 	private String state;
+	private String devKey;
 	
 	public MaintenanceItem() {
 		
 	}
-	
+	public void setMaintenanceDevice(String deviceKey) {
+		this.devKey = deviceKey;
+	}
 	public void setMaintenanceName(String maintenanceName) {
 		this.name = maintenanceName;
 	}
@@ -39,5 +42,8 @@ public class MaintenanceItem implements Serializable{
 	}
 	public String getMaintenanceState() {
 		return this.state;
+	}
+	public String getMaintenanceDevice() {
+		return this.devKey;
 	}
 }

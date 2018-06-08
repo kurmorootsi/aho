@@ -796,7 +796,7 @@ public class DeviceCard implements EntryPoint {
 	
 	public void createMaintenancePanelView() {
 		deviceMaintenancePanel.clear();
-		deviceMaintenancePanel.createNewDeviceMaintenancePanel();
+		deviceMaintenancePanel.createNewDeviceMaintenancePanel(selectedDevice);
 		
 		HorizontalPanel maintHeader = new HorizontalPanel();
 		final Label lBack = new Label("T\u00FChista");
