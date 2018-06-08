@@ -4,6 +4,7 @@ public class MaintenanceItem {
 	private String name;
 	private String desc;
 	private String problemDesc;
+	private String state;
 	
 	public MaintenanceItem() {
 		
@@ -18,6 +19,9 @@ public class MaintenanceItem {
 	public void setMaintenanceProblemDescription(String maintenanceProblemDesc) {
 		this.problemDesc = maintenanceProblemDesc;
 	}
+	public void setMaintenanceState(String maintenanceState) {
+		this.state = maintenanceState;
+	}
 	public String getMaintenanceName() {
 		return this.name;
 	}
@@ -26,5 +30,8 @@ public class MaintenanceItem {
 	}
 	public String getMaintenanceProblemDescription() {
 		return this.problemDesc;
+	}
+	public String getMaintenanceState() {
+		return this.state;
 	}
 }

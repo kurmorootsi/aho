@@ -29,12 +29,15 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		HorizontalPanel RadioPanel1 = new HorizontalPanel();
 		Label rb00 = new Label("Perioodiline");
 		RadioButton rb0 = new RadioButton("myRadioGroup");
+		rb0.setFormValue("periodic");
 		HorizontalPanel RadioPanel2 = new HorizontalPanel();
 		Label rb11 = new Label("Plaaniline");
 	    RadioButton rb1 = new RadioButton("myRadioGroup");
+	    rb1.setFormValue("onetime");
 	    HorizontalPanel RadioPanel3 = new HorizontalPanel();
 	    Label rb22 = new Label("Teostatud");
 	    RadioButton rb2 = new RadioButton("myRadioGroup");
+	    rb2.setFormValue("done");
 	    RadioPanel1.add(rb00);
 	    RadioPanel1.add(rb0);
 	    RadioPanel2.add(rb11);
@@ -71,8 +74,17 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		
 		Button b = new Button("Sisesta teenus!", new ClickHandler() {
 		      public void onClick(ClickEvent event) {
-		    	  
-		    	  deviceTreeService.storeMaintenanceEntry(tb0.getValue(), tb1.getValue(), tb2.getValue(), null);
+		    	  String state;
+		    	  if (rb0.getValue() == true) {
+		    		  state = rb0.getFormValue();
+		    	  } else if (rb1.getValue() == true) {
+		    		  state = rb1.getFormValue();
+		    	  } else if (rb2.getValue() == true) {
+		    		  state = rb2.getFormValue();
+		    	  } else {
+		    		  state = null;
+		    	  }
+		    	  deviceTreeService.storeMaintenanceEntry(tb0.getValue(), tb1.getValue(), tb2.getValue(), state, null);
 		    	  Window.alert("Teie teenus on sisestatud!");
 		      }
 		});
