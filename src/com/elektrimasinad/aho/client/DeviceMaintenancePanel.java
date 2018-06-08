@@ -19,7 +19,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	}
 	public void createNewDeviceMaintenancePanel() {
 		super.clear();
-		
+		DeviceTreeServiceAsync deviceTreeService = DeviceCard.getDevicetreeservice();
 		HorizontalPanel headerPanel = AhoWidgets.createContentHeader("Konkreetse seadme muutmine");
 		add(headerPanel);
 		
@@ -71,9 +71,12 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		
 		Button b = new Button("Sisesta teenus!", new ClickHandler() {
 		      public void onClick(ClickEvent event) {
+		    	  
+		    	  deviceTreeService.storeMaintenanceEntry(tb0.getValue(), tb1.getValue(), tb2.getValue(), null);
 		    	  Window.alert("Teie teenus on sisestatud!");
 		      }
 		});
+		
 		ProblemPanel.add(b);
 		add(ProblemPanel);
 	}

@@ -1,8 +1,10 @@
 package com.elektrimasinad.aho.client;
 
+import java.util.Date;
 import java.util.List;
 import com.elektrimasinad.aho.shared.Company;
 import com.elektrimasinad.aho.shared.Device;
+import com.elektrimasinad.aho.shared.MaintenanceItem;
 import com.elektrimasinad.aho.shared.Measurement;
 import com.elektrimasinad.aho.shared.Raport;
 import com.elektrimasinad.aho.shared.Unit;
@@ -41,4 +43,7 @@ public interface DeviceTreeServiceAsync {
 	void getRaportData(Raport raport, AsyncCallback<List<Measurement>> callback) throws IllegalArgumentException;
 	
 	void storeLogEntry(String action, String user, AsyncCallback<String> callback);
+	
+	void storeMaintenanceEntry(String name, String desc, String problemDesc, AsyncCallback<String> callback);
+	void getMaintenanceEntries(String maintenanceKey, AsyncCallback<List<MaintenanceItem>> callback);
 }

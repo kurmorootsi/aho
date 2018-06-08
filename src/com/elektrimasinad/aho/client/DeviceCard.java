@@ -798,6 +798,7 @@ public class DeviceCard implements EntryPoint {
 		deviceMaintenancePanel.clear();
 		deviceMaintenancePanel.createNewDeviceMaintenancePanel();
 		
+		HorizontalPanel maintHeader = new HorizontalPanel();
 		final Label lBack = new Label("T\u00FChista");
 		lBack.setStyleName("backSaveLabel");
 		lBack.addClickHandler(new ClickHandler() {
@@ -817,9 +818,9 @@ public class DeviceCard implements EntryPoint {
 				lBack.fireEvent(event);
 			}	
 		});
-		deviceMaintenancePanel.add(lBack);
-		deviceMaintenancePanel.add(lBackButton);
-		
+		maintHeader.add(lBack);
+		maintHeader.add(lBackButton);
+		deviceMaintenancePanel.insert(maintHeader, 0);
 		contentPanel.showWidget(contentPanel.getWidgetIndex(deviceMaintenancePanel));
 	}
 	

@@ -8,6 +8,7 @@ import java.util.List;
 import com.elektrimasinad.aho.client.DeviceTreeService;
 import com.elektrimasinad.aho.shared.Company;
 import com.elektrimasinad.aho.shared.Device;
+import com.elektrimasinad.aho.shared.MaintenanceItem;
 import com.elektrimasinad.aho.shared.Measurement;
 import com.elektrimasinad.aho.shared.Raport;
 import com.elektrimasinad.aho.shared.Unit;
@@ -45,6 +46,36 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		return "Action logged";
 	}
 	
+	@Override
+	public String storeMaintenanceEntry(String name, String desc, String problemDesc) {
+		Key maintenanceKey = KeyFactory.createKey("Maintenance", name);
+		Key userCompanyKey = KeyFactory.createKey("Companies", userCompanyName);
+		Entity e = new Entity("MaintenanceEntry", userCompanyKey);
+		
+		e.setProperty("Key", maintenanceKey);
+		e.setProperty("Name", name);
+		e.setProperty("Description", desc);
+		e.setProperty("ProblemDescription", problemDesc);
+		
+		ds.put(e);
+		return "Task stored";
+	}
+	@Override
+	public List<MaintenanceItem> getMaintenanceEntries(String maintenanceString) throws IllegalArgumentException {
+		Key userCompanyKey = KeyFactory.createKey("Companies", userCompanyName);
+		
+		List<MaintenanceItem> maintenanceItems = new ArrayList<MaintenanceItem>();
+		Query query = new Query("MaintenanceEntry").setAncestor(userCompanyKey);
+		for(Entity e : ds.prepare(query).asIterable()) {
+			MaintenanceItem m = new MaintenanceItem();
+			m.setMaintenanceName(e.getProperty("Name").toString());
+			m.setMaintenanceDescription(e.getProperty("Description").toString());
+			m.setMaintenanceProblemDescription(e.getProperty("ProblemDescription").toString());
+			maintenanceItems.add(m);
+		}
+		
+		return maintenanceItems;
+	}
 	@Override
 	public String storeCompany(Company company) throws IllegalArgumentException {
 		//Check if company with specified name already exists
