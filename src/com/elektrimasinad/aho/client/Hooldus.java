@@ -11,6 +11,8 @@ import com.elektrimasinad.aho.shared.Unit;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
@@ -20,6 +22,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -35,13 +38,6 @@ public class Hooldus implements EntryPoint {
 	
 	private List<Raport> raports = new ArrayList<Raport>();
 	
-	private static class information {
-	      private final String address;
-
-	      public information(String address) {
-	         this.address = address;
-	      }
-	   }
 	private static List<Measurement> raportDataList;
 
 	private DeviceTree devTree;
@@ -60,43 +56,58 @@ public class Hooldus implements EntryPoint {
 	private Widget inputMeasurerName;
 	private Widget inputMeasurerPhone;
 	private Widget inputDate;
+	private boolean isDevMode;
+	private boolean isMobileView;
 	
-	private class Diagnostika extends Measurement{
-	    private final String address;
-	    private final String name;
-	    private final String id;
-	    private String seade;
-	    private final String kommentaar;
-
-	    public Diagnostika(String name, String seade, String address, String id, String kommentaar) {
-	      this.name = name;
-	      this.seade = seade;
-	      this.address = address;
-	      this.id = id;
-	      this.kommentaar = kommentaar;
-	    }
-	    
-	    public String setDevice(int i) {
-			return this.seade = raports.get(i).getCompanyName();
-		}
-	    
-	  } 
 	
-	private final List<Diagnostika> DIAGNOSTIKA = Arrays.asList();
-
-
 	@Override
 	public void onModuleLoad() {
-		CellTable<Diagnostika> table = new CellTable<Diagnostika>();
+		if (Window.Location.getHref().contains("127.0.0.1")) isDevMode = true;
+		else isDevMode = false;
+		if (Window.getClientWidth() < 1000) {
+			isMobileView = true;
+		} else {
+			isMobileView = false;
+		}
+		Window.addResizeHandler(new ResizeHandler() {
+
+		    @Override
+		    public void onResize(ResizeEvent event) {
+		    	if (Window.getClientWidth() < 1000) {
+					isMobileView = true;
+				} else {
+					isMobileView = false;
+				}
+		    	updateWidgetSizes();
+		    }
+		});
+		
 		RootPanel root = RootPanel.get();
 		root.setStyleName("mainBackground2");
-		
-		mainPanel.setSize(MAIN_WIDTH + "px", "900px");
 		mainPanel.setStyleName("panelBackground");
 		
+		Image headerImage = new Image("res/hes-symbol.jpg");
+		headerImage.setStyleName("aho-headerImage");
+		headerImage.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				if(isDevMode) Window.Location.assign(Window.Location.getHref().replace("index", "index"));
+				else Window.Location.assign("/Index.html");
+			}
+			
+		});
+		
+		HorizontalPanel navigationPanel = new HorizontalPanel();
+		navigationPanel.setStyleName("aho-navigationPanel");
+		navigationPanel.add(headerImage);
+		navigationPanel.setCellWidth(headerImage, "52px");
 		AbsolutePanel headerPanel = new AbsolutePanel();
 		headerPanel.setStyleName("headerBackground");
+		headerPanel.add(navigationPanel);
 		mainPanel.add(headerPanel);
+		
+		CellTable<Diagnostika> table = new CellTable<Diagnostika>();
 		
 		contentPanel = new DeckPanel();
 		mainPanel.add(contentPanel);
@@ -104,21 +115,22 @@ public class Hooldus implements EntryPoint {
 		mainPanel.setCellHorizontalAlignment(contentPanel, HasHorizontalAlignment.ALIGN_CENTER);
 		
 		root.add(mainPanel);
-		
 		init();
 		updateWidgetSizes();
 	}
 	
 	private void updateWidgetSizes() {
+		String contentWidth = "90%";
+		MAIN_WIDTH = 700;
+		if (isMobileView) {
+			MAIN_WIDTH = Window.getClientWidth();
+			contentWidth = "95%";
+		}
 		mainPanel.setWidth(MAIN_WIDTH + "px");
 		mainPanel.setHeight(Window.getClientHeight() + "px");
 		contentPanel.setWidth(CONTENT_WIDTH + "px");
 	}
 	
-	/**
-	 * Initialize raport view.
-	 * Create blank raport page.
-	 */
 	private void init() {
 		
 //		createTreePanel();
@@ -143,6 +155,28 @@ public class Hooldus implements EntryPoint {
 		terePanel.add(lLabel1);
 	}
 	
+	private class Diagnostika extends Measurement{
+	    private final String address;
+	    private final String name;
+	    private final String id;
+	    private String seade;
+	    private final String kommentaar;
+
+	    public Diagnostika(String name, String seade, String address, String id, String kommentaar) {
+	      this.name = name;
+	      this.seade = seade;
+	      this.address = address;
+	      this.id = id;
+	      this.kommentaar = kommentaar;
+	    }
+	    
+	    public String setDevice(int i) {
+			return this.seade = raports.get(i).getCompanyName();
+		}
+	    
+	  } 
+	
+	private final List<Diagnostika> DIAGNOSTIKA = Arrays.asList();	
 	
 	private void createUnitPanel() {
 		unitPanel.clear();

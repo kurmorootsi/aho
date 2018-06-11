@@ -153,38 +153,10 @@ public class Index implements EntryPoint {
 			}
 		});
 			
-		
 		navPanel.add(devicecardImage);
 		navPanel.add(maintenanceImage);
 		navPanel.add(raportsImage);
 		navPanel.add(measurementImage);
 		
 	}
-	
-	/*private void createNavigation2Panel() {
-		nav2Panel = new HorizontalPanel();
-		nav2Panel.setWidth("100%");
-				
-		Label lLabel1 = new Label("Monitooring");
-		lLabel1.setStyleName("backSaveLabel noPointer");
-		lLabel1.setHorizontalAlignment(lLabel1.ALIGN_CENTER);
-				
-		Label lLabel2 = new Label("Raportid");
-		lLabel2.setStyleName("backSaveLabel noPointer");
-		lLabel2.setHorizontalAlignment(lLabel1.ALIGN_CENTER);
-				
-		Label lLabel3 = new Label("Seadmed");
-		lLabel3.setStyleName("backSaveLabel noPointer");
-		lLabel3.setHorizontalAlignment(lLabel1.ALIGN_CENTER);
-				
-		Label lLabel4 = new Label("Hooldus");
-		lLabel4.setStyleName("backSaveLabel noPointer");
-		lLabel4.setHorizontalAlignment(lLabel1.ALIGN_CENTER);
-				
-		navPanel.add(lLabel3);
-		navPanel.add(lLabel4);
-		navPanel.add(lLabel2);
-		navPanel.add(lLabel1);
-	}*/
-
 }
