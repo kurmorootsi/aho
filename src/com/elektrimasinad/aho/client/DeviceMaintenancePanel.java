@@ -211,6 +211,13 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		    		  m.setMaintenanceDescription(tb1.getValue());
 		    		  m.setMaintenanceProblemDescription(tb2.getValue());
 		    		  m.setMaintenanceState(state);
+		    		  m.setMaintenanceAssignedTo();
+		    		  m.setMaintenanceCompleteDate(dateBox.getValue());
+		    		  m.setMaintenanceMaterials("asdf");
+		    		  m.setMaintenanceNotes("asdf");
+		    		  if(state.equals("periodic")) {
+		    			  m.setMaintenanceInterval(5);
+		    		  }
 		    		  deviceTreeService.storeMaintenanceEntry(m, null);
 			    	  Window.alert("Teie teenus on sisestatud!");
 		    	  } else {
