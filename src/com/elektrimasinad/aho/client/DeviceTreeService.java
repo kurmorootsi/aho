@@ -5,6 +5,7 @@ import java.util.List;
 import com.elektrimasinad.aho.shared.Company;
 import com.elektrimasinad.aho.shared.Device;
 import com.elektrimasinad.aho.shared.MaintenanceItem;
+import com.elektrimasinad.aho.shared.DiagnostikaItem;
 import com.elektrimasinad.aho.shared.Measurement;
 import com.elektrimasinad.aho.shared.Raport;
 import com.elektrimasinad.aho.shared.Unit;
@@ -41,6 +42,7 @@ public interface DeviceTreeService extends RemoteService {
 	
 	String storeRaport(Raport raport) throws IllegalArgumentException;
 	List<Raport> getRaports(String unitKey) throws IllegalArgumentException;
+	List<Raport> getListRaports() throws IllegalArgumentException;
 	Raport getRaport(String raportKeyString) throws IllegalArgumentException;
 	List<Measurement> getRaportData(Raport raport) throws IllegalArgumentException;
 	
