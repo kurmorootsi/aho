@@ -41,7 +41,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		Button admin = new Button("", new ClickHandler() {
 			  @Override
 			  public void onClick(ClickEvent event) {
-		    	  //suunab uuele lehele
+		    	  //suunab admin lehele
 		      }
 		    });
 		admin.setStyleName("maintainanceLink");

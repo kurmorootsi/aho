@@ -1,6 +1,7 @@
 package com.elektrimasinad.aho.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.elektrimasinad.aho.client.AdministratorLogin;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -21,7 +22,7 @@ public class Index implements EntryPoint {
 	private boolean isDevMode;
 	private boolean isMobileView;
 	private int MAIN_WIDTH;
-	
+	private AdministratorLogin administratorLogin = new AdministratorLogin();
 	private VerticalPanel mainPanel;
 	private AbsolutePanel headerPanel;
 	private DeckPanel contentPanel;
@@ -48,6 +49,7 @@ public class Index implements EntryPoint {
 		    	updateWidgetSizes();
 		    }
 		});
+		
 		mainPanel = new VerticalPanel();
 		mainPanel.setStyleName("panelBackground");
 		
@@ -62,8 +64,6 @@ public class Index implements EntryPoint {
 			}
 			
 		});
-		
-		
 		HorizontalPanel navigationPanel = new HorizontalPanel();
 		navigationPanel.setStyleName("aho-navigationPanel");
 		navigationPanel.add(headerImage);
@@ -82,6 +82,7 @@ public class Index implements EntryPoint {
 		
 		init();
 		updateWidgetSizes();
+		administratorLogin.createNewAdministratorLogin();
 	}
 	
 	private void updateWidgetSizes() {
@@ -152,7 +153,6 @@ public class Index implements EntryPoint {
 				else Window.Location.assign("/Hooldus.html");
 			}
 		});
-			
 		navPanel.add(devicecardImage);
 		navPanel.add(maintenanceImage);
 		navPanel.add(raportsImage);
