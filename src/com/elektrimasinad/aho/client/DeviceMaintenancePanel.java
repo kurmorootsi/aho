@@ -37,6 +37,18 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		super.clear();
 		DeviceTreeServiceAsync deviceTreeService = DeviceCard.getDevicetreeservice();
 		HorizontalPanel headerPanel = AhoWidgets.createContentHeader("Seadme " + device.getDeviceName() + " hooldustoo");
+		Label admin1 = new Label("Administraatori aken");
+		Button admin = new Button("", new ClickHandler() {
+			  @Override
+			  public void onClick(ClickEvent event) {
+		    	  //suunab uuele lehele
+		      }
+		    });
+		admin.setStyleName("maintainanceLink");
+		admin1.setStyleName("aho-label2-maintLink");
+		RootPanel.get().add(admin);
+		headerPanel.add(admin1);
+		headerPanel.add(admin);
 		add(headerPanel);
 		
 		VerticalPanel RadioPanel = new VerticalPanel();
