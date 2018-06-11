@@ -8,11 +8,13 @@ import com.elektrimasinad.aho.shared.Company;
 import com.elektrimasinad.aho.shared.Measurement;
 import com.elektrimasinad.aho.shared.Raport;
 import com.elektrimasinad.aho.shared.Unit;
+import com.elektrimasinad.aho.shared.DiagnostikaItem;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
@@ -22,23 +24,24 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 public class Hooldus implements EntryPoint {
 	
-//	private static final DeviceTreeServiceAsync deviceTreeService = DeviceCard.getDevicetreeservice();
+	private static final DeviceTreeServiceAsync deviceTreeService = DeviceCard.getDevicetreeservice();
+	private AsyncCallback<List<Raport>> getRaportsCallback;
 	protected AsyncCallback<List<Measurement>> getRaportDataCallback;
 	
 	private int MAIN_WIDTH = 900;
 	private int CONTENT_WIDTH = (int) (MAIN_WIDTH * 0.9);
 	
 	private List<Raport> raports = new ArrayList<Raport>();
-	
 	private static List<Measurement> raportDataList;
+	
 
 	private DeviceTree devTree;
 	private VerticalPanel mainPanel = new VerticalPanel();
@@ -58,56 +61,107 @@ public class Hooldus implements EntryPoint {
 	private Widget inputDate;
 	private boolean isDevMode;
 	private boolean isMobileView;
+	DebugClientSide Debug = new DebugClientSide();
 	
 	
+	
+	private List<DiagnostikaItem> DIAGNOSTIKA = new ArrayList<DiagnostikaItem>();
+
+
 	@Override
 	public void onModuleLoad() {
-		if (Window.Location.getHref().contains("127.0.0.1")) isDevMode = true;
-		else isDevMode = false;
-		if (Window.getClientWidth() < 1000) {
-			isMobileView = true;
-		} else {
-			isMobileView = false;
-		}
-		Window.addResizeHandler(new ResizeHandler() {
-
-		    @Override
-		    public void onResize(ResizeEvent event) {
-		    	if (Window.getClientWidth() < 1000) {
-					isMobileView = true;
-				} else {
-					isMobileView = false;
-				}
-		    	updateWidgetSizes();
-		    }
-		});
 		
-		RootPanel root = RootPanel.get();
-		root.setStyleName("mainBackground2");
-		mainPanel.setStyleName("panelBackground");
-		
-		Image headerImage = new Image("res/hes-symbol.jpg");
-		headerImage.setStyleName("aho-headerImage");
-		headerImage.addClickHandler(new ClickHandler() {
-			
+		Debug.enable();
+		Debug.log("Debug enabled");
+ 		if (Window.Location.getHref().contains("127.0.0.1")) isDevMode = true;
+ 		else isDevMode = false;
+ 		if (Window.getClientWidth() < 1000) {
+ 			isMobileView = true;
+ 		} else {
+ 			isMobileView = false;
+ 		}
+ 		Window.addResizeHandler(new ResizeHandler() {
+ 
+ 		    @Override
+ 		    public void onResize(ResizeEvent event) {
+ 		    	if (Window.getClientWidth() < 1000) {
+ 					isMobileView = true;
+ 				} else {
+ 					isMobileView = false;
+ 				}
+ 		    	updateWidgetSizes();
+ 		    }
+ 		});
+		deviceTreeService.getListRaports(getRaportsCallback);
+		getRaportsCallback = new AsyncCallback<List<Raport>>() {
 			@Override
-			public void onClick(ClickEvent event) {
-				if(isDevMode) Window.Location.assign(Window.Location.getHref().replace("index", "index"));
-				else Window.Location.assign("/Index.html");
+			public void onSuccess(List<Raport> raportList) {
+				//System.out.println(name);
+				if (raportList != null) {
+					raports = raportList;
+					Debug.log("Raportid imporditud.");
+				} else {
+					Debug.log("Raportid ERROR");
+				}
+				createUnitPanel();
+				contentPanel.showWidget(contentPanel.getWidgetIndex(unitPanel));
+				updateWidgetSizes();
 			}
 			
-		});
+			@Override
+			public void onFailure(Throwable caught) {
+				System.err.println(caught);
+				Debug.log("vittus");
+			}
+			
+		};
+		getRaportDataCallback = new AsyncCallback<List<Measurement>>() {
+			
+			@Override
+			public void onSuccess(List<Measurement> measurementList) {
+				//System.out.println(name);
+				if (measurementList != null) {
+					raportDataList = measurementList;
+					Debug.log("Measurementid imporditud.");
+				} else {
+					Debug.log("Measurementid ERROR");
+				}
+				updateWidgetSizes();
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				System.err.println(caught);
+				Debug.log("vittus");
+			}
+			
+		};
+		CellTable<DiagnostikaItem> table = new CellTable<DiagnostikaItem>();
+		RootPanel root = RootPanel.get();
+		root.setStyleName("mainBackground2");
 		
-		HorizontalPanel navigationPanel = new HorizontalPanel();
-		navigationPanel.setStyleName("aho-navigationPanel");
-		navigationPanel.add(headerImage);
-		navigationPanel.setCellWidth(headerImage, "52px");
+		mainPanel.setSize(MAIN_WIDTH + "px", "900px");
+		mainPanel.setStyleName("panelBackground");
+ 		Image headerImage = new Image("res/hes-symbol.jpg");
+ 		headerImage.setStyleName("aho-headerImage");
+ 		headerImage.addClickHandler(new ClickHandler() {
+ 			
+ 			@Override
+ 			public void onClick(ClickEvent event) {
+ 				if(isDevMode) Window.Location.assign(Window.Location.getHref().replace("index", "index"));
+ 				else Window.Location.assign("/Index.html");
+ 			}
+ 			
+ 		});
+ 		
+ 		HorizontalPanel navigationPanel = new HorizontalPanel();
+ 		navigationPanel.setStyleName("aho-navigationPanel");
+ 		navigationPanel.add(headerImage);
+ 		navigationPanel.setCellWidth(headerImage, "52px");
 		AbsolutePanel headerPanel = new AbsolutePanel();
 		headerPanel.setStyleName("headerBackground");
 		headerPanel.add(navigationPanel);
 		mainPanel.add(headerPanel);
-		
-		CellTable<Diagnostika> table = new CellTable<Diagnostika>();
 		
 		contentPanel = new DeckPanel();
 		mainPanel.add(contentPanel);
@@ -115,22 +169,27 @@ public class Hooldus implements EntryPoint {
 		mainPanel.setCellHorizontalAlignment(contentPanel, HasHorizontalAlignment.ALIGN_CENTER);
 		
 		root.add(mainPanel);
+		
 		init();
 		updateWidgetSizes();
 	}
 	
 	private void updateWidgetSizes() {
 		String contentWidth = "90%";
-		MAIN_WIDTH = 700;
-		if (isMobileView) {
-			MAIN_WIDTH = Window.getClientWidth();
-			contentWidth = "95%";
-		}
+ 		MAIN_WIDTH = 700;
+ 		if (isMobileView) {
+ 			MAIN_WIDTH = Window.getClientWidth();
+ 			contentWidth = "95%";
+ 		}
 		mainPanel.setWidth(MAIN_WIDTH + "px");
 		mainPanel.setHeight(Window.getClientHeight() + "px");
 		contentPanel.setWidth(CONTENT_WIDTH + "px");
 	}
 	
+	/**
+	 * Initialize raport view.
+	 * Create blank raport page.
+	 */
 	private void init() {
 		
 //		createTreePanel();
@@ -145,6 +204,8 @@ public class Hooldus implements EntryPoint {
 //		contentPanel.showWidget(contentPanel.getWidgetIndex(terePanel));
 		contentPanel.showWidget(contentPanel.getWidgetIndex(terePanel));
 		contentPanel.showWidget(contentPanel.getWidgetIndex(tablePanel));
+		
+		
 	}
 	private void createTerePanel() {
 		terePanel = new VerticalPanel();
@@ -155,28 +216,6 @@ public class Hooldus implements EntryPoint {
 		terePanel.add(lLabel1);
 	}
 	
-	private class Diagnostika extends Measurement{
-	    private final String address;
-	    private final String name;
-	    private final String id;
-	    private String seade;
-	    private final String kommentaar;
-
-	    public Diagnostika(String name, String seade, String address, String id, String kommentaar) {
-	      this.name = name;
-	      this.seade = seade;
-	      this.address = address;
-	      this.id = id;
-	      this.kommentaar = kommentaar;
-	    }
-	    
-	    public String setDevice(int i) {
-			return this.seade = raports.get(i).getCompanyName();
-		}
-	    
-	  } 
-	
-	private final List<Diagnostika> DIAGNOSTIKA = Arrays.asList();	
 	
 	private void createUnitPanel() {
 		unitPanel.clear();
@@ -221,54 +260,59 @@ public class Hooldus implements EntryPoint {
 	
 	private VerticalPanel createNewDataTable() {
 	    
-		Diagnostika diag = new Diagnostika("Katlamaja", "SSS", "Pumbad", "K. P2", "ALARM- EL.mootori DE otsas tugev müra. Soovitav esimesel võimalusel laagrid vahetada.");
-//		DIAGNOSTIKA.add(diag);
+		DiagnostikaItem diag = new DiagnostikaItem();
+		diag.setName("tere");
+		diag.setAddress("tere");
+		diag.setDevice("tere");
+		diag.setID("tere");
+		diag.setComment("tere");
+		DIAGNOSTIKA.add(diag);
 		tablePanel = new VerticalPanel();
 		tablePanel.setStyleName("aho-panel1 table2");
 		tablePanel.setWidth("100%");
-		CellTable<Diagnostika> table = new CellTable<Diagnostika>();
+		CellTable<DiagnostikaItem> table = new CellTable<DiagnostikaItem>();
 
 	    // Add a text column to show the name.
-	    TextColumn<Diagnostika> nameColumn = new TextColumn<Diagnostika>() {
+	    TextColumn<DiagnostikaItem> nameColumn = new TextColumn<DiagnostikaItem>() {
 	      @Override
-	      public String getValue(Diagnostika object) {
-	        return object.name;
+	      public String getValue(DiagnostikaItem object) {
+	        return object.getName();
 	      }
 	    };
 	    table.addColumn(nameColumn, "Osakond");
 
 	    // Add a text column to show the address.
-	    TextColumn<Diagnostika> addressColumn = new TextColumn<Diagnostika>() {
+	    TextColumn<DiagnostikaItem> addressColumn = new TextColumn<DiagnostikaItem>() {
 	      @Override
-	      public String getValue(Diagnostika object) {
-	        return object.address;
+	      public String getValue(DiagnostikaItem object) {
+	        return object.getAddress();
 	      }
 	    };
-	    table.addColumn(addressColumn, "Üksus");
+	    table.addColumn(addressColumn, "Ãœksus");
 	    
 	 // Add a text column to show the address.
-	    TextColumn<Diagnostika> idColumn = new TextColumn<Diagnostika>() {
+	    TextColumn<DiagnostikaItem> idColumn = new TextColumn<DiagnostikaItem>() {
 	      @Override
-	      public String getValue(Diagnostika object) {
-	        return object.id;
+	      public String getValue(DiagnostikaItem object) {
+	        return object.getID();
 	      }
 	    };
 	    table.addColumn(idColumn, "ID.nr");
 	    
 	    // Add a text column to show the address.
-	    TextColumn<Diagnostika> seadeColumn = new TextColumn<Diagnostika>() {
+	    TextColumn<DiagnostikaItem> seadeColumn = new TextColumn<DiagnostikaItem>() {
 	      @Override
-	      public String getValue(Diagnostika object) {
-	        return object.seade;
+	      public String getValue(DiagnostikaItem object) {
+	        return object.getDevice();
 	      }
 	    };
 	    table.addColumn(seadeColumn, "Seade");
 	    
 	    // Add a text column to show the address.
-	    TextColumn<Diagnostika> kommentaarColumn = new TextColumn<Diagnostika>() {
+	    TextColumn<DiagnostikaItem> kommentaarColumn = new TextColumn<DiagnostikaItem>() {
 	      @Override
-	      public String getValue(Diagnostika object) {
-	        return object.kommentaar;
+	      public String getValue(DiagnostikaItem object) {
+	        return object.getDevice();
 	      }
 	    };
 	    table.addColumn(kommentaarColumn, "Kommentaar");
