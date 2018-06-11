@@ -7,6 +7,7 @@ import com.elektrimasinad.aho.shared.Device;
 import com.elektrimasinad.aho.shared.MaintenanceItem;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -15,6 +16,10 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -109,6 +114,38 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    HorizontalPanel RadioPanel6 = new HorizontalPanel();
 		Label rb55 = new Label("Iga 3 kuu tagant");
 	    RadioButton rb5 = new RadioButton("myRadioGroup");
+	    //file add panel
+	    HorizontalPanel FileUploadPanel = new HorizontalPanel();
+	    
+	    final FormPanel form = new FormPanel();
+	    form.setAction("/myFormHandler");
+
+	    form.setEncoding(FormPanel.ENCODING_MULTIPART);
+	    form.setMethod(FormPanel.METHOD_POST);
+
+	    HorizontalPanel panel = new HorizontalPanel();
+	    form.setWidget(panel);
+
+	    final TextBox tb9 = new TextBox();
+	    Label tb99 = new Label("Pildi üleslaadur ");
+	    tb9.setName("textBoxFormElement");
+
+	    FileUpload upload = new FileUpload();
+	    upload.setName("uploadFormElement");
+	    
+	    form.addSubmitHandler(new FormPanel.SubmitHandler() {
+	      public void onSubmit(SubmitEvent event) {
+	        if (tb9.getText().length() == 0) {
+	          Window.alert("The text box must not be empty");
+	          event.cancel();
+	        }
+	      }
+	    });
+	    form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
+	      public void onSubmitComplete(SubmitCompleteEvent event) {
+	        Window.alert(event.getResults());
+	      }
+	    });
 	    //väljakutsumised
 		ProblemPanel.add(tb00);
 		NamePanel.add(tb00);
@@ -143,6 +180,16 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		RadioPanel5.add(rb4);
 		RadioPanel6.add(rb55);
 		RadioPanel6.add(rb5);
+		ProblemPanel.add(FileUploadPanel);
+		FileUploadPanel.add(panel);
+		panel.add(tb99);
+		panel.add(tb9);
+		panel.add(upload);
+		panel.add(new Button("Add image!", new ClickHandler() {
+		   public void onClick(ClickEvent event) {
+		     form.submit();
+		   }
+		}));
 		ProblemPanel.setVisible(false);
 		
 		Button b = new Button("Sisesta teenus!", new ClickHandler() {
