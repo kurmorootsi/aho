@@ -58,6 +58,14 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		e.setProperty("Description", m.getMaintenanceDescription());
 		e.setProperty("ProblemDescription", m.getMaintenanceProblemDescription());
 		e.setProperty("State", m.getMaintenanceState());
+		e.setProperty("AssignedTo", m.getMaintenanceAssignedTo());
+		e.setProperty("CompleteDate", m.getMaintenanceCompleteDate());
+		e.setProperty("Materials", m.getMaintenanceMaterials());
+		e.setProperty("Notes", m.getMaintenanceNotes());
+		Integer interval = m.getMaintenanceInterval();
+		if(interval > 0 ) {
+			e.setProperty("Interval", interval);
+		}
 		
 		ds.put(e);
 		return "Task stored";

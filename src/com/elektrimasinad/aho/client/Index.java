@@ -149,7 +149,7 @@ public class Index implements EntryPoint {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (isDevMode) Window.Location.assign(Window.Location.getHref().replace("index", "Maintenance"));
-				else Window.Location.assign("/Maintenance.html");
+				else Window.Location.assign("/Hooldus.html");
 			}
 		});
 			
