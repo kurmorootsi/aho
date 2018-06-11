@@ -10,6 +10,7 @@ import com.elektrimasinad.aho.shared.Company;
 import com.elektrimasinad.aho.shared.Device;
 import com.elektrimasinad.aho.shared.MaintenanceItem;
 import com.elektrimasinad.aho.shared.Measurement;
+import com.elektrimasinad.aho.shared.DiagnostikaItem;
 import com.elektrimasinad.aho.shared.Raport;
 import com.elektrimasinad.aho.shared.Unit;
 import com.google.appengine.api.datastore.DatastoreService;
@@ -686,7 +687,28 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		
 		return raportList;
 	}
-	
+	@Override
+	public List<Raport> getListRaports() throws IllegalArgumentException {
+		List<Raport> raportList = new ArrayList<Raport>();
+		//Filter filter = new FilterPredicate("LocationKey", FilterOperator.EQUAL, location.getLocationKey());
+		Query query = new Query("Raport").addSort("RaportID", Query.SortDirection.DESCENDING);
+		for (Entity e : ds.prepare(query).asIterable()) {
+			Raport c = new Raport();
+			if (e.getProperty("RaportID").toString() != null) {
+				c.setRaportKey(KeyFactory.keyToString(e.getKey()));
+				c.setCompanyName(e.getProperty("CompanyName").toString());
+				c.setUnitName(e.getProperty("UnitName").toString());
+				c.setRaportID(e.getProperty("RaportID").toString());
+				c.setDate(e.getProperty("Date").toString());
+				c.setMeasurerName(e.getProperty("MeasurerName").toString());
+				c.setMeasurerPhone(e.getProperty("MeasurerPhone").toString());
+				
+				raportList.add(c);
+			}
+		}
+		
+		return raportList;
+	}
 	@Override
 	public Raport getRaport(String raportKeyString) throws IllegalArgumentException {
 		Key raportKey = KeyFactory.stringToKey(raportKeyString);
