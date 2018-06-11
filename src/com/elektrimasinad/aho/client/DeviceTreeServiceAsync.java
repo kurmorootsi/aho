@@ -5,6 +5,7 @@ import java.util.List;
 import com.elektrimasinad.aho.shared.Company;
 import com.elektrimasinad.aho.shared.Device;
 import com.elektrimasinad.aho.shared.MaintenanceItem;
+import com.elektrimasinad.aho.shared.DiagnostikaItem;
 import com.elektrimasinad.aho.shared.Measurement;
 import com.elektrimasinad.aho.shared.Raport;
 import com.elektrimasinad.aho.shared.Unit;
@@ -40,6 +41,7 @@ public interface DeviceTreeServiceAsync {
 	void storeRaport(Raport raport, AsyncCallback<String> callback) throws IllegalArgumentException;
 	void getRaports(String unitKey, AsyncCallback<List<Raport>> callback) throws IllegalArgumentException;
 	void getRaport(String raportKeyString, AsyncCallback<Raport> callback) throws IllegalArgumentException;
+	void getListRaports(AsyncCallback<List<Raport>> callback) throws IllegalArgumentException;
 	void getRaportData(Raport raport, AsyncCallback<List<Measurement>> callback) throws IllegalArgumentException;
 	
 	void storeLogEntry(String action, String user, AsyncCallback<String> callback);
