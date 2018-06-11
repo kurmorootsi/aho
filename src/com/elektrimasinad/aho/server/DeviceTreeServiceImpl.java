@@ -104,6 +104,29 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		
 		return m;
 	}
+	public String updateMaintenanceEntry(String maintenanceKey, MaintenanceItem mNew) {
+		Entity e;
+		try {
+			e = ds.get(KeyFactory.stringToKey(maintenanceKey));
+			e.setProperty("Key", maintenanceKey);
+			e.setProperty("Device", mNew.getMaintenanceDevice());
+			e.setProperty("Name", mNew.getMaintenanceName());
+			e.setProperty("Description", mNew.getMaintenanceDescription());
+			e.setProperty("ProblemDescription", mNew.getMaintenanceProblemDescription());
+			e.setProperty("State", mNew.getMaintenanceState());
+			e.setProperty("AssignedTo", mNew.getMaintenanceAssignedTo());
+			e.setProperty("CompleteDate", mNew.getMaintenanceCompleteDate());
+			e.setProperty("Materials", mNew.getMaintenanceMaterials());
+			e.setProperty("Notes", mNew.getMaintenanceNotes());
+			Integer interval = mNew.getMaintenanceInterval();
+			if(interval > 0 ) {
+				e.setProperty("Interval", interval);
+			}
+		} catch (EntityNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		return "Task updated";
+	}
 	@Override
 	public String storeCompany(Company company) throws IllegalArgumentException {
 		//Check if company with specified name already exists

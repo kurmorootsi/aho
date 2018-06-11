@@ -18,6 +18,9 @@ public class MaintenanceItem implements Serializable{
 	private String type;
 	private String devKey;
 	private Integer interval;
+	private Double cost;
+	private Integer downtime;
+	private Integer timeSpent;
 	
 	public MaintenanceItem() {
 		
@@ -52,6 +55,15 @@ public class MaintenanceItem implements Serializable{
 	public void setMaintenanceInterval(Integer interval) {
 		this.interval = interval;
 	}
+	public void setMaintenanceCost(Double cost) {
+		this.cost = cost;
+	}
+	public void setMaintenanceDowntime(Integer downtime) {
+		this.downtime = downtime;
+	}
+	public void setMaintenanceTimeSpent(Integer timeSpent) {
+		this.timeSpent = timeSpent;
+	}
 	public String getMaintenanceName() {
 		return this.name;
 	}
@@ -81,5 +93,14 @@ public class MaintenanceItem implements Serializable{
 	}
 	public Integer getMaintenanceInterval() {
 		return this.interval;
+	}
+	public Double getMaintenanceCost() {
+		return this.cost;
+	}
+	public Integer getMaintenanceDowntime() {
+		return this.downtime;
+	}
+	public Integer getMaintenanceTimeSpent() {
+		return this.timeSpent;
 	}
 }

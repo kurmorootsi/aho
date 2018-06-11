@@ -46,4 +46,6 @@ public interface DeviceTreeServiceAsync {
 	
 	void storeMaintenanceEntry(MaintenanceItem m, AsyncCallback<String> callback);
 	void getMaintenanceEntries(String maintenanceKey, AsyncCallback<List<MaintenanceItem>> callback);
+	void getMaintenanceEntry(String maintenanceString, AsyncCallback<MaintenanceItem> callback);
+	void updateMaintenanceEntry(String maintenanceKey, MaintenanceItem mNew, AsyncCallback<String> callback);
 }
