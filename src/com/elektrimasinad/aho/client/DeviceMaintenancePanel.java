@@ -1,6 +1,8 @@
 package com.elektrimasinad.aho.client;
 
 import java.util.Date;
+import java.util.List;
+
 import com.elektrimasinad.aho.shared.Device;
 
 import com.elektrimasinad.aho.shared.Device;
@@ -10,6 +12,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -53,20 +56,34 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		
 		VerticalPanel RadioPanel = new VerticalPanel();
 		RadioPanel.setStyleName("aho-panel1");
-		RadioPanel.setWidth("100%");
 		HorizontalPanel RadioPanel1 = new HorizontalPanel();
 		Label rb00 = new Label("Perioodiline");
 		RadioPanel1.setStyleName("aho-panel1");
 		RadioButton rb0 = new RadioButton("myRadioGroup");
-		rb0.setFormValue("periodic");
+		rb0.setFormValue("onetime");
+		rb0.setStyleName("aho-panel1");
+		rb00.setStyleName("aho-label1");
 		HorizontalPanel RadioPanel2 = new HorizontalPanel();
 		Label rb11 = new Label("Plaaniline");
 	    RadioButton rb1 = new RadioButton("myRadioGroup");
 	    rb1.setFormValue("onetime");
+	    RadioPanel2.setStyleName("aho-panel1");
+	    rb1.setStyleName("aho-panel1");
+	    rb11.setStyleName("aho-label1");
 	    HorizontalPanel RadioPanel3 = new HorizontalPanel();
 	    Label rb22 = new Label("Teostatud");
 	    RadioButton rb2 = new RadioButton("myRadioGroup");
-	    rb2.setFormValue("done");
+	    rb2.setFormValue("onetime");
+	    RadioPanel3.setStyleName("aho-panel1");
+	    rb2.setStyleName("aho-panel1");
+	    rb22.setStyleName("aho-label1");
+	    HorizontalPanel RadioPanelEdit = new HorizontalPanel();
+	    Label rbE = new Label("Muutmine");
+	    RadioButton rbEE = new RadioButton("myRadioGroup");
+	    rb2.setFormValue("onetime");
+	    RadioPanel3.setStyleName("aho-panel1");
+	    rb2.setStyleName("aho-panel1");
+	    rb22.setStyleName("aho-label1");
 	    RadioPanel1.add(rb00);
 	    RadioPanel1.add(rb0);
 	    RadioPanel1.setCellHorizontalAlignment(rb0, HasHorizontalAlignment.ALIGN_RIGHT);
@@ -76,9 +93,13 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    RadioPanel3.add(rb22);
 	    RadioPanel3.add(rb2);
 	    RadioPanel3.setCellHorizontalAlignment(rb2, HasHorizontalAlignment.ALIGN_RIGHT);
+	    RadioPanelEdit.add(rbE);
+	    RadioPanelEdit.add(rbEE);
+	    RadioPanelEdit.setCellHorizontalAlignment(rbEE, HasHorizontalAlignment.ALIGN_RIGHT);
 	    RadioPanel.add(RadioPanel1);
 	    RadioPanel.add(RadioPanel2);
 	    RadioPanel.add(RadioPanel3);
+	    RadioPanel.add(RadioPanelEdit);
 	    add(RadioPanel);
 	    
 	    HorizontalPanel ProblemSignPanel = AhoWidgets.createContentHeader("Perioodiline või plaaniline hooldustegevus");
@@ -90,44 +111,83 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		HorizontalPanel NamePanel = new HorizontalPanel();
 		Label tb00 = new Label("Töö nimetus");
 		TextBox tb0 = new TextBox();
+		ProblemPanel.setCellHorizontalAlignment(tb0, HasHorizontalAlignment.ALIGN_RIGHT);
+		tb0.setStyleName("aho-panel1");
+	    tb00.setStyleName("aho-label1");
+	    NamePanel.setWidth("100%");
 		HorizontalPanel DescriptionPanel = new HorizontalPanel();
 		Label tb11 = new Label("Töö kirjeldus");
 		TextBox tb1 = new TextBox();
+		tb1.setStyleName("aho-panel1");
+	    tb11.setStyleName("aho-label1");
+	    DescriptionPanel.setWidth("100%");
+	    ProblemPanel.setCellHorizontalAlignment(tb1, HasHorizontalAlignment.ALIGN_RIGHT);
 		HorizontalPanel ProbDescPanel = new HorizontalPanel();
+		ProbDescPanel.setWidth("100%");
 		Label tb22 = new Label("Probleemi kirjeldus");
 		TextBox tb2 = new TextBox();
+		tb2.setStyleName("aho-panel1");
+	    tb22.setStyleName("aho-label1");
+	    ProblemPanel.setCellHorizontalAlignment(tb2, HasHorizontalAlignment.ALIGN_RIGHT);
 		//teostaja osa
 		HorizontalPanel Person = new HorizontalPanel();
 		Label per = new Label("Teostaja");
 		ListBox lb = new ListBox();
+		lb.addItem("Peeter Kelk");
+	    lb.addItem("Aivar Saan");
+		lb.setStyleName("aho-panel1");
+	    per.setStyleName("aho-label1");
+	    Person.setWidth("100%");
+	    Person.setCellHorizontalAlignment(lb, HasHorizontalAlignment.ALIGN_RIGHT);
 		HorizontalPanel MaterialList = new HorizontalPanel();
 	    Label Material = new Label("Vajalikud materjalid");
 		TextArea ta = new TextArea();
-	    ta.setCharacterWidth(80);
-	    ta.setVisibleLines(50);
+	    ta.setCharacterWidth(50);
+	    ta.setVisibleLines(20);
+	    ta.setStyleName("aho-panel1");
+	    Material.setStyleName("aho-label1");
+	    MaterialList.setWidth("100%");
+	    MaterialList.setCellHorizontalAlignment(ta, HasHorizontalAlignment.ALIGN_RIGHT);
 	    HorizontalPanel NotesList = new HorizontalPanel();
 	    Label Notes = new Label("Märkused");
 		TextArea note = new TextArea();
-		note.setCharacterWidth(80);
-		note.setVisibleLines(50);
+		note.setCharacterWidth(50);
+		note.setVisibleLines(20);
+		note.setStyleName("aho-panel1");
+	    Notes.setStyleName("aho-label1");
+	    NotesList.setWidth("100%");
+	    NotesList.setCellHorizontalAlignment(note, HasHorizontalAlignment.ALIGN_RIGHT);
 		HorizontalPanel ReadyBy = new HorizontalPanel();
 		Label Time = new Label("Töö valmib: ");
 		DateBox dateBox = new DateBox();
 	    dateBox.setValue(new Date());
+	    ReadyBy.setStyleName("aho-panel1");
+	    Time.setStyleName("aho-label1");
+	    dateBox.setWidth("100%");
 	    RootPanel.get().add(dateBox);
+	    ReadyBy.setCellHorizontalAlignment(dateBox, HasHorizontalAlignment.ALIGN_CENTER);
 	    HorizontalPanel WorkInterval = new HorizontalPanel();
 		Label Interval = new Label("Interval");
+		Interval.setStyleName("aho-label1");
+	    WorkInterval.setWidth("100%");
 		HorizontalPanel RadioPanel4 = new HorizontalPanel();
 		Label rb33 = new Label("Iga 6 kuu tagant");
 	    RadioButton rb3 = new RadioButton("myRadioGroup");
+	    rb33.setStyleName("aho-label1");
+	    RadioPanel4.setWidth("100%");
 	    HorizontalPanel RadioPanel5 = new HorizontalPanel();
 		Label rb44 = new Label("Iga 12 kuu tagant");
 	    RadioButton rb4 = new RadioButton("myRadioGroup");
+	    rb44.setStyleName("aho-label1");
+	    RadioPanel5.setWidth("100%");
 	    HorizontalPanel RadioPanel6 = new HorizontalPanel();
 		Label rb55 = new Label("Iga 3 kuu tagant");
 	    RadioButton rb5 = new RadioButton("myRadioGroup");
+	    rb55.setStyleName("aho-label1");
+	    RadioPanel6.setWidth("100%");
 	    //file add panel
 	    HorizontalPanel FileUploadPanel = new HorizontalPanel();
+	    FileUploadPanel.setWidth("100%");
 	    
 	    final FormPanel form = new FormPanel();
 	    form.setAction("/myFormHandler");
@@ -145,10 +205,15 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    FileUpload upload = new FileUpload();
 	    upload.setName("uploadFormElement");
 	    
+	    upload.setStyleName("aho-panel1");
+	    tb9.setStyleName("aho-panel1");
+		tb99.setStyleName("aho-label1");
+		FileUploadPanel.setCellHorizontalAlignment(upload, HasHorizontalAlignment.ALIGN_RIGHT);
+	    
 	    form.addSubmitHandler(new FormPanel.SubmitHandler() {
 	      public void onSubmit(SubmitEvent event) {
 	        if (tb9.getText().length() == 0) {
-	          Window.alert("The text box must not be empty");
+	          Window.alert("Palun sisesta puuduv kirje!");
 	          event.cancel();
 	        }
 	      }
@@ -202,6 +267,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		     form.submit();
 		   }
 		}));
+		ProblemPanel.setCellHorizontalAlignment(panel, HasHorizontalAlignment.ALIGN_RIGHT);
 		ProblemPanel.setVisible(false);
 		
 		Button b = new Button("Sisesta teenus!", new ClickHandler() {
@@ -243,6 +309,40 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		add(ProblemSignPanel);
 		add(ProblemPanel);
 		
+		//muutmise paneel
+		HorizontalPanel EditPanelBlue = AhoWidgets.createContentHeader("Eelmise töö muutmine");
+		add(EditPanelBlue);
+		EditPanelBlue.setVisible(false);
+		
+		VerticalPanel SearchPanel = new VerticalPanel();
+		SearchPanel.setStyleName("aho-panel1");
+		SearchPanel.setWidth("100%");
+		HorizontalPanel MainSearchPanel = new HorizontalPanel();
+		Label sch = new Label("Otsi ID järgi: ");
+		TextBox sch0 = new TextBox();
+		sch.setStyleName("aho-label1");
+		sch0.setStyleName("aho-panel1");
+	    sch0.setWidth("100%");
+	    MainSearchPanel.add(SearchPanel);
+	    SearchPanel.add(sch);
+	    SearchPanel.add(sch0);
+	    add(MainSearchPanel);
+	    MainSearchPanel.setVisible(false);
+	    
+	    Button s = new Button("Otsi", new ClickHandler() {
+		      public void onClick(ClickEvent event) {
+		    	  List<MaintenanceItem> key = deviceTreeService.getMaintenanceEntries(device.getDeviceKey(), null);
+		    	  if (key.size() > 0) {
+		    		  Window.alert("Leidsime kirjeid:");
+		    		  //jätkub siit
+		    	  } else {
+		    		  Window.alert("Kirjeid ei leitud!");
+		    	  }
+		      }
+		});
+	    
+	    MainSearchPanel.add(s);
+	    
 		//teostatud töö paneel
 		HorizontalPanel DonePanel = AhoWidgets.createContentHeader("Teostatud töö kokkuvõte");
 		add(DonePanel);
@@ -254,12 +354,21 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		HorizontalPanel StopTimePanel = new HorizontalPanel();
 		Label stp0 = new Label("Seisaku aeg");
 		TextBox stp00 = new TextBox();
+		stp0.setStyleName("aho-label1");
+		stp00.setStyleName("aho-panel1");
+	    stp00.setWidth("100%");
 		HorizontalPanel SpentTimePanel = new HorizontalPanel();
 		Label stp1 = new Label("Tööle kulunud aeg(tundides)");
 		TextBox stp11 = new TextBox();
+		stp1.setStyleName("aho-label1");
+		stp11.setStyleName("aho-panel1");
+	    stp11.setWidth("100%");
 		HorizontalPanel CostPanel = new HorizontalPanel();
 		Label cp = new Label("Töö maksumus");
 		TextBox cp1 = new TextBox();
+		cp.setStyleName("aho-label1");
+		cp1.setStyleName("aho-panel1");
+	    cp1.setWidth("100%");
 		StopTimePanel.add(stp0);
 		StopTimePanel.add(stp00);
 		SpentTimePanel.add(stp1);
@@ -285,9 +394,22 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		    	  WorkPanel.setVisible(true);
 		    	  ProblemPanel.setVisible(false);
 		  		  ProblemSignPanel.setVisible(false);
+		  		  EditPanelBlue.setVisible(false);
 	        }
 	    };
 	    rb2.addClickHandler(ch1);
+	    
+	    ClickHandler ch2=new ClickHandler() {
+	        public void onClick(ClickEvent event) {
+		    	  DonePanel.setVisible(false);
+		    	  WorkPanel.setVisible(false);
+		    	  ProblemPanel.setVisible(false);
+		  		  ProblemSignPanel.setVisible(false);
+		  		  EditPanelBlue.setVisible(true);
+		  		  MainSearchPanel.setVisible(true);
+	        }
+	    };
+	    rbEE.addClickHandler(ch2);
 	    
 	    ClickHandler ch=new ClickHandler() {
 	        public void onClick(ClickEvent event) {
@@ -295,6 +417,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		    	  ProblemSignPanel.setVisible(true);
 		    	  DonePanel.setVisible(false);
 		    	  WorkPanel.setVisible(false);
+		    	  EditPanelBlue.setVisible(false);
 	        }
 	    };
 	    rb0.addClickHandler(ch);
@@ -302,6 +425,8 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    
 	    add(WorkPanel);
 	    
-	    
+	}
+	public getData() {
+		return key;
 	}
 }
