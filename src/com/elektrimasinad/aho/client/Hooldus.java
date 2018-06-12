@@ -9,10 +9,17 @@ import com.elektrimasinad.aho.shared.Measurement;
 import com.elektrimasinad.aho.shared.Raport;
 import com.elektrimasinad.aho.shared.Unit;
 import com.elektrimasinad.aho.shared.DiagnostikaItem;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Query;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -26,6 +33,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
@@ -42,7 +50,6 @@ public class Hooldus implements EntryPoint {
 	private List<Raport> raports = new ArrayList<Raport>();
 	private static List<Measurement> raportDataList;
 	
-
 	private DeviceTree devTree;
 	private VerticalPanel mainPanel = new VerticalPanel();
 	private VerticalPanel raportPanel = new VerticalPanel();
@@ -70,9 +77,9 @@ public class Hooldus implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		
 		Debug.enable();
 		Debug.log("Debug enabled");
+		deviceTreeService.getListRaports(getRaportsCallback);
  		if (Window.Location.getHref().contains("127.0.0.1")) isDevMode = true;
  		else isDevMode = false;
  		if (Window.getClientWidth() < 1000) {
@@ -92,7 +99,6 @@ public class Hooldus implements EntryPoint {
  		    	updateWidgetSizes();
  		    }
  		});
-		deviceTreeService.getListRaports(getRaportsCallback);
 		getRaportsCallback = new AsyncCallback<List<Raport>>() {
 			@Override
 			public void onSuccess(List<Raport> raportList) {
@@ -111,7 +117,7 @@ public class Hooldus implements EntryPoint {
 			@Override
 			public void onFailure(Throwable caught) {
 				System.err.println(caught);
-				Debug.log("vittus");
+				Debug.log("Raport alguse Error");
 			}
 			
 		};
@@ -132,7 +138,7 @@ public class Hooldus implements EntryPoint {
 			@Override
 			public void onFailure(Throwable caught) {
 				System.err.println(caught);
-				Debug.log("vittus");
+				Debug.log("Measurement alguse Error");
 			}
 			
 		};
@@ -173,7 +179,7 @@ public class Hooldus implements EntryPoint {
 		init();
 		updateWidgetSizes();
 	}
-	
+
 	private void updateWidgetSizes() {
 		String contentWidth = "90%";
  		MAIN_WIDTH = 700;
@@ -191,7 +197,6 @@ public class Hooldus implements EntryPoint {
 	 * Create blank raport page.
 	 */
 	private void init() {
-		
 //		createTreePanel();
 		createTerePanel();
 		createNewDataTable();
@@ -204,8 +209,6 @@ public class Hooldus implements EntryPoint {
 //		contentPanel.showWidget(contentPanel.getWidgetIndex(terePanel));
 		contentPanel.showWidget(contentPanel.getWidgetIndex(terePanel));
 		contentPanel.showWidget(contentPanel.getWidgetIndex(tablePanel));
-		
-		
 	}
 	private void createTerePanel() {
 		terePanel = new VerticalPanel();
@@ -215,7 +218,6 @@ public class Hooldus implements EntryPoint {
 		lLabel1.setStyleName("backSaveLabel noPointer");
 		terePanel.add(lLabel1);
 	}
-	
 	
 	private void createUnitPanel() {
 		unitPanel.clear();
