@@ -356,7 +356,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		    	  if (itemsToEdit.size() > 0) {
 		    		  Window.alert("Leidsime kirjeid:");
 		    		  //jätkub siit
-		    	  } else if (itemsToEdit.equals(null)){
+		    	  } else if (itemsToEdit.equals(null) || itemsToEdit.equals("undefined")){
 		    		  Window.alert("Kirjeid ei leitud!");
 		    	  } else {
 		    		  Window.alert("Kirjeid ei leitud!");
