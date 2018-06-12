@@ -9,6 +9,7 @@ import com.elektrimasinad.aho.shared.Measurement;
 import com.elektrimasinad.aho.shared.Raport;
 import com.elektrimasinad.aho.shared.Unit;
 import com.elektrimasinad.aho.shared.DiagnostikaItem;
+import com.elektrimasinad.aho.shared.PlannerItem;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -57,8 +58,9 @@ public class Hooldus implements EntryPoint {
 	private VerticalPanel treePanel;
 	private VerticalPanel terePanel;
 	private VerticalPanel tablePanel;
+	private VerticalPanel table2Panel;
 	private VerticalPanel unitPanel = new VerticalPanel();
-	
+
 	private Unit selectedUnit;
 	private static Raport selectedRaport;
 	protected Company selectedCompany;
@@ -73,6 +75,8 @@ public class Hooldus implements EntryPoint {
 	
 	
 	private List<DiagnostikaItem> DIAGNOSTIKA = new ArrayList<DiagnostikaItem>();
+	private List<PlannerItem> PLANNER = new ArrayList<PlannerItem>();
+	
 
 
 	@Override
@@ -192,31 +196,13 @@ public class Hooldus implements EntryPoint {
 		contentPanel.setWidth(CONTENT_WIDTH + "px");
 	}
 	
-	/**
-	 * Initialize raport view.
-	 * Create blank raport page.
-	 */
 	private void init() {
-//		createTreePanel();
-		createTerePanel();
 		createNewDataTable();
-//		contentPanel.add(treePanel);
-//		contentPanel.add(unitPanel);
-//		contentPanel.add(terePanel);
-		contentPanel.add(terePanel);
+		createNewPlannerTable();
 		contentPanel.add(tablePanel);
-//		contentPanel.showWidget(contentPanel.getWidgetIndex(treePanel));
-//		contentPanel.showWidget(contentPanel.getWidgetIndex(terePanel));
-		contentPanel.showWidget(contentPanel.getWidgetIndex(terePanel));
+		contentPanel.add(table2Panel);
 		contentPanel.showWidget(contentPanel.getWidgetIndex(tablePanel));
-	}
-	private void createTerePanel() {
-		terePanel = new VerticalPanel();
-		terePanel.setWidth("100%");
-		
-		Label lLabel1 = new Label("Diagnostika ja monitooring");
-		lLabel1.setStyleName("backSaveLabel noPointer");
-		terePanel.add(lLabel1);
+		contentPanel.showWidget(contentPanel.getWidgetIndex(table2Panel));
 	}
 	
 	private void createUnitPanel() {
@@ -272,6 +258,7 @@ public class Hooldus implements EntryPoint {
 		tablePanel = new VerticalPanel();
 		tablePanel.setStyleName("aho-panel1 table2");
 		tablePanel.setWidth("100%");
+		
 		CellTable<DiagnostikaItem> table = new CellTable<DiagnostikaItem>();
 
 	    // Add a text column to show the name.
@@ -290,7 +277,7 @@ public class Hooldus implements EntryPoint {
 	        return object.getAddress();
 	      }
 	    };
-	    table.addColumn(addressColumn, "Üksus");
+	    table.addColumn(addressColumn, "\u00DCksus");
 	    
 	 // Add a text column to show the address.
 	    TextColumn<DiagnostikaItem> idColumn = new TextColumn<DiagnostikaItem>() {
@@ -327,6 +314,79 @@ public class Hooldus implements EntryPoint {
 	    table.setRowData(0, DIAGNOSTIKA);
 	    tablePanel.add(table);
 	    return tablePanel;
+	}
+	
+	private VerticalPanel createNewPlannerTable() {
+		PlannerItem plan = new PlannerItem();
+		plan.setDates("1.4.42");
+		plan.setName("mati");
+		plan.setAddress("opsti");
+		plan.setDevice("fd");
+		plan.setID("2");
+		plan.setAction("mine puhasta");
+		PLANNER.add(plan);
+		table2Panel = new VerticalPanel();
+		table2Panel.setStyleName("aho-panel1 table2 center");
+		tablePanel.setWidth("100%");
+		
+		Label lLabel = new Label("Planeeritavad tegevused");
+		lLabel.setStyleName("backSaveLabel noPointer");
+		CellTable<PlannerItem> table = new CellTable<PlannerItem>();
+		
+		TextColumn<PlannerItem> datesColumn = new TextColumn<PlannerItem>() {
+		   @Override
+		   public String getValue(PlannerItem object) {
+		      return object.getDates();
+		   }
+		};
+		table.addColumn(datesColumn, "Kuup");
+		
+		TextColumn<PlannerItem> nameColumn = new TextColumn<PlannerItem>() {
+			@Override
+			public String getValue(PlannerItem object) {
+				return object.getName();
+			}
+		};
+		table.addColumn(nameColumn, "Osakond");
+		
+		TextColumn<PlannerItem> addressColumn = new TextColumn<PlannerItem>() {
+			@Override
+			public String getValue(PlannerItem object) {
+				return object.getAddress();
+			}
+		};
+		table.addColumn(addressColumn, "\u00DCksus");
+		
+		TextColumn<PlannerItem> idColumn = new TextColumn<PlannerItem>() {
+			@Override
+			public String getValue(PlannerItem object) {
+				return object.getID();
+			}
+		};
+		table.addColumn(idColumn, "ID.nr");
+		
+		TextColumn<PlannerItem> deviceColumn = new TextColumn<PlannerItem>() {
+			@Override
+			public String getValue(PlannerItem object) {
+				return object.getDevice();
+			}
+		};
+		table.addColumn(deviceColumn, "Seade");
+		
+		TextColumn<PlannerItem> actionColumn = new TextColumn<PlannerItem>() {
+			@Override
+			public String getValue(PlannerItem object) {
+				return object.getAction();
+			}
+		};
+		table.addColumn(actionColumn, "Tegevus");
+		    
+		
+		table.setRowCount(PLANNER.size(), true);
+		table.setRowData(0, PLANNER);
+		table2Panel.add(lLabel);
+		table2Panel.add(table);
+		return table2Panel;
 	}
 
 }
