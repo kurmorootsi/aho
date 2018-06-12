@@ -18,6 +18,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -33,8 +34,26 @@ import com.google.gwt.user.client.ui.TextArea;
 
 public class DeviceMaintenancePanel extends VerticalPanel {
 	//private Device device;
+	private List<MaintenanceItem> itemsToEdit;
+	private AsyncCallback<List<MaintenanceItem>> getMaintenanceItemsCallback;
 	public DeviceMaintenancePanel() {
 		super();
+		
+		getMaintenanceItemsCallback = new AsyncCallback<List<MaintenanceItem>>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(List<MaintenanceItem> itemList) {
+				// TODO Auto-generated method stub
+				itemsToEdit = itemList;
+			}
+			
+		};
 	}
 	public void createNewDeviceMaintenancePanel(Device device) {
 		super.clear();
@@ -331,10 +350,14 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    
 	    Button s = new Button("Otsi", new ClickHandler() {
 		      public void onClick(ClickEvent event) {
-		    	  List<MaintenanceItem> key = deviceTreeService.getMaintenanceEntries(device.getDeviceKey(), null);
-		    	  if (key.size() > 0) {
+		    	  Window.alert("Otsime");
+		    	  deviceTreeService.getMaintenanceEntries(device.getDeviceKey(), getMaintenanceItemsCallback);
+		    	  Window.alert("Otsitud, " + itemsToEdit);
+		    	  if (itemsToEdit.size() > 0) {
 		    		  Window.alert("Leidsime kirjeid:");
 		    		  //jätkub siit
+		    	  } else if (itemsToEdit.equals(null)){
+		    		  Window.alert("Kirjeid ei leitud!");
 		    	  } else {
 		    		  Window.alert("Kirjeid ei leitud!");
 		    	  }
@@ -426,7 +449,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    add(WorkPanel);
 	    
 	}
-	public getData() {
+	/*public getData() {
 		return key;
-	}
+	}*/
 }
