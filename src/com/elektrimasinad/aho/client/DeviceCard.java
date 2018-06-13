@@ -65,6 +65,7 @@ public class DeviceCard implements EntryPoint {
 	private VerticalPanel mainPanel;
 	private DeviceCardPanel deviceCardPanel = new DeviceCardPanel();;
 	private DeviceMaintenancePanel deviceMaintenancePanel = new DeviceMaintenancePanel();
+	private DeviceEditPanel deviceEditPanel = new DeviceEditPanel();
 	private VerticalPanel lastMeasurementPanel = new VerticalPanel();
 	private AbsolutePanel headerPanel;
 	private DeckPanel contentPanel;
@@ -316,6 +317,7 @@ public class DeviceCard implements EntryPoint {
 		contentPanel.add(lastMeasurementPanel);
 		contentPanel.add(deviceCardPanel);
 		contentPanel.add(deviceMaintenancePanel);
+		contentPanel.add(deviceEditPanel);
 		
 		//devTree = new DeviceTree();
 		//generateDemoTreeData();
@@ -805,7 +807,7 @@ public class DeviceCard implements EntryPoint {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				contentPanel.showWidget(contentPanel.getWidgetIndex(deviceCardPanel));
+				contentPanel.showWidget(contentPanel.getWidgetIndex(deviceEditPanel));
 			}
 			
 		});
@@ -818,10 +820,59 @@ public class DeviceCard implements EntryPoint {
 				lBack.fireEvent(event);
 			}	
 		});
+		
 		maintHeader.add(lBack);
 		maintHeader.add(lBackButton);
 		deviceMaintenancePanel.insert(maintHeader, 0);
 		contentPanel.showWidget(contentPanel.getWidgetIndex(deviceMaintenancePanel));
+	}
+	
+	public void createDeviceEditPanelView() {
+		deviceEditPanel.clear();
+		deviceEditPanel.createNewDeviceEditPanel(selectedDevice);
+		
+		HorizontalPanel maintHeader = new HorizontalPanel();
+		final Label lBack = new Label("T\u00FChista");
+		lBack.setStyleName("backSaveLabel");
+		lBack.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				contentPanel.showWidget(contentPanel.getWidgetIndex(deviceCardPanel));
+			}
+			
+		});
+		
+		Button lBackButton = new Button();
+		lBackButton.setStyleName("backButton");
+		lBackButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				lBack.fireEvent(event);
+			}	
+		});
+		
+		HorizontalPanel buttonTime = AhoWidgets.createContentHeader("Seadmete nimekiri");
+		buttonTime.setWidth("100%");
+		Label admin1 = new Label("Lisa uus seade");
+		Button admin = new Button("", new ClickHandler() {
+			  @Override
+			  public void onClick(ClickEvent event) {
+				  createMaintenancePanelView();
+		      }
+		    });
+		admin.setStyleName("maintainanceLink");
+		admin1.setStyleName("aho-label2-maintLink");
+		RootPanel.get().add(admin);
+		buttonTime.add(admin1);
+		buttonTime.add(admin);
+		
+		maintHeader.add(lBack);
+		maintHeader.add(lBackButton);
+		deviceEditPanel.insert(maintHeader, 0);
+		deviceEditPanel.add(buttonTime);
+		contentPanel.showWidget(contentPanel.getWidgetIndex(deviceEditPanel));
 	}
 	
 	private void createEditLocationView() {
@@ -918,7 +969,7 @@ public class DeviceCard implements EntryPoint {
 			maintainanceLink.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
-					createMaintenancePanelView();
+					createDeviceEditPanelView();
 				}
 			});
 			headerPanel.add(lMaintainanceLink);
@@ -1081,6 +1132,7 @@ public class DeviceCard implements EntryPoint {
 		deviceCardPanel.createNewDeviceView(selectedCompany, selectedUnit);
 		deviceCardPanel.insert(backSavePanel, 0);
 		contentPanel.showWidget(contentPanel.getWidgetIndex(deviceCardPanel));
+		contentPanel.showWidget(contentPanel.getWidgetIndex(deviceEditPanel));
 	}
 	
 	

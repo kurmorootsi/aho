@@ -418,6 +418,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		    	  ProblemPanel.setVisible(false);
 		  		  ProblemSignPanel.setVisible(false);
 		  		  EditPanelBlue.setVisible(false);
+		  		  MainSearchPanel.setVisible(false);
 	        }
 	    };
 	    rb2.addClickHandler(ch1);
@@ -441,6 +442,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		    	  DonePanel.setVisible(false);
 		    	  WorkPanel.setVisible(false);
 		    	  EditPanelBlue.setVisible(false);
+		    	  MainSearchPanel.setVisible(true);
 	        }
 	    };
 	    rb0.addClickHandler(ch);
