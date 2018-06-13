@@ -1,13 +1,16 @@
 package com.elektrimasinad.aho.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.elektrimasinad.aho.client.AdministratorLogin;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -27,9 +30,55 @@ public class Index implements EntryPoint {
 	private AbsolutePanel headerPanel;
 	private DeckPanel contentPanel;
 	private HorizontalPanel navPanel;
+	private final static UserInfoServiceAsync userInfoService = GWT.create(UserInfoService.class);
+	private String logoutUrl;
 
 	@Override
 	public void onModuleLoad() {
+		HorizontalPanel navigationPanel = new HorizontalPanel();
+		Image headerImage = new Image("res/hes-symbol.jpg");
+		headerImage.setStyleName("aho-headerImage");
+		headerImage.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				if(isDevMode) Window.Location.assign(Window.Location.getHref().replace("index", "index"));
+				else Window.Location.assign("/Index.html");
+			}
+			
+		});
+		
+		navigationPanel.setStyleName("aho-navigationPanel");
+		navigationPanel.add(headerImage);
+		navigationPanel.setCellWidth(headerImage, "52px");
+		Label logoutLabel = new Label("Logi välja");
+		AsyncCallback<String> userIdCallback = new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(String userIdFromService) {
+				// TODO Auto-generated method stub
+				logoutUrl = userIdFromService;
+				Label logoutLabel = new Label("Logi valja");
+				Window.alert(logoutUrl);
+				logoutLabel.addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent arg0) {
+						// TODO Auto-generated method stub
+						Window.Location.assign(logoutUrl);
+					}
+					
+				});
+				navigationPanel.add(logoutLabel);
+			}
+			
+		};
 		if (Window.Location.getHref().contains("127.0.0.1")) isDevMode = true;
 		else isDevMode = false;
 		if (Window.getClientWidth() < 1000) {
@@ -50,27 +99,15 @@ public class Index implements EntryPoint {
 		    }
 		});
 		
+		userInfoService.getLogoutUrl(userIdCallback);
 		mainPanel = new VerticalPanel();
 		mainPanel.setStyleName("panelBackground");
 		
-		Image headerImage = new Image("res/hes-symbol.jpg");
-		headerImage.setStyleName("aho-headerImage");
-		headerImage.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				if(isDevMode) Window.Location.assign(Window.Location.getHref().replace("index", "index"));
-				else Window.Location.assign("/Index.html");
-			}
-			
-		});
-		HorizontalPanel navigationPanel = new HorizontalPanel();
-		navigationPanel.setStyleName("aho-navigationPanel");
-		navigationPanel.add(headerImage);
-		navigationPanel.setCellWidth(headerImage, "52px");
+		navigationPanel.add(logoutLabel);
 		headerPanel = new AbsolutePanel();
 		headerPanel.setStyleName("headerBackground");
 		headerPanel.add(navigationPanel);
+		
 		mainPanel.add(headerPanel);
 		
 		contentPanel = new DeckPanel();
@@ -80,9 +117,10 @@ public class Index implements EntryPoint {
 		rootPanel.setStyleName("mainBackground2");
 		rootPanel.add(mainPanel);
 		
+		
 		init();
 		updateWidgetSizes();
-		administratorLogin.createNewAdministratorLogin();
+		//administratorLogin.createNewAdministratorLogin();
 	}
 	
 	private void updateWidgetSizes() {

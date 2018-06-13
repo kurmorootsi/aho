@@ -1,5 +1,6 @@
 package com.elektrimasinad.aho.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -14,7 +15,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 
 public class AhoWidgets {
-
 	/**
 	 * Create content header panel.
 	 * @param labelText	- content header text.

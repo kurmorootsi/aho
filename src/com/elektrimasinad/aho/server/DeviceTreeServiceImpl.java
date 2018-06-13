@@ -100,10 +100,15 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		Entity e;
 		try {
 			e = ds.get(maintenanceKey);
+			m.setMaintenanceDevice(e.getProperty("Device").toString());
 			m.setMaintenanceName(e.getProperty("Name").toString());
 			m.setMaintenanceDescription(e.getProperty("Description").toString());
 			m.setMaintenanceProblemDescription(e.getProperty("ProblemDescription").toString());
 			m.setMaintenanceState(e.getProperty("State").toString());
+			m.setMaintenanceAssignedTo();
+			m.setMaintenanceCompleteDate((Date) e.getProperty("CompleteDate"));
+			m.setMaintenanceMaterials(e.getProperty("Materials").toString());
+			m.setMaintenanceNotes(e.getProperty("Notes").toString());
 		} catch (EntityNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -129,6 +134,7 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 			if(interval > 0 ) {
 				e.setProperty("Interval", interval);
 			}
+			ds.put(e);
 		} catch (EntityNotFoundException e1) {
 			e1.printStackTrace();
 		}

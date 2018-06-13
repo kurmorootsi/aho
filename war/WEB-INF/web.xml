@@ -42,6 +42,16 @@
   </servlet-mapping>
   
   <servlet>
+  	<servlet-name>userInfoServlet</servlet-name>
+  	<servlet-class>com.elektrimasinad.aho.server.UserInfoServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>userInfoServlet</servlet-name>
+  	<url-pattern>/index/userInfoService</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
     <servlet-name>fileUploadServlet</servlet-name>
     <servlet-class>com.elektrimasinad.aho.server.FileUploadServlet</servlet-class>
   </servlet>
@@ -61,6 +71,15 @@
     <url-pattern>/getRaport/*</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>loginServlet</servlet-name>
+  	<servlet-class>com.elektrimasinad.aho.server.LogInServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>loginServlet</servlet-name>
+  	<url-pattern>/login</url-pattern>
+  </servlet-mapping>
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
