@@ -77,7 +77,7 @@ public class Index implements EntryPoint {
 		mainPanel = new VerticalPanel();
 		mainPanel.setStyleName("panelBackground");
 		
-		navigationPanel.add(logoutLabel);
+		//navigationPanel.add(logoutLabel);
 		headerPanel = new AbsolutePanel();
 		headerPanel.setStyleName("headerBackground");
 		headerPanel.add(navigationPanel);
