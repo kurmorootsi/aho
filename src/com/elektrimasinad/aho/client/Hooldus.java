@@ -4,18 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 import com.elektrimasinad.aho.shared.Company;
+import com.elektrimasinad.aho.shared.Device;
 import com.elektrimasinad.aho.shared.Measurement;
 import com.elektrimasinad.aho.shared.Raport;
 import com.elektrimasinad.aho.shared.Unit;
 import com.elektrimasinad.aho.shared.DiagnostikaItem;
 import com.elektrimasinad.aho.shared.PlannerItem;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Query;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -40,16 +35,20 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
+
+
 public class Hooldus implements EntryPoint {
 	
 	private static final DeviceTreeServiceAsync deviceTreeService = DeviceCard.getDevicetreeservice();
 	private AsyncCallback<List<Raport>> getRaportsCallback;
+	private AsyncCallback<List<Device>> getDeviceCallback;
 	protected AsyncCallback<List<Measurement>> getRaportDataCallback;
 	
 	private int MAIN_WIDTH = 900;
 	private int CONTENT_WIDTH = (int) (MAIN_WIDTH * 0.9);
 	
 	private List<Raport> raports = new ArrayList<Raport>();
+	private List<Device> devices = new ArrayList<Device>();
 	private static List<Measurement> raportDataList;
 	
 	private DeviceTree devTree;
@@ -61,7 +60,7 @@ public class Hooldus implements EntryPoint {
 	private VerticalPanel tablePanel;
 	private VerticalPanel table2Panel;
 	private VerticalPanel unitPanel = new VerticalPanel();
-
+	
 	private Unit selectedUnit;
 	private static Raport selectedRaport;
 	protected Company selectedCompany;
@@ -77,11 +76,12 @@ public class Hooldus implements EntryPoint {
 	private List<DiagnostikaItem> DIAGNOSTIKA = new ArrayList<DiagnostikaItem>();
 	private List<PlannerItem> PLANNER = new ArrayList<PlannerItem>();
 
+
 	@Override
 	public void onModuleLoad() {
 		Debug.enable();
 		Debug.log("Debug enabled");
-		deviceTreeService.getListRaports(getRaportsCallback);
+
  		if (Window.Location.getHref().contains("127.0.0.1")) isDevMode = true;
  		else isDevMode = false;
  		if (Window.getClientWidth() < 1000) {
@@ -108,12 +108,36 @@ public class Hooldus implements EntryPoint {
 				if (raportList != null) {
 					raports = raportList;
 					Debug.log("Raportid imporditud.");
+					
+					deviceTreeService.getListMeasurement(getRaportDataCallback);
+					
 				} else {
 					Debug.log("Raportid ERROR");
 				}
-				createUnitPanel();
-				contentPanel.showWidget(contentPanel.getWidgetIndex(unitPanel));
-				updateWidgetSizes();
+
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				System.err.println(caught);
+				Debug.log("Raport alguse Error");
+			}
+			
+		};
+		getDeviceCallback = new AsyncCallback<List<Device>>() {
+			@Override
+			public void onSuccess(List<Device> deviceList) {
+				//System.out.println(name);
+				if (deviceList != null) {
+					devices = deviceList;
+					Debug.log("Seadmed imporditud.");
+					init();
+					
+					
+				} else {
+					Debug.log("Devices ERROR");
+				}
+
 			}
 			
 			@Override
@@ -131,6 +155,7 @@ public class Hooldus implements EntryPoint {
 				if (measurementList != null) {
 					raportDataList = measurementList;
 					Debug.log("Measurementid imporditud.");
+					deviceTreeService.getListDevices(getDeviceCallback);
 				} else {
 					Debug.log("Measurementid ERROR");
 				}
@@ -179,11 +204,12 @@ public class Hooldus implements EntryPoint {
 		mainPanel.add(content2Panel);
 		mainPanel.setCellHeight(content2Panel, "100%");
 		mainPanel.setCellHorizontalAlignment(content2Panel, HasHorizontalAlignment.ALIGN_CENTER);
-
+		
 		root.add(mainPanel);
 		
-		init();
+		firstInit();
 		updateWidgetSizes();
+		createUnitPanel();
 	}
 
 	private void updateWidgetSizes() {
@@ -197,8 +223,14 @@ public class Hooldus implements EntryPoint {
 		mainPanel.setHeight(Window.getClientHeight() + "px");
 		contentPanel.setWidth(CONTENT_WIDTH + "px");
 	}
-	
+	private void firstInit() {
+		devTree = new DeviceTree(deviceTreeService);
+		devTree.getElement().addClassName("gwt-Tree");
+		deviceTreeService.getListRaports(getRaportsCallback);
+	}
 	private void init() {
+		String m = "measurement size: " + Integer.toString(raportDataList.size());
+		Debug.log(m);
 		createNewDataTable();
 		createNewPlannerTable();
 		contentPanel.add(tablePanel);
@@ -249,23 +281,49 @@ public class Hooldus implements EntryPoint {
 	}
 	
 	private VerticalPanel createNewDataTable() {
-	    
-		DiagnostikaItem diag = new DiagnostikaItem();
-		diag.setName("tere");
-		diag.setAddress("tere");
-		diag.setDevice("tere");
-		diag.setID("tere");
-		diag.setComment("tere");
-		DIAGNOSTIKA.add(diag);
+		
+		String s = "raports size: " + Integer.toString(raports.size());
+		Debug.log(s);
+		String d = raports.get(0).getCompanyName();
+		Debug.log(d);
+		for (int x = 0; x < raports.size(); x++) {
+			DiagnostikaItem diag = new DiagnostikaItem();
+			diag.setName(raports.get(x).getCompanyName());
+			diag.setAddress(raports.get(x).getUnitName());
+			diag.setID(raports.get(x).getRaportID());
+			for (int y = 0; y < raportDataList.size(); y++) {
+				String measureKey = raportDataList.get(y).getRaportKey();
+				String raportKey = raports.get(x).getRaportKey();
+				Debug.log(y + " measure key: " + measureKey);
+				Debug.log(x + " raport key: " + raportKey);
+				if (measureKey.equals(raportKey)) {
+					Debug.log("equals");
+					String v = raportDataList.get(y).getDeviceName();
+					Debug.log("device name: " + v);
+					raportDataList.get(y).setDeviceName("tere");
+					String b = raportDataList.get(y).getComment();
+					v = raportDataList.get(y).getDeviceName();
+					diag.setDevice(v);
+					diag.setComment(b);
+					Debug.log("device name: " + v);
+					Debug.log("comment: " + b);
+				}
+			}
+			String p = devices.get(0).getDeviceName();
+			Debug.log("device id: " + p);
+			DIAGNOSTIKA.add(diag);
+			String t = "diag object created nr: " + x;
+			Debug.log(t);
+		}
+		String a = "diagnostika size: " + Integer.toString(DIAGNOSTIKA.size());
+		Debug.log(a);
 		tablePanel = new VerticalPanel();
 		tablePanel.setStyleName("aho-panel1 table2");
 		tablePanel.setWidth("100%");
-		
 		Label lLabel = new Label("Diagnostika ja monitooring");
 		lLabel.setStyleName("backSaveLabel noPointer");
 		CellTable<DiagnostikaItem> table = new CellTable<DiagnostikaItem>();
-		
-		
+
 	    // Add a text column to show the name.
 	    TextColumn<DiagnostikaItem> nameColumn = new TextColumn<DiagnostikaItem>() {
 	      @Override
@@ -282,7 +340,7 @@ public class Hooldus implements EntryPoint {
 	        return object.getAddress();
 	      }
 	    };
-	    table.addColumn(addressColumn, "\u00DCksus");
+	    table.addColumn(addressColumn, "Üksus");
 	    
 	 // Add a text column to show the address.
 	    TextColumn<DiagnostikaItem> idColumn = new TextColumn<DiagnostikaItem>() {
@@ -306,7 +364,7 @@ public class Hooldus implements EntryPoint {
 	    TextColumn<DiagnostikaItem> kommentaarColumn = new TextColumn<DiagnostikaItem>() {
 	      @Override
 	      public String getValue(DiagnostikaItem object) {
-	        return object.getDevice();
+	        return object.getComment();
 	      }
 	    };
 	    table.addColumn(kommentaarColumn, "Kommentaar");
@@ -321,7 +379,6 @@ public class Hooldus implements EntryPoint {
 	    tablePanel.add(table);
 	    return tablePanel;
 	}
-	
 	private VerticalPanel createNewPlannerTable() {
 		PlannerItem plan = new PlannerItem();
 		plan.setDates("1.4.42");
