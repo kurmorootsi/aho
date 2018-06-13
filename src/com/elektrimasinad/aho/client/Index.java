@@ -30,7 +30,7 @@ public class Index implements EntryPoint {
 	private AbsolutePanel headerPanel;
 	private DeckPanel contentPanel;
 	private HorizontalPanel navPanel;
-	private final static UserInfoServiceAsync userInfoService = GWT.create(UserInfoService.class);
+	//private final static UserInfoServiceAsync userInfoService = GWT.create(UserInfoService.class);
 	private String logoutUrl;
 
 	@Override
@@ -51,34 +51,8 @@ public class Index implements EntryPoint {
 		navigationPanel.setStyleName("aho-navigationPanel");
 		navigationPanel.add(headerImage);
 		navigationPanel.setCellWidth(headerImage, "52px");
-		Label logoutLabel = new Label("Logi välja");
-		AsyncCallback<String> userIdCallback = new AsyncCallback<String>() {
-
-			@Override
-			public void onFailure(Throwable arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onSuccess(String userIdFromService) {
-				// TODO Auto-generated method stub
-				logoutUrl = userIdFromService;
-				Label logoutLabel = new Label("Logi valja");
-				Window.alert(logoutUrl);
-				logoutLabel.addClickHandler(new ClickHandler() {
-					
-					@Override
-					public void onClick(ClickEvent arg0) {
-						// TODO Auto-generated method stub
-						Window.Location.assign(logoutUrl);
-					}
-					
-				});
-				navigationPanel.add(logoutLabel);
-			}
-			
-		};
+		//Label logoutLabel = new Label("Logi välja");
+		
 		if (Window.Location.getHref().contains("127.0.0.1")) isDevMode = true;
 		else isDevMode = false;
 		if (Window.getClientWidth() < 1000) {
@@ -99,7 +73,7 @@ public class Index implements EntryPoint {
 		    }
 		});
 		
-		userInfoService.getLogoutUrl(userIdCallback);
+		//userInfoService.getLogoutUrl(userIdCallback);
 		mainPanel = new VerticalPanel();
 		mainPanel.setStyleName("panelBackground");
 		

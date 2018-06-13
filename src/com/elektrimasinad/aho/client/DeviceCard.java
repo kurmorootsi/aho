@@ -853,9 +853,9 @@ public class DeviceCard implements EntryPoint {
 			}	
 		});
 		
-		HorizontalPanel buttonTime = AhoWidgets.createContentHeader("Seadmete nimekiri");
+		HorizontalPanel buttonTime = AhoWidgets.createContentHeader("Seadme " + selectedDevice.getDeviceName() + "hooldustööd");
 		buttonTime.setWidth("100%");
-		Label admin1 = new Label("Lisa uus seade");
+		Label admin1 = new Label("Lisa hooldustöö");
 		Button admin = new Button("", new ClickHandler() {
 			  @Override
 			  public void onClick(ClickEvent event) {

@@ -13,7 +13,7 @@ public class UserInfoServiceImpl extends RemoteServiceServlet implements UserInf
 		return uId;
 	}
 	public String getLogoutUrl() {
-		String logoutUrl = userService.createLogoutURL("/Index.html");
+		String logoutUrl = userService.createLogoutURL("/login");
 		return logoutUrl;
 	}
 }
