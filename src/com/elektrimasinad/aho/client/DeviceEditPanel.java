@@ -36,6 +36,8 @@ public class DeviceEditPanel extends VerticalPanel {
 	private DeviceMaintenancePanel deviceMaintenancePanel = new DeviceMaintenancePanel();
 	private String selectedDevice;
 	private List<MaintenanceItem> maintenanceList;
+	private MaintenanceItem maintenanceItem = new MaintenanceItem();
+	private VerticalPanel displayDataLog;
 	//private DeviceCard createMaintenancePanelView = new DeviceCard();
 	public DeviceEditPanel() {
 		super();
@@ -62,12 +64,19 @@ public class DeviceEditPanel extends VerticalPanel {
 		selectedDevice = device.getDeviceKey();
 		
 		deviceTreeService.getMaintenanceEntries(selectedDevice, getDeviceEntriesCallback);
+		
+		displayDataLog = new VerticalPanel();
 	}
 	public void displayMaintenanceEntries(List<MaintenanceItem> entryList) {
-		if (entryList.size() > 0) {
-			Window.alert("stuff found");
-		} else {
-			Window.alert("stuff not found");
-		}
+			for (int i = 0; i < entryList.size(); i++) {
+				if (entryList.size() > 0) {
+					HorizontalPanel dataLog = entryList.get(i).getAllInserts();
+					Window.alert("stuff found");
+					displayDataLog.add(dataLog);
+				} else {
+					Window.alert("stuff not found");
+				}
+			}
+	add(displayDataLog);
 	}
 }

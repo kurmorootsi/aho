@@ -100,7 +100,7 @@ h1 {
 .panelBackground {
 	margin: 0px auto;
 	background-image: url("res/app_area_bg.png");
-	overflow: hidden;
+	overflow: auto;
 
 }
 

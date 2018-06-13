@@ -3,6 +3,9 @@ package com.elektrimasinad.aho.shared;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+
 public class MaintenanceItem implements Serializable{
 	/**
 	 * 
@@ -102,5 +105,21 @@ public class MaintenanceItem implements Serializable{
 	}
 	public Integer getMaintenanceTimeSpent() {
 		return this.timeSpent;
+	}
+	public HorizontalPanel getAllInserts() {
+		HorizontalPanel data = new HorizontalPanel();
+		Label Data1 = new Label(this.name);
+		Label Data2 = new Label(this.desc);
+		Label Data3 = new Label(this.problemDesc);
+		Label Data4 = new Label(this.notes);
+		Label Data5 = new Label(this.materials);
+		Label Data6 = new Label(Integer.toString(this.interval));
+		data.add(Data1);
+		data.add(Data2);
+		data.add(Data3);
+		data.add(Data4);
+		data.add(Data5);
+		data.add(Data6);
+		return data;
 	}
 }

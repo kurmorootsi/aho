@@ -1,3 +1,2 @@
 # Module index
 # RPC service class, partial path of RPC policy file
-com.elektrimasinad.aho.client.DeviceTreeService, C7C7B4C59BF22D87C322E3D645FCF05C.gwt.rpc
