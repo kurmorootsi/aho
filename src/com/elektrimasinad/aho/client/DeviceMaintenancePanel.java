@@ -59,18 +59,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		super.clear();
 		DeviceTreeServiceAsync deviceTreeService = DeviceCard.getDevicetreeservice();
 		HorizontalPanel headerPanel = AhoWidgets.createContentHeader("Seadme " + device.getDeviceName() + " hooldustoo");
-		Label admin1 = new Label("Administraatori aken");
-		Button admin = new Button("", new ClickHandler() {
-			  @Override
-			  public void onClick(ClickEvent event) {
-		    	  //suunab admin lehele
-		      }
-		    });
-		admin.setStyleName("maintainanceLink");
-		admin1.setStyleName("aho-label2-maintLink");
-		RootPanel.get().add(admin);
-		headerPanel.add(admin1);
-		headerPanel.add(admin);
 		add(headerPanel);
 		
 		VerticalPanel RadioPanel = new VerticalPanel();
@@ -96,13 +84,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    RadioPanel3.setStyleName("aho-panel1");
 	    rb2.setStyleName("aho-panel1");
 	    rb22.setStyleName("aho-label1");
-	    HorizontalPanel RadioPanelEdit = new HorizontalPanel();
-	    Label rbE = new Label("Muutmine");
-	    RadioButton rbEE = new RadioButton("myRadioGroup");
-	    rb2.setFormValue("onetime");
-	    RadioPanel3.setStyleName("aho-panel1");
-	    rb2.setStyleName("aho-panel1");
-	    rb22.setStyleName("aho-label1");
 	    RadioPanel1.add(rb00);
 	    RadioPanel1.add(rb0);
 	    RadioPanel1.setCellHorizontalAlignment(rb0, HasHorizontalAlignment.ALIGN_RIGHT);
@@ -112,13 +93,9 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    RadioPanel3.add(rb22);
 	    RadioPanel3.add(rb2);
 	    RadioPanel3.setCellHorizontalAlignment(rb2, HasHorizontalAlignment.ALIGN_RIGHT);
-	    RadioPanelEdit.add(rbE);
-	    RadioPanelEdit.add(rbEE);
-	    RadioPanelEdit.setCellHorizontalAlignment(rbEE, HasHorizontalAlignment.ALIGN_RIGHT);
 	    RadioPanel.add(RadioPanel1);
 	    RadioPanel.add(RadioPanel2);
 	    RadioPanel.add(RadioPanel3);
-	    RadioPanel.add(RadioPanelEdit);
 	    add(RadioPanel);
 	    
 	    HorizontalPanel ProblemSignPanel = AhoWidgets.createContentHeader("Perioodiline või plaaniline hooldustegevus");
@@ -327,44 +304,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		ProblemPanel.add(b);
 		add(ProblemSignPanel);
 		add(ProblemPanel);
-		
-		//muutmise paneel
-		HorizontalPanel EditPanelBlue = AhoWidgets.createContentHeader("Eelmise töö muutmine");
-		add(EditPanelBlue);
-		EditPanelBlue.setVisible(false);
-		
-		VerticalPanel SearchPanel = new VerticalPanel();
-		SearchPanel.setStyleName("aho-panel1");
-		SearchPanel.setWidth("100%");
-		HorizontalPanel MainSearchPanel = new HorizontalPanel();
-		Label sch = new Label("Otsi ID järgi: ");
-		TextBox sch0 = new TextBox();
-		sch.setStyleName("aho-label1");
-		sch0.setStyleName("aho-panel1");
-	    sch0.setWidth("100%");
-	    MainSearchPanel.add(SearchPanel);
-	    SearchPanel.add(sch);
-	    SearchPanel.add(sch0);
-	    add(MainSearchPanel);
-	    MainSearchPanel.setVisible(false);
-	    
-	    Button s = new Button("Otsi", new ClickHandler() {
-		      public void onClick(ClickEvent event) {
-		    	  Window.alert("Otsime");
-		    	  deviceTreeService.getMaintenanceEntries(device.getDeviceKey(), getMaintenanceItemsCallback);
-		    	  Window.alert("Otsitud, " + itemsToEdit);
-		    	  if (itemsToEdit.size() > 0) {
-		    		  Window.alert("Leidsime kirjeid:");
-		    		  //jätkub siit
-		    	  } else if (itemsToEdit.equals(null) || itemsToEdit.equals("undefined")){
-		    		  Window.alert("Kirjeid ei leitud!");
-		    	  } else {
-		    		  Window.alert("Kirjeid ei leitud!");
-		    	  }
-		      }
-		});
-	    
-	    MainSearchPanel.add(s);
 	    
 		//teostatud töö paneel
 		HorizontalPanel DonePanel = AhoWidgets.createContentHeader("Teostatud töö kokkuvõte");
@@ -417,23 +356,9 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		    	  WorkPanel.setVisible(true);
 		    	  ProblemPanel.setVisible(false);
 		  		  ProblemSignPanel.setVisible(false);
-		  		  EditPanelBlue.setVisible(false);
-		  		  MainSearchPanel.setVisible(false);
 	        }
 	    };
 	    rb2.addClickHandler(ch1);
-	    
-	    ClickHandler ch2=new ClickHandler() {
-	        public void onClick(ClickEvent event) {
-		    	  DonePanel.setVisible(false);
-		    	  WorkPanel.setVisible(false);
-		    	  ProblemPanel.setVisible(false);
-		  		  ProblemSignPanel.setVisible(false);
-		  		  EditPanelBlue.setVisible(true);
-		  		  MainSearchPanel.setVisible(true);
-	        }
-	    };
-	    rbEE.addClickHandler(ch2);
 	    
 	    ClickHandler ch=new ClickHandler() {
 	        public void onClick(ClickEvent event) {
@@ -441,8 +366,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		    	  ProblemSignPanel.setVisible(true);
 		    	  DonePanel.setVisible(false);
 		    	  WorkPanel.setVisible(false);
-		    	  EditPanelBlue.setVisible(false);
-		    	  MainSearchPanel.setVisible(true);
 	        }
 	    };
 	    rb0.addClickHandler(ch);
