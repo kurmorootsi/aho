@@ -347,7 +347,50 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		
 		return "Device stored: " + device.getDeviceName();
 	}
-
+	@Override
+	public List<Device> getListDevices() throws IllegalArgumentException {
+		List<Device> deviceList = new ArrayList<Device>();
+		//Filter filter = new FilterPredicate("LocationKey", FilterOperator.EQUAL, location.getLocationKey());
+		Query query = new Query("Device").addSort("DeviceId", Query.SortDirection.ASCENDING);
+		for (Entity e : ds.prepare(query).asIterable()) {
+			Device c = new Device();
+			if (e.getKey() != null && e.getProperty("DeviceName").toString() != null) {
+				c.setDeviceKey(KeyFactory.keyToString(e.getKey()));
+				c.setId(e.getProperty("DeviceId").toString());
+				c.setDeviceName(e.getProperty("DeviceName").toString());
+				c.setLocationName(e.getProperty("Location").toString());
+				c.setDeviceNickname(e.getProperty("DeviceNickname").toString());
+				c.setDevicekWrpm(e.getProperty("kWrpm").toString());
+				c.setDeviceType(e.getProperty("DeviceType").toString());
+				c.setDeviceManufacturer(e.getProperty("DeviceManufacturer").toString());
+				c.setDElaager(e.getProperty("DElaager").toString());
+				c.setDEsimmer(e.getProperty("DEsimmer").toString());
+				c.setDEVtihend(e.getProperty("DEVtihend").toString());
+				c.setDEnotes(e.getProperty("DEnotes").toString());
+				c.setNDElaager(e.getProperty("NDElaager").toString());
+				c.setNDEsimmer(e.getProperty("NDEsimmer").toString());
+				c.setNDEVtihend(e.getProperty("NDEVtihend").toString());
+				c.setNDEnotes(e.getProperty("NDEnotes").toString());
+				if ((boolean) e.getProperty("HasCoupledDevice")) {
+					c.setCoupledDeviceName(e.getProperty("CoupledDeviceName").toString());
+					c.setCoupledDeviceType(e.getProperty("CoupledDeviceType").toString());
+					c.setCoupledDeviceManufacturer(e.getProperty("CoupledDeviceManufacturer").toString());
+					c.setMPlaager(e.getProperty("MPlaager").toString());
+					c.setMPsimmer(e.getProperty("MPsimmer").toString());
+					c.setMPVtihend(e.getProperty("MPVtihend").toString());
+					c.setMPnotes(e.getProperty("MPnotes").toString());
+					c.setTPlaager(e.getProperty("TPlaager").toString());
+					c.setTPsimmer(e.getProperty("TPsimmer").toString());
+					c.setTPVtihend(e.getProperty("TPVtihend").toString());
+					c.setTPnotes(e.getProperty("TPnotes").toString());
+				}
+				
+				deviceList.add(c);
+			}
+		}
+		
+		return deviceList;
+	}
 	@Override
 	public List<Device> getDevices(String unitKeyString) throws IllegalArgumentException {
 		Key locationKey = KeyFactory.stringToKey(unitKeyString);
@@ -512,7 +555,33 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		
 		return "Measurement stored: " + measurement.getDate();
 	}
-
+	@Override
+	public List<Measurement> getListMeasurement() throws IllegalArgumentException {
+		List<Measurement> measurementList = new ArrayList<Measurement>();
+		Query query = new Query("Measurement").addSort("Date", Query.SortDirection.DESCENDING);
+		for (Entity e : ds.prepare(query).asIterable()) {
+			Measurement m = new Measurement();
+			m.setRaportKey(e.getProperty("RaportKey").toString());
+			m.setDate(e.getProperty("Date").toString());
+			m.setComment(e.getProperty("Comment").toString());
+			m.setMarking(e.getProperty("Marking").toString());
+			m.setNDEmms(e.getProperty("NDEmms").toString());
+			m.setNDEge(e.getProperty("NDEge").toString());
+			m.setNDEcomment(e.getProperty("NDEcomment").toString());
+			m.setDEmms(e.getProperty("DEmms").toString());
+			m.setDEge(e.getProperty("DEge").toString());
+			m.setDEcomment(e.getProperty("DEcomment").toString());
+			m.setMPmms(e.getProperty("MPmms").toString());
+			m.setMPge(e.getProperty("MPge").toString());
+			m.setMPcomment(e.getProperty("MPcomment").toString());
+			m.setTPmms(e.getProperty("TPmms").toString());
+			m.setTPge(e.getProperty("TPge").toString());
+			m.setTPcomment(e.getProperty("TPcomment").toString());
+			measurementList.add(m);
+		}
+		
+		return measurementList;
+	}
 	@Override
 	public List<Measurement> getMeasurements(String deviceKeyString) throws IllegalArgumentException {
 		Key deviceKey = KeyFactory.stringToKey(deviceKeyString);
