@@ -100,6 +100,12 @@ h1 {
 .panelBackground {
 	margin: 0px auto;
 	background-image: url("res/app_area_bg.png");
+	overflow: hidden;
+
+}
+
+.panelBackground.b {
+	display: block;
 }
 
 .mainBackground {
@@ -188,9 +194,28 @@ h1 {
 
 .backSaveLabel.noPointer {
 	display: block;
-	margin-left: 20px;
-	
+	margin-left: 20px;	
 }
+
+.dateLabel {
+	float: right;
+	position: relative;
+	top: 40px;
+}
+
+.dateLabel.o {
+	background-color: orange;
+	top: 80px;
+	left: 55%;
+	float: left;
+}
+
+.dateLabel.g {
+	background-color: green;
+	right: 70px;
+	top: 60px;
+}
+
 
 .aho-dropdownmenu {
 	position: absolute;
@@ -317,6 +342,7 @@ h1 {
 	margin-bottom: 2px;
 	width: 100%;
 	height: 53px;
+	display: block;
 }
 .aho-panel1.expandable {
 	min-height: 53px;
@@ -326,17 +352,20 @@ h1 {
 	padding-left: 15px;
 	padding-right: 15px;
 	padding-bottom: 15px;
+	display: block; 
 }
 .aho-panel1.table2 {
 	padding-top: 5px;
 	padding-left: 20px;
 	padding-right: 20px;
 	padding-bottom: 5px;
+	display: block;
 }
 
-.aho-panel1.table2.center {
-	top: 300px;
+.aho-panel1.table.center {
+	top: 200px;
 	position: relative;
+	display: block;
 }
 .aho-panel1.closeBottom {
 	box-shadow: 2.5px 4.33px 0px 0px rgba(0, 0, 0, 0.078);

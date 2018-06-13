@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 import com.elektrimasinad.aho.shared.Company;
 import com.elektrimasinad.aho.shared.Measurement;
 import com.elektrimasinad.aho.shared.Raport;
@@ -55,8 +56,8 @@ public class Hooldus implements EntryPoint {
 	private VerticalPanel mainPanel = new VerticalPanel();
 	private VerticalPanel raportPanel = new VerticalPanel();
 	private DeckPanel contentPanel;
+	private DeckPanel content2Panel;
 	private VerticalPanel treePanel;
-	private VerticalPanel terePanel;
 	private VerticalPanel tablePanel;
 	private VerticalPanel table2Panel;
 	private VerticalPanel unitPanel = new VerticalPanel();
@@ -73,11 +74,8 @@ public class Hooldus implements EntryPoint {
 	DebugClientSide Debug = new DebugClientSide();
 	
 	
-	
 	private List<DiagnostikaItem> DIAGNOSTIKA = new ArrayList<DiagnostikaItem>();
 	private List<PlannerItem> PLANNER = new ArrayList<PlannerItem>();
-	
-
 
 	@Override
 	public void onModuleLoad() {
@@ -151,7 +149,7 @@ public class Hooldus implements EntryPoint {
 		root.setStyleName("mainBackground2");
 		
 		mainPanel.setSize(MAIN_WIDTH + "px", "900px");
-		mainPanel.setStyleName("panelBackground");
+		mainPanel.setStyleName("panelBackground b");
  		Image headerImage = new Image("res/hes-symbol.jpg");
  		headerImage.setStyleName("aho-headerImage");
  		headerImage.addClickHandler(new ClickHandler() {
@@ -177,7 +175,11 @@ public class Hooldus implements EntryPoint {
 		mainPanel.add(contentPanel);
 		mainPanel.setCellHeight(contentPanel, "100%");
 		mainPanel.setCellHorizontalAlignment(contentPanel, HasHorizontalAlignment.ALIGN_CENTER);
-		
+		content2Panel = new DeckPanel();
+		mainPanel.add(content2Panel);
+		mainPanel.setCellHeight(content2Panel, "100%");
+		mainPanel.setCellHorizontalAlignment(content2Panel, HasHorizontalAlignment.ALIGN_CENTER);
+
 		root.add(mainPanel);
 		
 		init();
@@ -200,9 +202,9 @@ public class Hooldus implements EntryPoint {
 		createNewDataTable();
 		createNewPlannerTable();
 		contentPanel.add(tablePanel);
-		contentPanel.add(table2Panel);
+		content2Panel.add(table2Panel);
 		contentPanel.showWidget(contentPanel.getWidgetIndex(tablePanel));
-		contentPanel.showWidget(contentPanel.getWidgetIndex(table2Panel));
+		content2Panel.showWidget(content2Panel.getWidgetIndex(table2Panel));
 	}
 	
 	private void createUnitPanel() {
@@ -259,8 +261,11 @@ public class Hooldus implements EntryPoint {
 		tablePanel.setStyleName("aho-panel1 table2");
 		tablePanel.setWidth("100%");
 		
+		Label lLabel = new Label("Diagnostika ja monitooring");
+		lLabel.setStyleName("backSaveLabel noPointer");
 		CellTable<DiagnostikaItem> table = new CellTable<DiagnostikaItem>();
-
+		
+		
 	    // Add a text column to show the name.
 	    TextColumn<DiagnostikaItem> nameColumn = new TextColumn<DiagnostikaItem>() {
 	      @Override
@@ -312,6 +317,7 @@ public class Hooldus implements EntryPoint {
 
 	    // Push the data into the widget.
 	    table.setRowData(0, DIAGNOSTIKA);
+	    tablePanel.add(lLabel);
 	    tablePanel.add(table);
 	    return tablePanel;
 	}
@@ -326,11 +332,18 @@ public class Hooldus implements EntryPoint {
 		plan.setAction("mine puhasta");
 		PLANNER.add(plan);
 		table2Panel = new VerticalPanel();
-		table2Panel.setStyleName("aho-panel1 table2 center");
+		table2Panel.setStyleName("aho-panel1 table center");
 		tablePanel.setWidth("100%");
 		
 		Label lLabel = new Label("Planeeritavad tegevused");
 		lLabel.setStyleName("backSaveLabel noPointer");
+		Label doneLabel = new Label("Tähtaeg möödas");
+		doneLabel.setStyleName("dateLabel o");
+		Label todayLabel = new Label("Täna");
+		todayLabel.setStyleName("dateLabel g");
+		Label doLabel = new Label("Tulemas");
+		doLabel.setStyleName("dateLabel");
+		
 		CellTable<PlannerItem> table = new CellTable<PlannerItem>();
 		
 		TextColumn<PlannerItem> datesColumn = new TextColumn<PlannerItem>() {
@@ -384,7 +397,11 @@ public class Hooldus implements EntryPoint {
 		
 		table.setRowCount(PLANNER.size(), true);
 		table.setRowData(0, PLANNER);
+		table2Panel.add(doneLabel);
+		table2Panel.add(todayLabel);
+		table2Panel.add(doLabel);
 		table2Panel.add(lLabel);
+		
 		table2Panel.add(table);
 		return table2Panel;
 	}
