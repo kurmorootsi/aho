@@ -31,12 +31,14 @@ public interface DeviceTreeService extends RemoteService {
 	String storeDevice(Device device) throws IllegalArgumentException;
 	List<Device> getDevices(String unitKeyString) throws IllegalArgumentException;
 	String updateDevice(Device updatedDevice) throws IllegalArgumentException;
+	List<Device> getListDevices() throws IllegalArgumentException;
 	String deleteDevice(String deviceKeyString) throws IllegalArgumentException;
 	
 	String storeMeasurement(Measurement measurement) throws IllegalArgumentException;
 	List<Measurement> getMeasurements(String deviceKeyString) throws IllegalArgumentException;
 	Measurement getMeasurement(String measurementKeyString) throws IllegalArgumentException;
 	Measurement getLastMeasurement(String deviceKeyString) throws IllegalArgumentException;
+	List<Measurement> getListMeasurement() throws IllegalArgumentException;
 	String updateMeasurement(Measurement updatedMeasurement) throws IllegalArgumentException;
 	String deleteMeasurement(String measurementKeyString) throws IllegalArgumentException;
 	
