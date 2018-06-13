@@ -1132,7 +1132,6 @@ public class DeviceCard implements EntryPoint {
 		deviceCardPanel.createNewDeviceView(selectedCompany, selectedUnit);
 		deviceCardPanel.insert(backSavePanel, 0);
 		contentPanel.showWidget(contentPanel.getWidgetIndex(deviceCardPanel));
-		contentPanel.showWidget(contentPanel.getWidgetIndex(deviceEditPanel));
 	}
 	
 	
