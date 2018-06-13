@@ -28,12 +28,14 @@ public interface DeviceTreeServiceAsync {
 	
 	void storeDevice(Device device, AsyncCallback<String> callback) throws IllegalArgumentException;
 	void getDevices(String unitKeyString, AsyncCallback<List<Device>> callback) throws IllegalArgumentException;
+	void getListDevices(AsyncCallback<List<Device>> callback) throws IllegalArgumentException;
 	void updateDevice(Device updatedDevice, AsyncCallback<String> updateDeviceCallback) throws IllegalArgumentException;
 	void deleteDevice(String deviceKeyString, AsyncCallback<String> removeDeviceCallback) throws IllegalArgumentException;
 	
 	void storeMeasurement(Measurement measurement, AsyncCallback<String> callback) throws IllegalArgumentException;
 	void getMeasurements(String deviceKeyString, AsyncCallback<List<Measurement>> callback) throws IllegalArgumentException;
 	void getMeasurement(String measurementKeyString, AsyncCallback<Measurement> callback) throws IllegalArgumentException;
+	void getListMeasurement(AsyncCallback<List<Measurement>> callback) throws IllegalArgumentException;
 	void getLastMeasurement(String deviceKeyString, AsyncCallback<Measurement> callback) throws IllegalArgumentException;
 	void updateMeasurement(Measurement updatedMeasurement, AsyncCallback<String> updateMeasurementCallback) throws IllegalArgumentException;
 	void deleteMeasurement(String measurementKeyString, AsyncCallback<String> removeMeasurementCallback) throws IllegalArgumentException;
