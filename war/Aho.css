@@ -789,8 +789,17 @@ h1 {
 #closeButton {
   margin: 15px 6px 6px;
 }
-
-
+.maintEntryRow {
+	height: 52px;
+	background-color: #FFFFFF;
+	vertical-align: middle;
+}
+.maintEntryRow > tbody > tr > td {
+	vertical-align: middle !important;
+}
+.maintEntryRowItem {
+	margin-left: 5px;
+}
 
 
 

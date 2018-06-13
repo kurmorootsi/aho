@@ -281,18 +281,28 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		    	  if (tb0.getVisibleLength() > 0 && tb1.getVisibleLength() > 0 && tb2.getVisibleLength() > 0 && state != null) {
 		    		  MaintenanceItem m = new MaintenanceItem();
 		    		  m.setMaintenanceDevice(device.getDeviceKey().toString());
+		    		  Window.alert(device.getDeviceKey().toString());
 		    		  m.setMaintenanceName(tb0.getValue());
+		    		  Window.alert(tb0.getValue());
 		    		  m.setMaintenanceDescription(tb1.getValue());
+		    		  Window.alert(tb1.getValue());
 		    		  m.setMaintenanceProblemDescription(tb2.getValue());
+		    		  Window.alert(tb2.getValue());
 		    		  m.setMaintenanceState(state);
+		    		  Window.alert(state);
 		    		  m.setMaintenanceAssignedTo();
 		    		  m.setMaintenanceCompleteDate(dateBox.getValue());
+		    		  Window.alert(dateBox.getValue().toString());
 		    		  m.setMaintenanceMaterials(ta.getValue());
+		    		  Window.alert(ta.getValue());
 		    		  m.setMaintenanceNotes(note.getValue());
+		    		  Window.alert(note.getValue());
 		    		  if(state.equals("periodic")) {
 		    			  m.setMaintenanceInterval(5);
+		    			  Window.alert("5");
 		    		  } else {
 		    			 m.setMaintenanceInterval(0);
+		    			 Window.alert("0");	
 		    		  }
 		    		  deviceTreeService.storeMaintenanceEntry(m, null);
 			    	  Window.alert("Teie teenus on sisestatud!");

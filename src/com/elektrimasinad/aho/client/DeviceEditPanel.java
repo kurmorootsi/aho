@@ -70,13 +70,39 @@ public class DeviceEditPanel extends VerticalPanel {
 	public void displayMaintenanceEntries(List<MaintenanceItem> entryList) {
 			for (int i = 0; i < entryList.size(); i++) {
 				if (entryList.size() > 0) {
-					HorizontalPanel dataLog = entryList.get(i).getAllInserts();
-					Window.alert("stuff found");
+					MaintenanceItem item = entryList.get(i);
+					HorizontalPanel dataLog = new HorizontalPanel();
+					Label data1 = new Label(item.getMaintenanceName());
+					Label data2 = new Label(item.getMaintenanceDescription());
+					Label data3 = new Label(item.getMaintenanceProblemDescription());
+					Label data4 = new Label(item.getMaintenanceNotes());
+					Label data5 = new Label(item.getMaintenanceMaterials());
+					Button editButton = new Button("Muuda", new ClickHandler() {
+
+						@Override
+						public void onClick(ClickEvent arg0) {
+							// TODO Auto-generated method stub
+							Window.alert("muuda");
+						}
+						
+					});
+					data1.setStyleName("maintEntryRowItem");
+					data2.setStyleName("maintEntryRowItem");
+					data3.setStyleName("maintEntryRowItem");
+					data4.setStyleName("maintEntryRowItem");
+					data5.setStyleName("maintEntryRowItem");
+					editButton.setStyleName("maintEntryRowItem");
+					dataLog.add(data1);
+					dataLog.add(data2);
+					dataLog.add(data3);
+					dataLog.add(data4);
+					dataLog.add(data5);
+					dataLog.add(editButton);
+					dataLog.setStyleName("maintEntryRow");
 					displayDataLog.add(dataLog);
-				} else {
+				} else
 					Window.alert("stuff not found");
-				}
 			}
-	add(displayDataLog);
+			add(displayDataLog);
 	}
 }
