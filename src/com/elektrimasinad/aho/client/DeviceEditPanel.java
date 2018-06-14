@@ -63,7 +63,7 @@ public class DeviceEditPanel extends VerticalPanel {
 		DeviceTreeServiceAsync deviceTreeService = DeviceCard.getDevicetreeservice();
 		selectedDevice = device.getDeviceKey();
 		
-		deviceTreeService.getMaintenanceEntries(selectedDevice, getDeviceEntriesCallback);
+		deviceTreeService.getMaintenanceEntries(getDeviceEntriesCallback);
 		
 		displayDataLog = new VerticalPanel();
 	}

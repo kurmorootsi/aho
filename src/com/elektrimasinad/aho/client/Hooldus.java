@@ -10,6 +10,7 @@ import com.elektrimasinad.aho.shared.Measurement;
 import com.elektrimasinad.aho.shared.Raport;
 import com.elektrimasinad.aho.shared.Unit;
 import com.elektrimasinad.aho.shared.DiagnostikaItem;
+import com.elektrimasinad.aho.shared.MaintenanceItem;
 import com.elektrimasinad.aho.shared.PlannerItem;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -42,6 +43,7 @@ public class Hooldus implements EntryPoint {
 	private static final DeviceTreeServiceAsync deviceTreeService = DeviceCard.getDevicetreeservice();
 	private AsyncCallback<List<Raport>> getRaportsCallback;
 	private AsyncCallback<List<Device>> getDeviceCallback;
+	private AsyncCallback<List<MaintenanceItem>> getMaintenanceCallback;
 	protected AsyncCallback<List<Measurement>> getRaportDataCallback;
 	
 	private int MAIN_WIDTH = 900;
@@ -49,6 +51,7 @@ public class Hooldus implements EntryPoint {
 	
 	private List<Raport> raports = new ArrayList<Raport>();
 	private List<Device> devices = new ArrayList<Device>();
+	private List<MaintenanceItem> maintenance = new ArrayList<MaintenanceItem>();
 	private static List<Measurement> raportDataList;
 	
 	private DeviceTree devTree;
@@ -127,7 +130,6 @@ public class Hooldus implements EntryPoint {
 		getDeviceCallback = new AsyncCallback<List<Device>>() {
 			@Override
 			public void onSuccess(List<Device> deviceList) {
-				//System.out.println(name);
 				if (deviceList != null) {
 					devices = deviceList;
 					Debug.log("Seadmed imporditud.");
@@ -151,11 +153,10 @@ public class Hooldus implements EntryPoint {
 			
 			@Override
 			public void onSuccess(List<Measurement> measurementList) {
-				//System.out.println(name);
 				if (measurementList != null) {
 					raportDataList = measurementList;
 					Debug.log("Measurementid imporditud.");
-					deviceTreeService.getListDevices(getDeviceCallback);
+					deviceTreeService.getMaintenanceEntries(getMaintenanceCallback);
 				} else {
 					Debug.log("Measurementid ERROR");
 				}
@@ -166,6 +167,27 @@ public class Hooldus implements EntryPoint {
 			public void onFailure(Throwable caught) {
 				System.err.println(caught);
 				Debug.log("Measurement alguse Error");
+			}
+			
+		};
+		getMaintenanceCallback = new AsyncCallback<List<MaintenanceItem>>() {
+			
+			@Override
+			public void onSuccess(List<MaintenanceItem> maintenanceList) {
+				if (maintenanceList != null) {
+					maintenance = maintenanceList;
+					Debug.log("Maintenance imporditud.");
+					deviceTreeService.getListDevices(getDeviceCallback);
+				} else {
+					Debug.log("Maintenance ERROR");
+				}
+				updateWidgetSizes();
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				System.err.println(caught);
+				Debug.log("Maintenance alguse Error");
 			}
 			
 		};
@@ -283,9 +305,9 @@ public class Hooldus implements EntryPoint {
 	private VerticalPanel createNewDataTable() {
 		
 		String s = "raports size: " + Integer.toString(raports.size());
-		Debug.log(s);
+//		Debug.log(s);
 		String d = raports.get(0).getCompanyName();
-		Debug.log(d);
+//		Debug.log(d);
 		for (int x = 0; x < raports.size(); x++) {
 			DiagnostikaItem diag = new DiagnostikaItem();
 			diag.setName(raports.get(x).getCompanyName());
@@ -299,19 +321,19 @@ public class Hooldus implements EntryPoint {
 				if (measureKey.equals(raportKey)) {
 					String v = raportDataList.get(y).getComment();
 					diag.setComment(v);
-					Debug.log("comment: " + v);
+//					Debug.log("comment: " + v);
 					String st = raportDataList.get(y).getDeviceName();
 					diag.setDevice(st);
-					Debug.log("name: " + st);
+//					Debug.log("name: " + st);
 				}
 			}
 			
 			DIAGNOSTIKA.add(diag);
 			String tr = "diag object created nr: " + x;
-			Debug.log(tr);
+//			Debug.log(tr);
 		}
 		String a = "diagnostika size: " + Integer.toString(DIAGNOSTIKA.size());
-		Debug.log(a);
+//		Debug.log(a);
 		tablePanel = new VerticalPanel();
 		tablePanel.setStyleName("aho-panel1 table2");
 		tablePanel.setWidth("100%");
@@ -376,12 +398,12 @@ public class Hooldus implements EntryPoint {
 	}
 	private VerticalPanel createNewPlannerTable() {
 		PlannerItem plan = new PlannerItem();
-		plan.setDates("1.4.42");
-		plan.setName("mati");
+		plan.setDates(maintenance.get(0).getMaintenanceCompleteDate().toString());
 		plan.setAddress("opsti");
+		plan.setName("tere");
 		plan.setDevice("fd");
-		plan.setID("2");
-		plan.setAction("mine puhasta");
+		plan.setID(raports.get(0).getRaportID());
+		plan.setAction(maintenance.get(0).getMaintenanceName());
 		PLANNER.add(plan);
 		table2Panel = new VerticalPanel();
 		table2Panel.setStyleName("aho-panel1 table center");

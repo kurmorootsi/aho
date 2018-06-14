@@ -72,7 +72,7 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		return "Task stored";
 	}
 	@Override
-	public List<MaintenanceItem> getMaintenanceEntries(String maintenanceString) throws IllegalArgumentException {
+	public List<MaintenanceItem> getMaintenanceEntries() throws IllegalArgumentException {
 		Key userCompanyKey = KeyFactory.createKey("Companies", userCompanyName);
 		
 		List<MaintenanceItem> maintenanceItems = new ArrayList<MaintenanceItem>();
