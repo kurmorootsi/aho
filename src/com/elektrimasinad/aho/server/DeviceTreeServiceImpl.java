@@ -561,6 +561,7 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		Query query = new Query("Measurement").addSort("Date", Query.SortDirection.DESCENDING);
 		for (Entity e : ds.prepare(query).asIterable()) {
 			Measurement m = new Measurement();
+			m.setDeviceID(e.getProperty("DeviceID").toString());
 			m.setRaportKey(e.getProperty("RaportKey").toString());
 			m.setDate(e.getProperty("Date").toString());
 			m.setDeviceName(e.getProperty("DeviceName").toString());

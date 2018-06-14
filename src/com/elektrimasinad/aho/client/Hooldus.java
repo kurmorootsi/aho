@@ -397,14 +397,45 @@ public class Hooldus implements EntryPoint {
 	    return tablePanel;
 	}
 	private VerticalPanel createNewPlannerTable() {
-		PlannerItem plan = new PlannerItem();
-		plan.setDates(maintenance.get(0).getMaintenanceCompleteDate().toString());
-		plan.setAddress("opsti");
-		plan.setName("tere");
-		plan.setDevice("fd");
-		plan.setID(raports.get(0).getRaportID());
-		plan.setAction(maintenance.get(0).getMaintenanceName());
-		PLANNER.add(plan);
+		
+		for (int x = 0; x < maintenance.size(); x++) {
+			PlannerItem plan = new PlannerItem();
+			plan.setAction(maintenance.get(x).getMaintenanceName());
+			plan.setID(raports.get(x).getRaportID());
+			plan.setDates(maintenance.get(x).getMaintenanceCompleteDate().toString());
+				for (int y = 0; y < devices.size(); y++) {
+					String deviceKey = devices.get(y).getDeviceKey();
+					String mDeviceKey = maintenance.get(x).getMaintenanceDevice();
+//					Debug.log(x + " maintenance key: " + mDeviceKey);
+//					Debug.log(y + " device key: " + deviceKey);
+						if (deviceKey.equals(mDeviceKey)) {
+							String st = raportDataList.get(y).getDeviceName();
+							plan.setDevice(st);
+							Debug.log("seade määratud");
+								for (int z = 0; z < raportDataList.size(); z++) {
+									String deviceID = devices.get(y).getId();
+									String mDeviceID = raportDataList.get(z).getDeviceID();
+//									Debug.log(y + " device id: " + deviceID);
+//									Debug.log(z + " measurements id: " + mDeviceID);
+										if (deviceID.equals(mDeviceID)) {
+											for (int r = 0; r < raports.size(); r++) {
+												String mRaportKey = raportDataList.get(z).getRaportKey();
+												String raportKey = raports.get(r).getRaportKey();
+//												Debug.log(z + " measurements raport key: " + mRaportKey);
+//												Debug.log(r + " real raport key: " + raportKey);
+													if (mRaportKey.equals(raportKey)) {
+														plan.setName(raports.get(r).getCompanyName());
+														plan.setAddress(raports.get(r).getUnitName());
+													}
+											}
+										}
+									}
+							}
+					}
+			PLANNER.add(plan);
+			}
+					
+		
 		table2Panel = new VerticalPanel();
 		table2Panel.setStyleName("aho-panel1 table center");
 		tablePanel.setWidth("100%");
