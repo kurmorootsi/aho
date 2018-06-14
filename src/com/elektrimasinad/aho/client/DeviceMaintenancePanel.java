@@ -162,27 +162,34 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    dateBox.setWidth("100%");
 	    RootPanel.get().add(dateBox);
 	    ReadyBy.setCellHorizontalAlignment(dateBox, HasHorizontalAlignment.ALIGN_CENTER);
-	    HorizontalPanel WorkInterval = new HorizontalPanel();
+	    VerticalPanel WorkInterval = new VerticalPanel();
 		Label Interval = new Label("Interval");
 		Interval.setStyleName("aho-label1");
 	    WorkInterval.setWidth("100%");
+	    WorkInterval.setCellHorizontalAlignment(Interval, HasHorizontalAlignment.ALIGN_LEFT);
 		HorizontalPanel RadioPanel4 = new HorizontalPanel();
 		Label rb33 = new Label("Iga 6 kuu tagant");
 	    RadioButton rb3 = new RadioButton("myRadioGroup");
 	    rb33.setStyleName("aho-label1");
 	    RadioPanel4.setWidth("100%");
+	    RadioPanel4.setCellHorizontalAlignment(rb33, HasHorizontalAlignment.ALIGN_LEFT);
+	    RadioPanel4.setCellHorizontalAlignment(rb3, HasHorizontalAlignment.ALIGN_LEFT);
 	    HorizontalPanel RadioPanel5 = new HorizontalPanel();
 		Label rb44 = new Label("Iga 12 kuu tagant");
 	    RadioButton rb4 = new RadioButton("myRadioGroup");
 	    rb44.setStyleName("aho-label1");
 	    RadioPanel5.setWidth("100%");
+	    RadioPanel5.setCellHorizontalAlignment(rb44, HasHorizontalAlignment.ALIGN_LEFT);
+	    RadioPanel5.setCellHorizontalAlignment(rb4, HasHorizontalAlignment.ALIGN_LEFT);
 	    HorizontalPanel RadioPanel6 = new HorizontalPanel();
 		Label rb55 = new Label("Iga 3 kuu tagant");
 	    RadioButton rb5 = new RadioButton("myRadioGroup");
 	    rb55.setStyleName("aho-label1");
 	    RadioPanel6.setWidth("100%");
+	    RadioPanel6.setCellHorizontalAlignment(rb55, HasHorizontalAlignment.ALIGN_LEFT);
+	    RadioPanel6.setCellHorizontalAlignment(rb5, HasHorizontalAlignment.ALIGN_LEFT);
 	    //file add panel
-	    HorizontalPanel FileUploadPanel = new HorizontalPanel();
+	    VerticalPanel FileUploadPanel = new VerticalPanel();
 	    FileUploadPanel.setWidth("100%");
 	    
 	    final FormPanel form = new FormPanel();
@@ -191,17 +198,20 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    form.setEncoding(FormPanel.ENCODING_MULTIPART);
 	    form.setMethod(FormPanel.METHOD_POST);
 
-	    HorizontalPanel panel = new HorizontalPanel();
+	    VerticalPanel panel = new VerticalPanel();
 	    form.setWidget(panel);
 
+	    Label nameFile = new Label("Pildifaili kirjeldus: ");
 	    final TextBox tb9 = new TextBox();
 	    Label tb99 = new Label("Pildi üleslaadur ");
 	    tb9.setName("textBoxFormElement");
 
+	    Label chooseFile = new Label("Vali fail: ");
 	    FileUpload upload = new FileUpload();
 	    upload.setName("uploadFormElement");
 	    
-	    upload.setStyleName("aho-panel1");
+	    nameFile.setStyleName("aho-label1");
+	    chooseFile.setStyleName("aho-label1");
 	    tb9.setStyleName("aho-panel1");
 		tb99.setStyleName("aho-label1");
 		FileUploadPanel.setCellHorizontalAlignment(upload, HasHorizontalAlignment.ALIGN_RIGHT);
@@ -258,11 +268,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		panel.add(tb99);
 		panel.add(tb9);
 		panel.add(upload);
-		panel.add(new Button("Add image!", new ClickHandler() {
-		   public void onClick(ClickEvent event) {
-		     form.submit();
-		   }
-		}));
 		ProblemPanel.setCellHorizontalAlignment(panel, HasHorizontalAlignment.ALIGN_RIGHT);
 		ProblemPanel.setVisible(false);
 		
@@ -329,17 +334,20 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		stp0.setStyleName("aho-label1");
 		stp00.setStyleName("aho-panel1");
 	    stp00.setWidth("100%");
+	    StopTimePanel.setCellHorizontalAlignment(stp00, HasHorizontalAlignment.ALIGN_RIGHT);
 		HorizontalPanel SpentTimePanel = new HorizontalPanel();
 		Label stp1 = new Label("Tööle kulunud aeg(tundides)");
 		TextBox stp11 = new TextBox();
 		stp1.setStyleName("aho-label1");
 		stp11.setStyleName("aho-panel1");
 	    stp11.setWidth("100%");
+	    SpentTimePanel.setCellHorizontalAlignment(stp11, HasHorizontalAlignment.ALIGN_RIGHT);
 		HorizontalPanel CostPanel = new HorizontalPanel();
 		Label cp = new Label("Töö maksumus");
 		TextBox cp1 = new TextBox();
 		cp.setStyleName("aho-label1");
 		cp1.setStyleName("aho-panel1");
+		CostPanel.setCellHorizontalAlignment(cp1, HasHorizontalAlignment.ALIGN_RIGHT);
 	    cp1.setWidth("100%");
 		StopTimePanel.add(stp0);
 		StopTimePanel.add(stp00);
