@@ -807,6 +807,7 @@ public class DeviceCard implements EntryPoint {
 			
 			@Override
 			public void onClick(ClickEvent event) {
+				createDeviceEditPanelView();
 				contentPanel.showWidget(contentPanel.getWidgetIndex(deviceEditPanel));
 			}
 			
@@ -829,7 +830,6 @@ public class DeviceCard implements EntryPoint {
 	
 	public void createDeviceEditPanelView() {
 		deviceEditPanel.clear();
-		deviceEditPanel.createNewDeviceEditPanel(selectedDevice);
 		
 		HorizontalPanel maintHeader = new HorizontalPanel();
 		final Label lBack = new Label("T\u00FChista");
@@ -870,8 +870,9 @@ public class DeviceCard implements EntryPoint {
 		
 		maintHeader.add(lBack);
 		maintHeader.add(lBackButton);
+		deviceEditPanel.createNewDeviceEditPanel(selectedDevice);
 		deviceEditPanel.insert(maintHeader, 0);
-		deviceEditPanel.add(buttonTime);
+		deviceEditPanel.insert(buttonTime, 1);
 		contentPanel.showWidget(contentPanel.getWidgetIndex(deviceEditPanel));
 	}
 	

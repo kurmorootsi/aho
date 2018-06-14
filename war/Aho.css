@@ -801,12 +801,15 @@ h1 {
 	height: 52px;
 	background-color: #FFFFFF;
 	vertical-align: middle;
+	width: 100%;
 }
 .maintEntryRow > tbody > tr > td {
 	vertical-align: middle !important;
 }
 .maintEntryRowItem {
 	margin-left: 5px;
+	color: #006BA7;
+	font-size: 20px;
 }
 
 

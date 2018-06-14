@@ -11,6 +11,7 @@ public class MaintenanceItem implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private String keyString;
 	private String name;
 	private String desc;
 	private String problemDesc;
@@ -27,6 +28,9 @@ public class MaintenanceItem implements Serializable{
 	
 	public MaintenanceItem() {
 		
+	}
+	public void setMaintenanceKey(String maintenanceKey) {
+		this.keyString = maintenanceKey;
 	}
 	public void setMaintenanceDevice(String deviceKey) {
 		this.devKey = deviceKey;
@@ -69,6 +73,9 @@ public class MaintenanceItem implements Serializable{
 	}
 	public String getMaintenanceName() {
 		return this.name;
+	}
+	public String getMaintenanceKey() {
+		return this.keyString;
 	}
 	public String getMaintenanceDescription() {
 		return this.desc;

@@ -49,11 +49,10 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 	
 	@Override
 	public String storeMaintenanceEntry(MaintenanceItem m) {
-		String maintenanceKey = m.getMaintenanceDevice() + m.getMaintenanceName();
-		Key userCompanyKey = KeyFactory.createKey("Companies", userCompanyName);
-		Entity e = new Entity("MaintenanceEntry", userCompanyKey);
+		Key maintenanceKey = KeyFactory.createKey("MaintenanceItem", m.getMaintenanceName());
+		Entity e = new Entity("MaintenanceEntry", maintenanceKey);
 		
-		e.setProperty("Key", maintenanceKey);
+		e.setProperty("KeyString", KeyFactory.keyToString(maintenanceKey));
 		e.setProperty("Device", m.getMaintenanceDevice());
 		e.setProperty("Name", m.getMaintenanceName());
 		e.setProperty("Description", m.getMaintenanceDescription());
@@ -74,12 +73,11 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 	@Override
 	public List<MaintenanceItem> getMaintenanceEntries() throws IllegalArgumentException {
 		Key userCompanyKey = KeyFactory.createKey("Companies", userCompanyName);
-		
 		List<MaintenanceItem> maintenanceItems = new ArrayList<MaintenanceItem>();
 		Query query = new Query("MaintenanceEntry").setAncestor(userCompanyKey);
 		for(Entity e : ds.prepare(query).asIterable()) {
 			MaintenanceItem m = new MaintenanceItem();
-			//m.(e.getProperty("Key", maintenanceKey);
+			m.setMaintenanceKey(e.getProperty("KeyString").toString());
 			m.setMaintenanceDevice(e.getProperty("Device").toString());
 			m.setMaintenanceName(e.getProperty("Name").toString());
 			m.setMaintenanceDescription(e.getProperty("Description").toString());
@@ -94,12 +92,37 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		
 		return maintenanceItems;
 	}
+	@Override
+	public List<MaintenanceItem> getMaintenanceEntriesFromKey(String maintenanceString) throws IllegalArgumentException {
+		Key userCompanyKey = KeyFactory.createKey("Companies", userCompanyName);
+		List<MaintenanceItem> maintenanceItems = new ArrayList<MaintenanceItem>();
+		Query query = new Query("MaintenanceEntry");
+		query.setFilter(FilterOperator.EQUAL.of("Device", maintenanceString));
+		for(Entity e : ds.prepare(query).asIterable()) {
+			MaintenanceItem m = new MaintenanceItem();
+			m.setMaintenanceKey(e.getProperty("KeyString").toString());
+			m.setMaintenanceDevice(e.getProperty("Device").toString());
+			m.setMaintenanceName(e.getProperty("Name").toString());
+			m.setMaintenanceDescription(e.getProperty("Description").toString());
+			m.setMaintenanceProblemDescription(e.getProperty("ProblemDescription").toString());
+			m.setMaintenanceState(e.getProperty("State").toString());
+			m.setMaintenanceAssignedTo();
+			m.setMaintenanceCompleteDate((Date) e.getProperty("CompleteDate"));
+			m.setMaintenanceMaterials(e.getProperty("Materials").toString());
+			m.setMaintenanceNotes(e.getProperty("Notes").toString());
+			maintenanceItems.add(m);
+		}
+		
+		return maintenanceItems;
+	}
+	@Override
 	public MaintenanceItem getMaintenanceEntry(String maintenanceString) throws IllegalArgumentException {
 		Key maintenanceKey = KeyFactory.stringToKey(maintenanceString);
 		MaintenanceItem m = new MaintenanceItem();
 		Entity e;
 		try {
 			e = ds.get(maintenanceKey);
+			m.setMaintenanceKey(e.getProperty("KeyString").toString());
 			m.setMaintenanceDevice(e.getProperty("Device").toString());
 			m.setMaintenanceName(e.getProperty("Name").toString());
 			m.setMaintenanceDescription(e.getProperty("Description").toString());
@@ -116,11 +139,13 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		
 		return m;
 	}
-	public String updateMaintenanceEntry(String maintenanceKey, MaintenanceItem mNew) {
+	@Override
+	public String updateMaintenanceEntry(MaintenanceItem mNew, String oldName) {
+		Key maintenanceKey = KeyFactory.createKey("MaintenanceItem", mNew.getMaintenanceName());
 		Entity e;
 		try {
-			e = ds.get(KeyFactory.stringToKey(maintenanceKey));
-			e.setProperty("Key", maintenanceKey);
+			e = ds.get(maintenanceKey);
+			e.setProperty("KeyString", mNew.getMaintenanceKey());
 			e.setProperty("Device", mNew.getMaintenanceDevice());
 			e.setProperty("Name", mNew.getMaintenanceName());
 			e.setProperty("Description", mNew.getMaintenanceDescription());
