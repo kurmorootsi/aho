@@ -7,11 +7,14 @@ import com.elektrimasinad.aho.shared.Device;
 
 import com.elektrimasinad.aho.shared.Device;
 import com.elektrimasinad.aho.shared.MaintenanceItem;
+//import com.elektrimasinad.aho.shared.MyImage;
+import com.gargoylesoftware.htmlunit.javascript.host.file.Blob;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
+import com.google.appengine.api.datastore.Query;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -218,6 +221,19 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		tb99.setStyleName("aho-label1");
 		FileUploadPanel.setCellHorizontalAlignment(upload, HasHorizontalAlignment.ALIGN_RIGHT);
 	    
+		/*
+		//image upload servlet
+		Blob imageFor(String name, HttpServletResponse res) {
+		    PersistenceManager pm = PMF.get().getPersistenceManager();
+		    Query query = pm.newQuery("select from MyImage " +
+		        "where name = nameParam " +
+		        "parameters String nameParam");
+		    List<MyImage> results = (List<MyImage>)query.execute(name);
+		    Blob image = results.iterator().next().getImage();
+		    res.setContentType("image/jpeg");
+		    res.getOutputStream().write(image.getBytes());
+		}*/
+		
 	    form.addSubmitHandler(new FormPanel.SubmitHandler() {
 	      public void onSubmit(SubmitEvent event) {
 	        if (tb9.getText().length() == 0) {
