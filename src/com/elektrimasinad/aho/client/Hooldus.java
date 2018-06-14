@@ -294,26 +294,21 @@ public class Hooldus implements EntryPoint {
 			for (int y = 0; y < raportDataList.size(); y++) {
 				String measureKey = raportDataList.get(y).getRaportKey();
 				String raportKey = raports.get(x).getRaportKey();
-				Debug.log(y + " measure key: " + measureKey);
-				Debug.log(x + " raport key: " + raportKey);
+//				Debug.log(y + " measure key: " + measureKey);
+//				Debug.log(x + " raport key: " + raportKey);
 				if (measureKey.equals(raportKey)) {
-					Debug.log("equals");
-					String v = raportDataList.get(y).getDeviceName();
-					Debug.log("device name: " + v);
-					raportDataList.get(y).setDeviceName("tere");
-					String b = raportDataList.get(y).getComment();
-					v = raportDataList.get(y).getDeviceName();
-					diag.setDevice(v);
-					diag.setComment(b);
-					Debug.log("device name: " + v);
-					Debug.log("comment: " + b);
+					String v = raportDataList.get(y).getComment();
+					diag.setComment(v);
+					Debug.log("comment: " + v);
+					String st = raportDataList.get(y).getDeviceName();
+					diag.setDevice(st);
+					Debug.log("name: " + st);
 				}
 			}
-			String p = devices.get(0).getDeviceName();
-			Debug.log("device id: " + p);
+			
 			DIAGNOSTIKA.add(diag);
-			String t = "diag object created nr: " + x;
-			Debug.log(t);
+			String tr = "diag object created nr: " + x;
+			Debug.log(tr);
 		}
 		String a = "diagnostika size: " + Integer.toString(DIAGNOSTIKA.size());
 		Debug.log(a);

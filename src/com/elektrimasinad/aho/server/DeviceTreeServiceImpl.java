@@ -563,6 +563,7 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 			Measurement m = new Measurement();
 			m.setRaportKey(e.getProperty("RaportKey").toString());
 			m.setDate(e.getProperty("Date").toString());
+			m.setDeviceName(e.getProperty("DeviceName").toString());
 			m.setComment(e.getProperty("Comment").toString());
 			m.setMarking(e.getProperty("Marking").toString());
 			m.setNDEmms(e.getProperty("NDEmms").toString());
