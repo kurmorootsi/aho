@@ -100,7 +100,7 @@ h1 {
 .panelBackground {
 	margin: 0px auto;
 	background-image: url("res/app_area_bg.png");
-	overflow: auto;
+	overflow: scroll;
 
 }
 
@@ -342,7 +342,6 @@ h1 {
 	margin-bottom: 2px;
 	width: 100%;
 	height: 53px;
-	display: block;
 }
 .aho-panel1.expandable {
 	min-height: 53px;
@@ -499,6 +498,15 @@ h1 {
 }
 .deletePrompt {
 	background-color: #006CB5;
+}
+.dateBoxPopup {
+	visibility: collapse; 
+	overflow: visible; 
+	position: fixed; 
+	left: 596px; 
+	top: 419px;
+	position: fixed;
+	border: 2px solid #4CAF50; 
 }
 .popupText {
 	color: #FFFFFF;
