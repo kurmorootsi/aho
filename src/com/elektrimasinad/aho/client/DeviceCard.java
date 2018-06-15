@@ -23,6 +23,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
+import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -86,10 +87,11 @@ public class DeviceCard implements EntryPoint {
 	protected List<Measurement> measurements;
 	private boolean isDevMode;
 	private boolean isMobileView;
+	private Storage accountStorage;
 	
-
 	@Override
 	public void onModuleLoad() {
+		accountStorage = Storage.getSessionStorageIfSupported();
 		if (Window.Location.getHref().contains("127.0.0.1")) isDevMode = true;
 		else isDevMode = false;
 		if (Window.getClientWidth() < 1000) {
@@ -382,7 +384,7 @@ public class DeviceCard implements EntryPoint {
 		companyList.add(c3);
 	}*/
 	
-	private VerticalPanel createCompanyListPanel() {
+	public VerticalPanel createCompanyListPanel() {
 		companyListPanel.clear();
 		companyListPanel.setWidth("100%");
 		
@@ -853,7 +855,7 @@ public class DeviceCard implements EntryPoint {
 			}	
 		});
 		
-		HorizontalPanel buttonTime = AhoWidgets.createContentHeader("Seadme " + selectedDevice.getDeviceName() + "hooldustööd");
+		HorizontalPanel buttonTime = AhoWidgets.createContentHeader("Seadme " + selectedDevice.getDeviceName() + " hooldustööd");
 		buttonTime.setWidth("100%");
 		Label admin1 = new Label("Lisa hooldustöö");
 		Button admin = new Button("", new ClickHandler() {
