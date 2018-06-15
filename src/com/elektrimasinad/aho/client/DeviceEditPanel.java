@@ -128,13 +128,15 @@ public class DeviceEditPanel extends VerticalPanel {
 		};
 		maintenanceTable.addColumn(nameCol, "Nimetus");
 		maintenanceTable.addColumn(dateCol, "Kuupaev");
-		maintenanceTable.addColumn(assignedEmployee, "Tootaja");
+		maintenanceTable.addColumn(assignedEmployee, "Töötaja");
 		maintenanceTable.setSelectionModel(tableSelModel);
 	}
 	public void showEditPanel(MaintenanceItem m) {
 		PopupPanel editPopup = new PopupPanel(true);
+		editPopup.setStyleName("maintenanceEditPopup");
 		VerticalPanel editPanel = new VerticalPanel();
 		Label editNameLabel = new Label(m.getMaintenanceName());
+		editNameLabel.setStyleName("maintenanceEditPopupLabel");
 		TextArea editDesc = new TextArea();
 		editDesc.setValue(m.getMaintenanceDescription());
 		TextArea editProblemDesc = new TextArea();
@@ -153,17 +155,6 @@ public class DeviceEditPanel extends VerticalPanel {
 				m.setMaintenanceAssignedTo();
 				m.setMaintenanceCompleteDate(m.getMaintenanceCompleteDate());
 				m.setMaintenanceDevice(m.getMaintenanceDevice());
-				Window.alert(m.getMaintenanceKey());
-				Window.alert(m.getMaintenanceName());
-				Window.alert(m.getMaintenanceDescription());
-				Window.alert(m.getMaintenanceProblemDescription());
-				Window.alert(m.getMaintenanceMaterials());
-				Window.alert(m.getMaintenanceNotes());
-				Window.alert(m.getMaintenanceCompleteDate().toString());
-				Window.alert(m.getMaintenanceDevice());
-				Window.alert(m.getMaintenanceState());
-				//Window.alert(Integer.toString(m.getMaintenanceInterval()));
-				Window.alert(m.getMaintenanceAssignedTo());
 				deviceTreeService.updateMaintenanceEntry(m, m.getMaintenanceKey(), updateMaintenanceEntryCallback);
 				editPopup.hide();
 			}
@@ -175,6 +166,6 @@ public class DeviceEditPanel extends VerticalPanel {
 		editPanel.add(editNotes);
 		editPanel.add(editButton);
 		editPopup.add(editPanel);
-		editPopup.show();
+		editPopup.center();
 	}
 }

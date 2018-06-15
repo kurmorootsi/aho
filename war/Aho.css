@@ -811,8 +811,16 @@ h1 {
 	color: #006BA7;
 	font-size: 20px;
 }
-
-
+.maintenanceEditPopup {
+	background-color: #FFFFFF;
+	padding: 30px;
+	border-style: solid;
+	border-color: #006BA7;
+}
+.maintenanceEditPopupLabel {
+	text-align: center;
+	padding-bottom: 15px;
+}
 
 @media screen and (max-width: 1000px) {
 .headerBackground {
