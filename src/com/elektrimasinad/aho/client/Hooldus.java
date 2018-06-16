@@ -335,7 +335,7 @@ public class Hooldus implements EntryPoint {
 		String a = "diagnostika size: " + Integer.toString(DIAGNOSTIKA.size());
 //		Debug.log(a);
 		tablePanel = new VerticalPanel();
-		tablePanel.setStyleName("aho-panel1 table2");
+		tablePanel.setStyleName("aho-panel1 table2 d");
 		tablePanel.setWidth("100%");
 		Label lLabel = new Label("Diagnostika ja monitooring");
 		lLabel.setStyleName("backSaveLabel noPointer");
@@ -411,7 +411,7 @@ public class Hooldus implements EntryPoint {
 						if (deviceKey.equals(mDeviceKey)) {
 							String st = raportDataList.get(y).getDeviceName();
 							plan.setDevice(st);
-							Debug.log("seade määratud");
+							Debug.log("seade mï¿½ï¿½ratud");
 								for (int z = 0; z < raportDataList.size(); z++) {
 									String deviceID = devices.get(y).getId();
 									String mDeviceID = raportDataList.get(z).getDeviceID();
