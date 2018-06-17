@@ -3,6 +3,7 @@ package com.elektrimasinad.aho.client;
 import java.util.Date;
 import java.util.List;
 
+import com.elektrimasinad.aho.shared.Company;
 import com.elektrimasinad.aho.shared.Device;
 
 import com.elektrimasinad.aho.shared.Device;
@@ -20,6 +21,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -39,9 +41,27 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	//private Device device;
 	private List<MaintenanceItem> itemsToEdit;
 	private AsyncCallback<List<MaintenanceItem>> getMaintenanceItemsCallback;
+	private AsyncCallback<Company> getCompanyCallback;
+	private Company selectedCompany;
+	private Storage sessionStore;
 	public DeviceMaintenancePanel() {
 		super();
 		
+		getCompanyCallback = new AsyncCallback<Company>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(Company arg0) {
+				// TODO Auto-generated method stub
+				selectedCompany = arg0;
+			}
+			
+		};
 		getMaintenanceItemsCallback = new AsyncCallback<List<MaintenanceItem>>() {
 
 			@Override
@@ -61,6 +81,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	public void createNewDeviceMaintenancePanel(Device device) {
 		super.clear();
 		DeviceTreeServiceAsync deviceTreeService = DeviceCard.getDevicetreeservice();
+		deviceTreeService.getCompany(sessionStore.getItem("Account"), getCompanyCallback);
 		HorizontalPanel headerPanel = AhoWidgets.createContentHeader("Seadme " + device.getDeviceName() + " hooldustöö");
 		add(headerPanel);
 		
@@ -321,7 +342,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		    		  } else {
 		    			 m.setMaintenanceInterval(0);
 		    		  }
-		    		  deviceTreeService.storeMaintenanceEntry(m, null);
+		    		  deviceTreeService.storeMaintenanceEntry(m, selectedCompany.getCompanyKey(), null);
 			    	  Window.alert("Teie teenus on sisestatud!");
 		    	  } else {
 		    		  Window.alert("Probleem");
