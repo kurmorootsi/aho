@@ -333,7 +333,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		add(ProblemPanel);
 	    
 		//teostatud t�� paneel
-		HorizontalPanel DonePanel = AhoWidgets.createContentHeader("Teostatud töö kokkuv�te");
+		HorizontalPanel DonePanel = AhoWidgets.createContentHeader("Teostatud töö kokkuv\u00F5te");
 		add(DonePanel);
 		DonePanel.setVisible(false);
 		

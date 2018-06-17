@@ -195,7 +195,7 @@ h1 {
 
 .backSaveLabel.noPointer {
 	display: block;
-	margin-left: 20px;	
+	/*margin-left: 20px;*/
 }
 
 .dateLabel {
@@ -206,15 +206,15 @@ h1 {
 
 .dateLabel.o {
 	background-color: orange;
-	top: 80px;
-	left: 55%;
+	top: 78px;
+	left: 52%;
 	float: left;
 }
 
 .dateLabel.g {
-	background-color: green;
+	background-color: #2eb82e;
 	right: 70px;
-	top: 60px;
+	top: 59px;
 }
 
 
@@ -510,7 +510,7 @@ h1 {
 	overflow: visible; 
 	position: fixed; 
 	left: 596px; 
-	top: 419px;
+	top: 724px;
 	position: fixed;
 	border: 2px solid #4CAF50; 
 }
@@ -838,6 +838,11 @@ h1 {
 	width: 20%;
 }
 
+
+.aho-navigationPanel {
+	width: 1000px;
+}
+
 .aho-measurementHeaderPanel {
 	box-shadow: 5px 8.66px 10px 0px rgba(0, 0, 0, 0.078);
 	margin-top: 2px;
@@ -858,8 +863,21 @@ h1 {
 }
 .backSaveLabel {
 	margin-top: 16px;
-	font-size: 58px;
+	font-size: 43px;
 	width: 55%;
+}
+
+.dateLabel.o {
+	top: 150px;
+}
+
+.dateLabel.g {
+	right: 90px;
+	top: 130px;
+}
+
+.dateLabel {
+	top: 110px;
 }
 .aho-label1 {
 	font-size: 46px;
