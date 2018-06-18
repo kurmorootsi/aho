@@ -1,5 +1,7 @@
 package com.elektrimasinad.aho.client;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 import com.elektrimasinad.aho.shared.Company;
@@ -8,11 +10,14 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class CompanyPanel extends VerticalPanel {
 	private TextBox companyName;
+	private TextBox accountName;
+	private TextBox accountPassword;
 	private String companyOld;
 	
 	
@@ -32,10 +37,14 @@ public class CompanyPanel extends VerticalPanel {
 		
 		//Content
 		companyName = AhoWidgets.createTextbox("aho-textbox1 large", "");
+		accountName = AhoWidgets.createTextbox("aho-textbox1 large", "");
+		accountPassword = AhoWidgets.createTextbox("aho-textbox1 large", "");
 		HorizontalPanel companyNamePanel = new HorizontalPanel();
 		companyNamePanel.setStyleName("aho-panel1");
 		companyNamePanel.add(AhoWidgets.createLabel("Ettev\u00F5te", "aho-label1", null));
 		companyNamePanel.add(companyName);
+		companyNamePanel.add(accountName);
+		companyNamePanel.add(accountPassword);
 		companyNamePanel.setCellHorizontalAlignment(companyName, HasHorizontalAlignment.ALIGN_RIGHT);
 		add(companyNamePanel);
 		
@@ -53,7 +62,7 @@ public class CompanyPanel extends VerticalPanel {
 		createNewCompanyPanel();
 	}
 	
-	public void saveCompany(List<Company> companyList, AsyncCallback<String> storeCompanyCallback) {
+	public void saveCompany(List<Company> companyList, AsyncCallback<String> storeCompanyCallback) throws IllegalArgumentException {
 		
 		//TODO save company to datastore and remove companyList logic from this method (reload companies from datastore)
 		if (companyName.getText().trim().isEmpty()) {
@@ -69,7 +78,7 @@ public class CompanyPanel extends VerticalPanel {
 		}
 		if (companyOld == "") {
 			Company company = new Company(companyName.getText());
-			DeviceCard.getDevicetreeservice().storeCompany(company, storeCompanyCallback);
+			DeviceCard.getDevicetreeservice().storeCompany(company, accountName.getValue(), accountPassword.getValue(), storeCompanyCallback);
 		} else {
 			for (Company company: companyList) {
 				if (company.getCompanyName() == companyOld) {

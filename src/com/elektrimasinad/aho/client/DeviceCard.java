@@ -47,7 +47,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class DeviceCard implements EntryPoint {
 	
-	private static final DeviceTreeServiceAsync deviceTreeService = GWT.create(DeviceTreeService.class);
+	private static DeviceTreeServiceAsync deviceTreeService = GWT.create(DeviceTreeService.class);
 	private AsyncCallback<List<Company>> getCompanyListCallback;
 	private AsyncCallback<List<Unit>> getUnitListCallback;
 	private AsyncCallback<List<Device>> getDeviceListCallback;
@@ -56,6 +56,7 @@ public class DeviceCard implements EntryPoint {
 	private AsyncCallback<String> storeDeviceCallback;
 	private AsyncCallback<Measurement> getLastMeasurementCallback;
 	private AsyncCallback<String> storeMeasurementCallback;
+	private AsyncCallback<Company> getCompanyCallback;
 	
 	private int MAIN_WIDTH /*= 900*/;
 	private int CONTENT_WIDTH = 800;
@@ -87,11 +88,33 @@ public class DeviceCard implements EntryPoint {
 	protected List<Measurement> measurements;
 	private boolean isDevMode;
 	private boolean isMobileView;
-	private Storage accountStorage;
+	private Storage sessionStore;
+	private String accountKey = null;
 	
 	@Override
 	public void onModuleLoad() {
-		accountStorage = Storage.getSessionStorageIfSupported();
+		sessionStore = Storage.getSessionStorageIfSupported();
+		accountKey = sessionStore.getItem("Account");
+		if ( accountKey == null) {
+			Window.Location.assign("/Login.html");
+		}
+		getCompanyCallback = new AsyncCallback<Company>() {
+			
+			@Override
+			public void onFailure(Throwable arg0) {
+				// TODO Auto-generated method stub
+				Window.alert("failed");
+			}
+
+			@Override
+			public void onSuccess(Company arg0) {
+				// TODO Auto-generated method stub
+				selectedCompany = arg0;
+				init();
+				updateWidgetSizes();
+			}
+			
+		};
 		if (Window.Location.getHref().contains("127.0.0.1")) isDevMode = true;
 		else isDevMode = false;
 		if (Window.getClientWidth() < 1000) {
@@ -164,8 +187,8 @@ public class DeviceCard implements EntryPoint {
 			
 			@Override
 			public void onSuccess(String name) {
-				System.out.println(name);
-				fetchCompanies();
+				//System.out.println(name);
+				//fetchCompanies();
 			}
 			
 			@Override
@@ -254,8 +277,6 @@ public class DeviceCard implements EntryPoint {
 			}
 			
 		};
-		
-		
 		RootPanel root = RootPanel.get();
 		root.setStyleName("mainBackground2");
 		
@@ -290,9 +311,7 @@ public class DeviceCard implements EntryPoint {
 		RootPanel rootPanel = RootPanel.get();
 		rootPanel.setStyleName("mainBackground2");
 		rootPanel.add(mainPanel);
-		
-		init();
-		updateWidgetSizes();
+		deviceTreeService.getCompany(sessionStore.getItem("Account"), getCompanyCallback);
 	}
 	
 	private void updateWidgetSizes() {
@@ -309,8 +328,8 @@ public class DeviceCard implements EntryPoint {
 
 	private void init() {
 		//generateDemoData();
-		fetchCompanies();
-		contentPanel.add(companyListPanel);
+		//fetchCompanies();
+		fetchUnits();
 		contentPanel.add(unitListPanel);
 		contentPanel.add(deviceListPanel);
 		contentPanel.add(newCompanyPanel);
@@ -333,11 +352,11 @@ public class DeviceCard implements EntryPoint {
 	}
 	
 	private void fetchCompanies() {
-		deviceTreeService.getCompanies(getCompanyListCallback);
+		//deviceTreeService.getCompanies(getCompanyListCallback);
 	}
 	
 	private void fetchUnits() {
-		deviceTreeService.getUnits(selectedCompany.getCompanyKey(), getUnitListCallback);
+		deviceTreeService.getUnits(sessionStore.getItem("Account"), getUnitListCallback);
 	}
 	
 	private void fetchDevices() {
@@ -714,11 +733,16 @@ public class DeviceCard implements EntryPoint {
 		
 		Label lSave = new Label("Salvesta");
 		lSave.setStyleName("backSaveLabel wide");
-		lSave.addClickHandler(new ClickHandler() {
+		lSave.addClickHandler(new ClickHandler() {	
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				newCompanyPanel.saveCompany(companyList, storeCompanyCallback);
+				try {
+					newCompanyPanel.saveCompany(companyList, storeCompanyCallback);
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
 			
@@ -855,9 +879,9 @@ public class DeviceCard implements EntryPoint {
 			}	
 		});
 		
-		HorizontalPanel buttonTime = AhoWidgets.createContentHeader("Seadme " + selectedDevice.getDeviceName() + " hooldustÃ¶Ã¶d");
+		HorizontalPanel buttonTime = AhoWidgets.createContentHeader("Seadme " + selectedDevice.getDeviceName() + " hooldustööd");
 		buttonTime.setWidth("100%");
-		Label admin1 = new Label("Lisa hooldustÃ¶Ã¶");
+		Label admin1 = new Label("Lisa hooldustöö");
 		Button admin = new Button("", new ClickHandler() {
 			  @Override
 			  public void onClick(ClickEvent event) {

@@ -1,5 +1,6 @@
 package com.elektrimasinad.aho.client;
 
+
 import java.util.Date;
 import java.util.List;
 import com.elektrimasinad.aho.shared.Company;
@@ -16,7 +17,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface DeviceTreeServiceAsync {
 	
-	void storeCompany(Company company, AsyncCallback<String> callback) throws IllegalArgumentException;
+	void storeCompany(Company company, String username, String password, AsyncCallback<String> callback) throws IllegalArgumentException;
 	void getCompanies(AsyncCallback<List<Company>> callback) throws IllegalArgumentException;
 	void updateCompany(Company updatedCompany, AsyncCallback<String> updateCompanyCallback) throws IllegalArgumentException;
 	void deleteCompany(String companyKeyString, AsyncCallback<String> removeCompanyCallback) throws IllegalArgumentException;
@@ -48,9 +49,10 @@ public interface DeviceTreeServiceAsync {
 	
 	void storeLogEntry(String action, String user, AsyncCallback<String> callback);
 	
-	void storeMaintenanceEntry(MaintenanceItem m, AsyncCallback<String> callback);
+	void storeMaintenanceEntry(MaintenanceItem m, String companyKey, AsyncCallback<String> callback);
 	void getMaintenanceEntries(AsyncCallback<List<MaintenanceItem>> callback);
 	void getMaintenanceEntry(String maintenanceString, AsyncCallback<MaintenanceItem> callback);
 	void updateMaintenanceEntry(MaintenanceItem mNew, String maintenanceKeyString, AsyncCallback<String> callback);
 	void getMaintenanceEntriesFromKey(String maintenanceString, AsyncCallback<List<MaintenanceItem>> callback);
+	void getCompany(String companyName, AsyncCallback<Company> callback);
 }

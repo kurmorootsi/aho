@@ -18,7 +18,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("deviceTree")
 public interface DeviceTreeService extends RemoteService {
 	
-	String storeCompany(Company company) throws IllegalArgumentException;
+	String storeCompany(Company company, String username, String password) throws IllegalArgumentException;
 	List<Company> getCompanies() throws IllegalArgumentException;
 	String updateCompany(Company updatedCompany) throws IllegalArgumentException;
 	String deleteCompany(String companyKeyString) throws IllegalArgumentException;
@@ -50,9 +50,10 @@ public interface DeviceTreeService extends RemoteService {
 	
 	String storeLogEntry(String action, String user);
 	
-	String storeMaintenanceEntry(MaintenanceItem m);
+	String storeMaintenanceEntry(MaintenanceItem m, String companyKey);
 	List<MaintenanceItem> getMaintenanceEntries() throws IllegalArgumentException;
 	MaintenanceItem getMaintenanceEntry(String maintenanceString);
 	String updateMaintenanceEntry(MaintenanceItem mNew, String maintenanceKeyString);
 	List<MaintenanceItem> getMaintenanceEntriesFromKey(String maintenanceString) throws IllegalArgumentException;
+	Company getCompany(String companyName);
 }

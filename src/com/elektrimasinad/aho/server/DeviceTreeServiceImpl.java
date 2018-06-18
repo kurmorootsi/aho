@@ -1,9 +1,16 @@
 package com.elektrimasinad.aho.server;
 
+import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 
 import com.elektrimasinad.aho.client.DeviceTreeService;
 import com.elektrimasinad.aho.shared.Company;
@@ -33,6 +40,24 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class DeviceTreeServiceImpl extends RemoteServiceServlet implements DeviceTreeService {
 	private DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 	private String userCompanyName = "Elektrimasinad";
+	private static final Random RANDOM = new SecureRandom();
+	private static final int ITERATIONS = 1000;
+	private static final int KEY_LENGTH = 192;
+	
+	private String hashPassword(String passwordToHash, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		char[] passwordChar = passwordToHash.toCharArray();
+		byte[] saltBytes = salt;
+		
+		PBEKeySpec spec = new PBEKeySpec(
+				passwordChar,
+				saltBytes,
+				ITERATIONS,
+				KEY_LENGTH
+				);
+		SecretKeyFactory key = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+		byte[] hashedPassword = key.generateSecret(spec).getEncoded();
+		return String.format("%x", new BigInteger(hashedPassword));
+	}
 	
 	@Override
 	public String storeLogEntry(String action, String user) {
@@ -48,11 +73,11 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 	}
 	
 	@Override
-	public String storeMaintenanceEntry(MaintenanceItem m) {
+	public String storeMaintenanceEntry(MaintenanceItem m, String companyString) {
 		Key maintenanceKey = KeyFactory.createKey("MaintenanceEntry", m.getMaintenanceName());
+		System.out.println(KeyFactory.keyToString(maintenanceKey));
 		Entity e = new Entity("MaintenanceEntry", maintenanceKey);
 		
-		e.setProperty("KeyString", KeyFactory.keyToString(maintenanceKey));
 		e.setProperty("Device", m.getMaintenanceDevice());
 		e.setProperty("Name", m.getMaintenanceName());
 		e.setProperty("Description", m.getMaintenanceDescription());
@@ -66,7 +91,7 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		if(interval > 0 ) {
 			e.setProperty("Interval", interval);
 		}
-		
+		e.setProperty("KeyString", KeyFactory.keyToString(e.getKey()));
 		ds.put(e);
 		return "Task stored";
 	}
@@ -139,8 +164,8 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		return m;
 	}
 	@Override
-	public String updateMaintenanceEntry(MaintenanceItem mNew, String oldName) {
-		Key maintenanceKey = KeyFactory.createKey("MaintenanceEntry", mNew.getMaintenanceName());
+	public String updateMaintenanceEntry(MaintenanceItem mNew, String key) {
+		Key maintenanceKey = KeyFactory.stringToKey(key);
 		Entity e;
 		try {
 			e = ds.get(maintenanceKey);
@@ -165,7 +190,7 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		return "Task updated";
 	}
 	@Override
-	public String storeCompany(Company company) throws IllegalArgumentException {
+	public String storeCompany(Company company, String username, String password) throws IllegalArgumentException {
 		//Check if company with specified name already exists
 		List<Company> companyList = getCompanies();
 		for (Company c : companyList) {
@@ -173,21 +198,50 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 				return "Company already exists!"; //TODO exception instead?
 			}
 		}
-		
+		System.out.println("new company");
+		String saltString = "Elektrimasinad";
+		byte[] salt = saltString.getBytes();
+		System.out.println("salt generated");
 		//Create new company if company does not already exist
-		Key userCompanyKey = KeyFactory.createKey("Companies", userCompanyName);
-		
+		Key userCompanyKey = KeyFactory.createKey("Company", userCompanyName);
+		System.out.println("company key: " + KeyFactory.keyToString(userCompanyKey));
 		Entity e = new Entity("Company", userCompanyKey);
 		e.setProperty("Name", company.getCompanyName());
-		
-		ds.put(e);
-		
-		return "Company stored: " + company.getCompanyName();
+		System.out.println("Name: " + e.getProperty("Name"));
+		e.setProperty("Username", username);
+		System.out.println("Username: " + e.getProperty("Username"));
+		try {
+			e.setProperty("Password", hashPassword(password, salt));
+			System.out.println("Password stored: " + e.getProperty("Password"));
+			ds.put(e);
+			System.out.println("ds.put done");
+			return "Company stored: " + company.getCompanyName();
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return "dun goofed";
+		}
 	}
-
+	@Override
+	public Company getCompany(String companyKey) {
+		Key userCompanyKey = KeyFactory.stringToKey(companyKey);
+		System.out.println(userCompanyKey);
+		Entity e;
+		Company c = new Company();
+		try {
+			e = ds.get(userCompanyKey);
+			c.setCompanyKey(KeyFactory.keyToString(userCompanyKey));
+			c.setCompanyName(e.getProperty("Name").toString());
+			return c;
+		} catch (EntityNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return null;
+	}
 	@Override
 	public List<Company> getCompanies() throws IllegalArgumentException {
-		Key userCompanyKey = KeyFactory.createKey("Companies", userCompanyName);
+		Key userCompanyKey = KeyFactory.createKey("Company", userCompanyName);
 		
 		List<Company> companyList = new ArrayList<Company>();
 		Query query = new Query("Company", userCompanyKey).setAncestor(userCompanyKey).addSort("Name", Query.SortDirection.ASCENDING);
