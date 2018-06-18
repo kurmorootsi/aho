@@ -12,15 +12,19 @@ import com.elektrimasinad.aho.shared.Unit;
 import com.elektrimasinad.aho.shared.DiagnostikaItem;
 import com.elektrimasinad.aho.shared.MaintenanceItem;
 import com.elektrimasinad.aho.shared.PlannerItem;
+import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -335,12 +339,11 @@ public class Hooldus implements EntryPoint {
 		String a = "diagnostika size: " + Integer.toString(DIAGNOSTIKA.size());
 //		Debug.log(a);
 		tablePanel = new VerticalPanel();
-		tablePanel.setStyleName("aho-panel1 table2 d");
+		tablePanel.setStyleName("aho-panel1 table2");
 		tablePanel.setWidth("100%");
 		Label lLabel = new Label("Diagnostika ja monitooring");
 		lLabel.setStyleName("backSaveLabel noPointer");
 		CellTable<DiagnostikaItem> table = new CellTable<DiagnostikaItem>();
-
 	    // Add a text column to show the name.
 	    TextColumn<DiagnostikaItem> nameColumn = new TextColumn<DiagnostikaItem>() {
 	      @Override
@@ -359,7 +362,7 @@ public class Hooldus implements EntryPoint {
 	    };
 	    table.addColumn(addressColumn, "Ãœksus");
 	    
-	 // Add a text column to show the address.
+	 // Add a text column to show the ID.
 	    TextColumn<DiagnostikaItem> idColumn = new TextColumn<DiagnostikaItem>() {
 	      @Override
 	      public String getValue(DiagnostikaItem object) {
@@ -368,7 +371,7 @@ public class Hooldus implements EntryPoint {
 	    };
 	    table.addColumn(idColumn, "ID.nr");
 	    
-	    // Add a text column to show the address.
+	    // Add a text column to show the device name.
 	    TextColumn<DiagnostikaItem> seadeColumn = new TextColumn<DiagnostikaItem>() {
 	      @Override
 	      public String getValue(DiagnostikaItem object) {
@@ -377,7 +380,7 @@ public class Hooldus implements EntryPoint {
 	    };
 	    table.addColumn(seadeColumn, "Seade");
 	    
-	    // Add a text column to show the address.
+	    // Add a text column to show the comment.
 	    TextColumn<DiagnostikaItem> kommentaarColumn = new TextColumn<DiagnostikaItem>() {
 	      @Override
 	      public String getValue(DiagnostikaItem object) {
@@ -385,11 +388,36 @@ public class Hooldus implements EntryPoint {
 	      }
 	    };
 	    table.addColumn(kommentaarColumn, "Kommentaar");
+	    
+	    Column<Measurement, SafeHtml> markingAColumn = new Column<Measurement, SafeHtml>(new SafeHtmlCell()) {
 
+			@Override
+			public SafeHtml getValue(Measurement measurement) {
+				return measurement.getMarking().equals("alarm") ? SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("a", 24).toString()): null;
+			}
+	    	
+	    };
+	    Column<Measurement, SafeHtml> markingHColumn = new Column<Measurement, SafeHtml>(new SafeHtmlCell()) {
+
+			@Override
+			public SafeHtml getValue(Measurement measurement) {
+				return measurement.getMarking().equals("hoiatus") ? SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("h", 24).toString()): null;
+			}
+	    	
+	    };
+	    Column<Measurement, SafeHtml> markingOColumn = new Column<Measurement, SafeHtml>(new SafeHtmlCell()) {
+
+			@Override
+			public SafeHtml getValue(Measurement measurement) {
+				return measurement.getMarking().equals("ok") ? SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("o", 24).toString()): null;
+			}
+	    	
+	    };
+	    
 	    // Set the total row count. This isn't strictly necessary, but it affects
 	    // paging calculations, so its good habit to keep the row count up to date.
 	    table.setRowCount(DIAGNOSTIKA.size(), true);
-
+	    table.setWidth("710px", true);
 	    // Push the data into the widget.
 	    table.setRowData(0, DIAGNOSTIKA);
 	    tablePanel.add(lLabel);
@@ -411,7 +439,7 @@ public class Hooldus implements EntryPoint {
 						if (deviceKey.equals(mDeviceKey)) {
 							String st = raportDataList.get(y).getDeviceName();
 							plan.setDevice(st);
-							Debug.log("seade mï¿½ï¿½ratud");
+//							Debug.log("seade määratud");
 								for (int z = 0; z < raportDataList.size(); z++) {
 									String deviceID = devices.get(y).getId();
 									String mDeviceID = raportDataList.get(z).getDeviceID();
@@ -499,7 +527,14 @@ public class Hooldus implements EntryPoint {
 		};
 		table.addColumn(actionColumn, "Tegevus");
 		    
-		
+		table.setColumnWidth(0, "130px");
+		table.setWidth("710px", true);
+//		table.setColumnWidth(1, "100px");
+//		table.setColumnWidth(2, "130px");
+//		table.setColumnWidth(3, "130px");
+//		table.setColumnWidth(4, "130px");
+//		table.setColumnWidth(5, "130px");
+	    
 		table.setRowCount(PLANNER.size(), true);
 		table.setRowData(0, PLANNER);
 		table2Panel.add(doneLabel);
