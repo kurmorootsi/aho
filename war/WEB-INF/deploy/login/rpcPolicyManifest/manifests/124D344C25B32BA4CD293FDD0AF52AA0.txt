@@ -1,0 +1,2 @@
+serviceClass: com.elektrimasinad.aho.client.UserInfoService
+path: 0D7F208B6E833E766D0558897BD9BFB0.gwt.rpc

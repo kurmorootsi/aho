@@ -152,6 +152,7 @@ h1 {
    	height: 95px;
 }
 
+
 .loginBtn {
 	background-color: #000099;
     border-radius: 8px;
@@ -174,6 +175,10 @@ h1 {
 	background-color: #0000b3;
 }
 
+.loginBtn.b {
+	float: left;
+	margin-left: 30px;
+}
 .companyLabel {
 	font-family: 'Raleway';
     color: white;
@@ -352,15 +357,27 @@ h1 {
     cursor: pointer;
 }
 
+.backButton.cancel {
+	margin-left: 0px;
+}
+
+.backSaveLabel.cancel {
+	margin-right: 50px;
+}
 .backSaveLabel {
 	color: #006BA7;
 	font-size: 20px;
 	margin-top: 18px;
 	margin-bottom: 2px;
-	margin-right: 50px;
+	margin-right: 10px;
 	font-weight: 600;
 	cursor: pointer;
 	width: max-content;
+}
+
+.backSaveLabel.b {
+	margin-left: 20px;
+	margin-right: 10px;
 }
 .backSaveLabel.wide {
 }
@@ -481,13 +498,6 @@ h1 {
 	padding-top: 15px;
 	font-size: 20px;
 	font-weight: 600;
-}
-.maintainanceLink {
-	align-items: center;
-	height: 35px;
-	width: 35px;
-	margin-top: 10px;
-	margin-left: 20px;
 }
 .aho-label2.thin {
 	padding-left: 20px;
@@ -882,16 +892,86 @@ h1 {
 	padding-bottom: 15px;
 }
 
+.maintainanceLink.link{
+	border-radius: 50px;
+    align-items: center;
+    height: 35px;
+    width: 35px;
+    margin-top: 10px;
+    margin-left: 20px;
+    cursor: pointer;
+    border-color: #006BA7;
+    background-color: #0073e6;
+    color: white;
+    font-weight: 500;
+    font-size: 25px;
+    text-align: center;	
+}
+
+.maintainancelink.link:hover {
+	background-color: #1a8cff;
+}
+
+.maintenanceLink{
+	border-radius: 50px;
+    align-items: center;
+    height: 35px;
+    width: 35px;
+    margin-top: 10px;
+    margin-left: 20px;
+    cursor: pointer;
+    border-color: #006BA7;
+    background-color: #0073e6;
+    color: white;
+    font-weight: 500;
+    font-size: 25px;
+    text-align: center;	
+}
+
+.maintenanceLink:hover {
+	background-color: #1a8cff;
+}
+
+
 @media screen and (max-width: 1000px) {
 .headerBackground {
 	height: 90px;
 }
 
-.aho-headerImage {
-	height: 50%;
-	width: 20%;
+.panelBackground {
+	width: 148%;
+    height: 1955px;
 }
 
+.panelBackground.mobile{
+	width: 148% !important;
+    height: 1955px !important;
+}
+.aho-headerImage {
+	height: 48%;
+	width: auto;
+}
+
+.companyLabel {
+    font-size: 30px;
+    margin-top: 30px;
+}
+
+.loginBtn {
+	margin-right: 30px;
+    margin-top: 35px;
+    font-size: 20px;
+}
+
+.loginUser {
+	padding: 20px 80px;
+	font-size: 35px;
+}
+
+.loginPanel {
+	font-size: 50px;
+	margin-left: 20%;
+}
 
 .aho-navigationPanel {
 	width: 1000px;
@@ -914,13 +994,14 @@ h1 {
 }
 
 .backButton {
-	width: 64px;
+	/*width: 64px;*/
     height: 60px;
+    margin-left: 0px;
 }
 .backSaveLabel {
-	margin-top: 16px;
-	font-size: 43px;
-	width: 55%;
+	margin-top: 25px;
+    font-size: 25px;
+    width: 55%;
 }
 
 .dateLabel.o {
@@ -941,7 +1022,7 @@ h1 {
 }
 .aho-label2 {
 	padding-top: 20px;
-	font-size: 50px;
+	font-size: 35px;
 }
 .aho-panel1 {
 	box-shadow: 5px 8.66px 10px 0px rgba(0, 0, 0, 0.078);
@@ -971,8 +1052,12 @@ h1 {
 .aho-markingImg {
 	height: 92%;
 }
+
+.aho-listItem {
+	font-size: 40px;
+}
 .gwt-Tree {
-	zoom: 2.75 !important;
+	zoom: 2.3 !important;
 }
 }
 

@@ -882,17 +882,17 @@ public class DeviceCard implements EntryPoint {
 			}	
 		});
 		
-		HorizontalPanel buttonTime = AhoWidgets.createContentHeader("Seadme " + selectedDevice.getDeviceName() + " hooldustööd");
+		HorizontalPanel buttonTime = AhoWidgets.createContentHeader("Seadme " + selectedDevice.getDeviceName() + " hooldust\u00F6\u00F6d");
 		buttonTime.setWidth("100%");
-		Label admin1 = new Label("Lisa hooldustöö");
-		Button admin = new Button("", new ClickHandler() {
+		Label admin1 = new Label("Lisa hooldust\u00F6\u00F6");
+		Button admin = new Button("+", new ClickHandler() {
 			  @Override
 			  public void onClick(ClickEvent event) {
 				  Window.alert("heyo");
 				  createMaintenancePanelView();
 		      }
 		    });
-		admin.setStyleName("maintainanceLink");
+		admin.setStyleName("maintenanceLink");
 		admin1.setStyleName("aho-label2-maintLink");
 		RootPanel.get().add(admin);
 		buttonTime.add(admin1);
@@ -996,7 +996,8 @@ public class DeviceCard implements EntryPoint {
 			Button maintainanceLink = new Button();
 			Label lMaintainanceLink = new Label("Hooldustegevused");
 			lMaintainanceLink.setStyleName("aho-label2-maintLink");
-			maintainanceLink.setStyleName("maintainanceLink");
+			maintainanceLink.setStyleName("maintainanceLink link");
+			maintainanceLink.setText("+");
 			maintainanceLink.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
@@ -1017,7 +1018,7 @@ public class DeviceCard implements EntryPoint {
 		
 		//Cancel/save panel
 		final Label lCancel = new Label("T\u00FChista");
-		lCancel.setStyleName("backSaveLabel");
+		lCancel.setStyleName("backSaveLabel cancel");
 		lCancel.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -1028,7 +1029,7 @@ public class DeviceCard implements EntryPoint {
 			
 		});
 		Button lBackButton = new Button();
-		lBackButton.setStyleName("backButton");
+		lBackButton.setStyleName("backButton cancel");
 		lBackButton.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -1120,7 +1121,7 @@ public class DeviceCard implements EntryPoint {
 		
 		//Back/save/edit panel
 		final Label lCancel = new Label("T\u00FChista");
-		lCancel.setStyleName("backSaveLabel");
+		lCancel.setStyleName("backSaveLabel b");
 		lCancel.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -1181,7 +1182,7 @@ public class DeviceCard implements EntryPoint {
 		
 		//Back/save panel
 		final Label lBack = new Label("Tagasi");
-		lBack.setStyleName("backSaveLabel");
+		lBack.setStyleName("backSaveLabel b");
 		lBack.addClickHandler(new ClickHandler() {
 			
 			@Override

@@ -80,6 +80,7 @@ public class Index implements EntryPoint {
 					// TODO Auto-generated method stub
 					selectedCompany = arg0;
 					Label companyNameLabel = new Label(selectedCompany.getCompanyName());
+					companyNameLabel.setStyleName("companyLabel");
 					Button logoutButton = new Button("Logi v\u00E4lja", new ClickHandler() {
 
 						@Override

@@ -135,7 +135,12 @@ public class Login implements EntryPoint{
 		root.setStyleName("mainBackground2");
 		
 		mainPanel = new VerticalPanel();
-		mainPanel.setStyleName("panelBackground");
+		if (isMobileView) {
+			mainPanel.setStyleName("panelBackground mobile");
+		} else {
+			mainPanel.setStyleName("panelBackground");
+		}
+		
 		
 		Image headerImage = new Image("res/hes-symbol.jpg");
 		headerImage.setStyleName("aho-headerImage");

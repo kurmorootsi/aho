@@ -128,7 +128,7 @@ public class DeviceEditPanel extends VerticalPanel {
 		};
 		maintenanceTable.addColumn(nameCol, "Nimetus");
 		maintenanceTable.addColumn(dateCol, "Kuupaev");
-		maintenanceTable.addColumn(assignedEmployee, "Töötaja");
+		maintenanceTable.addColumn(assignedEmployee, "T\u00F6\u00F6taja");
 		maintenanceTable.setSelectionModel(tableSelModel);
 	}
 	public void showEditPanel(MaintenanceItem m) {
