@@ -39,8 +39,9 @@ Eesmärk ....
 
 ### Projekt teostatud TLU Informaatika õppekava Tarkvaraarenduse Praktika aine raames.
 
-### Kõik õigused kuuluvad TLÜ Digitehnoloogiate Instituudile.
-Copyright (c) 2017 Tallinna Ülikool, Digitehnoloogiate Instituut.
+## Litsents
+
+See projekt on MIT litsendi all - vaata [LITSENTS](https://github.com/kurmorootsi/aho....) täpsema info jaoks
 
 
 
