@@ -425,45 +425,7 @@ public class Hooldus implements EntryPoint {
 	    return tablePanel;
 	}
 	private VerticalPanel createNewPlannerTable() {
-		
-		for (int x = 0; x < maintenance.size(); x++) {
-			PlannerItem plan = new PlannerItem();
-			plan.setAction(maintenance.get(x).getMaintenanceName());
-			plan.setID(raports.get(x).getRaportID());
-			plan.setDates(maintenance.get(x).getMaintenanceCompleteDate().toString());
-				for (int y = 0; y < devices.size(); y++) {
-					String deviceKey = devices.get(y).getDeviceKey();
-					String mDeviceKey = maintenance.get(x).getMaintenanceDevice();
-//					Debug.log(x + " maintenance key: " + mDeviceKey);
-//					Debug.log(y + " device key: " + deviceKey);
-						if (deviceKey.equals(mDeviceKey)) {
-							String st = raportDataList.get(y).getDeviceName();
-							plan.setDevice(st);
-//							Debug.log("seade määratud");
-								for (int z = 0; z < raportDataList.size(); z++) {
-									String deviceID = devices.get(y).getId();
-									String mDeviceID = raportDataList.get(z).getDeviceID();
-//									Debug.log(y + " device id: " + deviceID);
-//									Debug.log(z + " measurements id: " + mDeviceID);
-										if (deviceID.equals(mDeviceID)) {
-											for (int r = 0; r < raports.size(); r++) {
-												String mRaportKey = raportDataList.get(z).getRaportKey();
-												String raportKey = raports.get(r).getRaportKey();
-//												Debug.log(z + " measurements raport key: " + mRaportKey);
-//												Debug.log(r + " real raport key: " + raportKey);
-													if (mRaportKey.equals(raportKey)) {
-														plan.setName(raports.get(r).getCompanyName());
-														plan.setAddress(raports.get(r).getUnitName());
-													}
-											}
-										}
-									}
-							}
-					}
-			PLANNER.add(plan);
-			}
-					
-		
+
 		table2Panel = new VerticalPanel();
 		table2Panel.setStyleName("aho-panel1 table center");
 		tablePanel.setWidth("100%");
@@ -477,7 +439,81 @@ public class Hooldus implements EntryPoint {
 		Label doLabel = new Label("Tulemas");
 		doLabel.setStyleName("dateLabel");
 		
+		
 		CellTable<PlannerItem> table = new CellTable<PlannerItem>();
+		
+		Column<PlannerItem, SafeHtml> markingAColumn = new Column<PlannerItem, SafeHtml>(new SafeHtmlCell()) {
+
+			@Override
+			public SafeHtml getValue(PlannerItem object) {
+				return object.getMarking().equals("alarm") ? SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("a", 24).toString()): null;
+			}
+	    	
+	    };
+	    Column<PlannerItem, SafeHtml> markingHColumn = new Column<PlannerItem, SafeHtml>(new SafeHtmlCell()) {
+
+			@Override
+			public SafeHtml getValue(PlannerItem object) {
+				return object.getMarking().equals("hoiatus") ? SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("h", 24).toString()): null;
+			}
+	    	
+	    };
+	    Column<PlannerItem, SafeHtml> markingOColumn = new Column<PlannerItem, SafeHtml>(new SafeHtmlCell()) {
+
+			@Override
+			public SafeHtml getValue(PlannerItem object) {
+				return object.getMarking().equals("ok") ? SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("o", 24).toString()): null;
+			}
+	    	
+	    };
+		for (int x = 0; x < maintenance.size(); x++) {
+			PlannerItem plan = new PlannerItem();
+			markingAColumn.setCellStyleNames("markingCell");
+		    markingHColumn.setCellStyleNames("markingCell");
+		    markingOColumn.setCellStyleNames("markingCell");
+		    table.addColumn(markingAColumn, SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("a", 24).toString()));
+		    table.addColumn(markingHColumn, SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("h", 24).toString()));
+		    table.addColumn(markingOColumn, SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("o", 24).toString()));
+			plan.setAction(maintenance.get(x).getMaintenanceName());
+			plan.setID(raports.get(x).getRaportID());
+			Debug.log("planner started");
+			plan.setDates(maintenance.get(x).getMaintenanceCompleteDate().toString());
+				for (int y = 0; y < devices.size(); y++) {
+					String deviceKey = devices.get(y).getDeviceKey();
+					String mDeviceKey = maintenance.get(x).getMaintenanceDevice();
+					Debug.log(x + " maintenance key: " + mDeviceKey);
+					Debug.log(y + " device key: " + deviceKey);
+						if (deviceKey.equals(mDeviceKey)) {
+							String st = raportDataList.get(y).getDeviceName();
+							plan.setDevice(st);
+							Debug.log("seade määratud");
+								for (int z = 0; z < raportDataList.size(); z++) {
+									String deviceID = devices.get(y).getId();
+									String mDeviceID = raportDataList.get(z).getDeviceID();
+									Debug.log(y + " device id: " + deviceID);
+									Debug.log(z + " measurements id: " + mDeviceID);
+										if (deviceID.equals(mDeviceID)) {
+											for (int r = 0; r < raports.size(); r++) {
+												String mRaportKey = raportDataList.get(z).getRaportKey();
+												String raportKey = raports.get(r).getRaportKey();
+												String mMarking = raportDataList.get(z).getMarking();
+												plan.setMarking(mMarking);
+												Debug.log(z + " measurements raport key: " + mRaportKey);
+												Debug.log(r + " real raport key: " + raportKey);
+													if (mRaportKey.equals(raportKey)) {
+														plan.setName(raports.get(r).getCompanyName());
+														plan.setAddress(raports.get(r).getUnitName());
+													}
+													
+											}
+										}
+									}
+							}
+					}
+			PLANNER.add(plan);
+			}
+					
+		
 		
 		TextColumn<PlannerItem> datesColumn = new TextColumn<PlannerItem>() {
 		   @Override
@@ -486,6 +522,8 @@ public class Hooldus implements EntryPoint {
 		   }
 		};
 		table.addColumn(datesColumn, "Kuup");
+		
+	    
 		
 		TextColumn<PlannerItem> nameColumn = new TextColumn<PlannerItem>() {
 			@Override
@@ -527,22 +565,31 @@ public class Hooldus implements EntryPoint {
 		};
 		table.addColumn(actionColumn, "Tegevus");
 		    
-		table.setColumnWidth(0, "130px");
-		table.setWidth("710px", true);
-//		table.setColumnWidth(1, "100px");
-//		table.setColumnWidth(2, "130px");
-//		table.setColumnWidth(3, "130px");
-//		table.setColumnWidth(4, "130px");
-//		table.setColumnWidth(5, "130px");
-	    
 		table.setRowCount(PLANNER.size(), true);
 		table.setRowData(0, PLANNER);
 		table2Panel.add(doneLabel);
 		table2Panel.add(todayLabel);
 		table2Panel.add(doLabel);
 		table2Panel.add(lLabel);
-		
+		AbsolutePanel markingPanel = new AbsolutePanel();
+	    markingPanel.setSize("100%", "50px");
+		markingPanel.add(AhoWidgets.getAHOImage("a", 14), 0, 5);
+		markingPanel.add(AhoWidgets.getAHOImage("h", 14), 0, 20);
+		markingPanel.add(AhoWidgets.getAHOImage("o", 14), 0, 35);
+	    Label markingA = new Label("Alarm. Oluline k\u00F5rvalekalle normist. Soovitatav tegevus");
+	    Label markingH = new Label("Hoiatus. T\u00E4heldatav k\u00F5rvalekalle normist. V\u00E4lja selgitada p\u00F5hjus v\u00F5i j\u00E4lgida arengut.");
+	    Label markingO = new Label("N\u00E4itajad normi piirides");
+	    markingA.setStyleName("smallTextLabel");
+	    markingH.setStyleName("smallTextLabel");
+	    markingO.setStyleName("smallTextLabel");
+	    markingPanel.add(markingA, 25, 5);
+	    markingPanel.add(markingH, 25, 20);
+	    markingPanel.add(markingO, 25, 35);
+	    table.setColumnWidth(0, "35px");
+	    table.setColumnWidth(1, "35px");
+	    table.setColumnWidth(2, "35px");
 		table2Panel.add(table);
+		table2Panel.add(markingPanel);
 		return table2Panel;
 	}
 
