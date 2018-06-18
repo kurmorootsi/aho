@@ -5,5 +5,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("userInfoService")
 public interface UserInfoService extends RemoteService{
-	String getAccountData(String accountName, String accountPassword);
+	String getAccountData(String accountName, String accountPassword, String companyName);
 }

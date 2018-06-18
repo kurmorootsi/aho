@@ -89,10 +89,15 @@ public class DeviceCard implements EntryPoint {
 	private boolean isDevMode;
 	private boolean isMobileView;
 	private Storage sessionStore;
+	private String accountKey = null;
 	
 	@Override
 	public void onModuleLoad() {
 		sessionStore = Storage.getSessionStorageIfSupported();
+		accountKey = sessionStore.getItem("Account");
+		if ( accountKey == null) {
+			Window.Location.assign("/Login.html");
+		}
 		getCompanyCallback = new AsyncCallback<Company>() {
 			
 			@Override

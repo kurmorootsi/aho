@@ -16,6 +16,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -49,104 +50,114 @@ public class Index implements EntryPoint {
 		accountKey = sessionStore.getItem("Account");
 		if ( accountKey == null) {
 			Window.Location.assign("/Login.html");
-		}
-		storeCompanyCallback = new AsyncCallback<String>() {
-			
-			@Override
-			public void onSuccess(String name) {
-				//System.out.println(name);
-				//fetchCompanies();
-				Window.alert("testentry stored");
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				
-			}
-			
-		};
-		deviceTreeService = GWT.create(DeviceTreeService.class);
-		HorizontalPanel navigationPanel = new HorizontalPanel();
-		getCompanyCallback = new AsyncCallback<Company>() {
-
-			@Override
-			public void onFailure(Throwable arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onSuccess(Company arg0) {
-				// TODO Auto-generated method stub
-				selectedCompany = arg0;
-				Label companyNameLabel = new Label(selectedCompany.getCompanyName());
-				navigationPanel.add(companyNameLabel);
-			}
-		};
-		Image headerImage = new Image("res/hes-symbol.jpg");
-		headerImage.setStyleName("aho-headerImage");
-		Company testCompany = new Company();
-		testCompany.setCompanyName("Elektrimasinad");
-		Window.alert(testCompany.getCompanyName());
-		deviceTreeService.storeCompany(testCompany, "Elektrimasinad", "test", storeCompanyCallback);
-		headerImage.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				if(isDevMode) Window.Location.assign(Window.Location.getHref().replace("index", "index"));
-				else Window.Location.assign("/Index.html");
-			}
-			
-		});
-		
-		navigationPanel.setStyleName("aho-navigationPanel");
-		navigationPanel.add(headerImage);
-		navigationPanel.setCellWidth(headerImage, "52px");
-		deviceTreeService.getCompany(sessionStore.getItem("Account"), getCompanyCallback);
-		//Label logoutLabel = new Label("Logi vï¿½lja");
-		
-		if (Window.Location.getHref().contains("127.0.0.1")) isDevMode = true;
-		else isDevMode = false;
-		if (Window.getClientWidth() < 1000) {
-			isMobileView = true;
 		} else {
-			isMobileView = false;
-		}
-		Window.addResizeHandler(new ResizeHandler() {
-
-		    @Override
-		    public void onResize(ResizeEvent event) {
-		    	if (Window.getClientWidth() < 1000) {
-					isMobileView = true;
-				} else {
-					isMobileView = false;
+			storeCompanyCallback = new AsyncCallback<String>() {
+				
+				@Override
+				public void onSuccess(String name) {
+					//System.out.println(name);
+					//fetchCompanies();
+					Window.alert("testentry stored");
 				}
-		    	updateWidgetSizes();
-		    }
-		});
+				
+				@Override
+				public void onFailure(Throwable caught) {
+					
+				}
+				
+			};
+			deviceTreeService = GWT.create(DeviceTreeService.class);
+			HorizontalPanel navigationPanel = new HorizontalPanel();
+			getCompanyCallback = new AsyncCallback<Company>() {
+
+				@Override
+				public void onFailure(Throwable arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onSuccess(Company arg0) {
+					// TODO Auto-generated method stub
+					selectedCompany = arg0;
+					Label companyNameLabel = new Label(selectedCompany.getCompanyName());
+					Button logoutButton = new Button("Logi välja", new ClickHandler() {
+
+						@Override
+						public void onClick(ClickEvent arg0) {
+							// TODO Auto-generated method stub
+							sessionStore.clear();
+							Window.Location.assign("/Login.html");
+						}
+						
+					});
+					
+					navigationPanel.add(companyNameLabel);
+					navigationPanel.add(logoutButton);
+				}
+			};
+			Image headerImage = new Image("res/hes-symbol.jpg");
+			headerImage.setStyleName("aho-headerImage");
+			headerImage.addClickHandler(new ClickHandler() {
+				
+				@Override
+				public void onClick(ClickEvent event) {
+					if(isDevMode) Window.Location.assign(Window.Location.getHref().replace("index", "index"));
+					else Window.Location.assign("/Index.html");
+				}
+				
+			});
+			
+			navigationPanel.setStyleName("aho-navigationPanel");
+			navigationPanel.add(headerImage);
+			navigationPanel.setCellWidth(headerImage, "52px");
+			deviceTreeService.getCompany(sessionStore.getItem("Account"), getCompanyCallback);
+			//Label logoutLabel = new Label("Logi vï¿½lja");
+			
+			if (Window.Location.getHref().contains("127.0.0.1")) isDevMode = true;
+			else isDevMode = false;
+			if (Window.getClientWidth() < 1000) {
+				isMobileView = true;
+			} else {
+				isMobileView = false;
+			}
+			Window.addResizeHandler(new ResizeHandler() {
+
+			    @Override
+			    public void onResize(ResizeEvent event) {
+			    	if (Window.getClientWidth() < 1000) {
+						isMobileView = true;
+					} else {
+						isMobileView = false;
+					}
+			    	updateWidgetSizes();
+			    }
+			});
+			
+			//userInfoService.getLogoutUrl(userIdCallback);
+			mainPanel = new VerticalPanel();
+			mainPanel.setStyleName("panelBackground");
+			
+			//navigationPanel.add(logoutLabel);
+			headerPanel = new AbsolutePanel();
+			headerPanel.setStyleName("headerBackground");
+			headerPanel.add(navigationPanel);
+			
+			mainPanel.add(headerPanel);
+			
+			contentPanel = new DeckPanel();
+			mainPanel.add(contentPanel);
+			
+			RootPanel rootPanel = RootPanel.get();
+			rootPanel.setStyleName("mainBackground2");
+			rootPanel.add(mainPanel);
+			
+			
+			init();
+			updateWidgetSizes();
+			//administratorLogin.createNewAdministratorLogin();
+		}
 		
-		//userInfoService.getLogoutUrl(userIdCallback);
-		mainPanel = new VerticalPanel();
-		mainPanel.setStyleName("panelBackground");
-		
-		//navigationPanel.add(logoutLabel);
-		headerPanel = new AbsolutePanel();
-		headerPanel.setStyleName("headerBackground");
-		headerPanel.add(navigationPanel);
-		
-		mainPanel.add(headerPanel);
-		
-		contentPanel = new DeckPanel();
-		mainPanel.add(contentPanel);
-		
-		RootPanel rootPanel = RootPanel.get();
-		rootPanel.setStyleName("mainBackground2");
-		rootPanel.add(mainPanel);
-		
-		
-		init();
-		updateWidgetSizes();
-		//administratorLogin.createNewAdministratorLogin();
 	}
 	
 	private void updateWidgetSizes() {

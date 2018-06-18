@@ -17,6 +17,7 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class UserInfoServiceImpl extends RemoteServiceServlet implements UserInfoService {
@@ -25,11 +26,13 @@ public class UserInfoServiceImpl extends RemoteServiceServlet implements UserInf
 	private static final int ITERATIONS = 1000;
 	private static final int KEY_LENGTH = 192;
 	
-	public String getAccountData(String accountName, String accountPassword) {
+	public String getAccountData(String accountName, String accountPassword, String companyName) {
 		Key companyKey = KeyFactory.stringToKey("ag5lbGVrdHJpbWFzaW5hZHIvCxIHQ29tcGFueSIORWxla3RyaW1hc2luYWQMCxIHQ29tcGFueRiAgICAgICACgw");
 		System.out.println(KeyFactory.keyToString(companyKey));
+		Query query = new Query("Company");
+		query.setFilter(FilterOperator.EQUAL.of("Name", companyName));
 		try {
-			Entity e = ds.get(companyKey);
+			Entity e = ds.prepare(query).asSingleEntity();
 			String salt = "Elektrimasinad";
 			System.out.println(salt);
 			byte[] saltArr = salt.getBytes();
@@ -41,17 +44,14 @@ public class UserInfoServiceImpl extends RemoteServiceServlet implements UserInf
 			System.out.println(dbPassword);
 			System.out.println(accountPassword);
 			if(accountName.equals(dbName) && accountPassword.equals(dbPassword)) {
-				return KeyFactory.keyToString(companyKey);
+				return KeyFactory.keyToString(e.getKey());
 			} else {
 				return "failed";
 			}
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException  e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
-		} catch (EntityNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		} 
 		return "failed";
 	}
 	private String hashPassword(String passwordToHash, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {

@@ -53,6 +53,13 @@ public class Login implements EntryPoint{
 	
 	@Override
 	public void onModuleLoad() {
+		String[] testNames = {"elektrimasinad", "mitte_elektrimasinad", "auruseadmed"};
+		for (int i = 0; i < 3; i++) {
+			Company testCompany = new Company();
+			testCompany.setCompanyName(testNames[i]);
+			deviceTreeService.storeCompany(testCompany, testCompany.getCompanyName(), "test", storeCompanyCallback);
+		}
+		
 		sessionStore = Storage.getSessionStorageIfSupported();
 		if (Window.Location.getHref().contains("127.0.0.1")) isDevMode = true;
 		else isDevMode = false;
@@ -216,6 +223,7 @@ public class Login implements EntryPoint{
 				
 				@Override
 				public void onClick(ClickEvent event) {
+					sessionStore.setItem("selectedCompany", company.getCompanyName());
 					createLoginPanel();
 				}
 				
@@ -232,11 +240,12 @@ public class Login implements EntryPoint{
 		VerticalPanel loginPanel = new VerticalPanel();
 		TextBox loginUser = new TextBox();
 		PasswordTextBox loginPass = new PasswordTextBox();
+		String companyName = sessionStore.getItem("selectedCompany");
 		Button loginButton = new Button("Logi sisse", new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				userInfoService.getAccountData(loginUser.getValue(), loginPass.getValue(), getAccountDataCallback);
+				userInfoService.getAccountData(loginUser.getValue(), loginPass.getValue(), companyName, getAccountDataCallback);
 			}
 			
 		});
