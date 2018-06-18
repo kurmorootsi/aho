@@ -1,9 +1,17 @@
 package com.elektrimasinad.aho.client;
 
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
 import com.elektrimasinad.aho.shared.Company;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.james.mime4j.field.datetime.DateTime;
+
 import com.elektrimasinad.aho.shared.Device;
 
 import com.elektrimasinad.aho.shared.Device;
@@ -15,6 +23,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
+import com.ibm.icu.text.MessagePattern.Part;
+import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.datastore.Query;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -44,6 +54,42 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	private AsyncCallback<Company> getCompanyCallback;
 	private Company selectedCompany;
 	private Storage sessionStore;
+	//getimage
+    
+    /*public String getImageUrl(HttpServletRequest req, HttpServletResponse resp, final String bucket) throws IOException, ServletException {
+    	Part filePart = req.getPart("file");
+    	final String fileName = filePart.getSubmittedFileName();
+    	String imageUrl = req.getParameter("imageUrl");
+    	// Check extension of file
+    	if (fileName != null && !fileName.isEmpty() && fileName.contains(".")) {
+    		final String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
+    		String[] allowedExt = { "jpg", "jpeg", "png", "gif" };
+    		for (String s : allowedExt) {
+    			if (extension.equals(s)) {
+    				return this.uploadFile(filePart, bucket);
+    			}
+    		}
+    		throw new ServletException("file must be an image");
+    	}
+    	return imageUrl;
+    }
+    
+    @SuppressWarnings("deprecation")
+    public String uploadFile(Part filePart, final String bucketName) throws IOException {
+      DateTimeFormatter dtf = DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS");
+      DateTime dt = DateTime.now(DateTimeZone.UTC);
+      String dtString = dt.toString(dtf);
+      final String fileName = filePart.getSubmittedFileName() + dtString;
+      BlobInfo blobInfo =
+          storage.create(
+              BlobInfo
+                  .newBuilder(bucketName, fileName)
+                  .setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER))))
+                  .build(),
+              filePart.getInputStream());
+      return blobInfo.getMediaLink();
+    }*/
+	
 	public DeviceMaintenancePanel() {
 		super();
 		
@@ -212,17 +258,15 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    RadioPanel6.setWidth("100%");
 	    RadioPanel6.setCellHorizontalAlignment(rb55, HasHorizontalAlignment.ALIGN_LEFT);
 	    RadioPanel6.setCellHorizontalAlignment(rb5, HasHorizontalAlignment.ALIGN_LEFT);
-	    //file add panel
+	    //camera open panel
 	    VerticalPanel FileUploadPanel = new VerticalPanel();
 	    FileUploadPanel.setWidth("100%");
-	    
 	    final FormPanel form = new FormPanel();
 	    form.setAction("/myFormHandler");
-
 	    form.setEncoding(FormPanel.ENCODING_MULTIPART);
 	    form.setMethod(FormPanel.METHOD_POST);
 
-	    VerticalPanel panel = new VerticalPanel();
+	    HorizontalPanel panel = new HorizontalPanel();
 	    form.setWidget(panel);
 
 	    Label tb99 = new Label("Pildi üleslaadur ");
@@ -233,15 +277,15 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 
 	    HorizontalPanel file = new HorizontalPanel();
 	    Label chooseFile = new Label("Vali fail: ");
+	   
+	    final Label label  = new Label("Pildi lisamine: ");
+	    label.setStyleName("aho-label1");
 	    FileUpload upload = new FileUpload();
-	    upload.setName("uploadFormElement");
-	    
-	    nameFile.setStyleName("aho-label1");
-	    chooseFile.setStyleName("aho-label1");
-	    tb9.setStyleName("aho-textbox1");
-		tb99.setStyleName("aho-label1");
-		FileUploadPanel.setCellHorizontalAlignment(upload, HasHorizontalAlignment.ALIGN_RIGHT);
-	    
+	    upload.getElement().setAttribute("type", "file");
+	    upload.getElement().setAttribute("accept", "image/*");
+	    upload.getElement().setAttribute("capture", "camera");
+	    panel.setCellHorizontalAlignment(upload, HasHorizontalAlignment.ALIGN_LEFT);
+
 		/*
 		//image upload servlet
 		Blob imageFor(String name, HttpServletResponse res) {
@@ -269,7 +313,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	      }
 	    });
 	    
-	    
+	    //vï¿½ljakutsumised
 		ProblemPanel.add(tb00);
 		NamePanel.add(tb00);
 		NamePanel.add(tb0);
@@ -305,13 +349,8 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		RadioPanel6.add(rb5);
 		ProblemPanel.add(FileUploadPanel);
 		FileUploadPanel.add(panel);
-		panel.add(tb99);
-		panel.add(description);
-		description.add(nameFile);
-		description.add(tb9);
-		panel.add(file);
-		file.add(chooseFile);
-		file.add(upload);
+		panel.add(label);
+	    panel.add(upload);
 		ProblemPanel.setCellHorizontalAlignment(panel, HasHorizontalAlignment.ALIGN_RIGHT);
 		ProblemPanel.setVisible(false);
 		
@@ -338,6 +377,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		    		  m.setMaintenanceCompleteDate(dateBox.getValue());
 		    		  m.setMaintenanceMaterials(ta.getValue());
 		    		  m.setMaintenanceNotes(note.getValue());
+		    		  //m.setMaintenanceImage(upload.getName());
 		    		  if(state.equals("periodic")) {
 		    			  m.setMaintenanceInterval(5);
 		    		  } else {

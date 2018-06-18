@@ -25,6 +25,7 @@ public class MaintenanceItem implements Serializable{
 	private Double cost;
 	private Integer downtime;
 	private Integer timeSpent;
+	private Integer upload;
 	
 	public MaintenanceItem() {
 		
@@ -71,6 +72,9 @@ public class MaintenanceItem implements Serializable{
 	public void setMaintenanceTimeSpent(Integer timeSpent) {
 		this.timeSpent = timeSpent;
 	}
+	/*public void setMaintenanceImage(Integer(Integer.toString(this.upload)) {
+		this.upload = upload;
+	}*/
 	public String getMaintenanceName() {
 		return this.name;
 	}
@@ -113,6 +117,9 @@ public class MaintenanceItem implements Serializable{
 	public Integer getMaintenanceTimeSpent() {
 		return this.timeSpent;
 	}
+	/*public Integer getMaintenanceImage() {
+		return this.upload;
+	}*/
 	public HorizontalPanel getAllInserts() {
 		HorizontalPanel data = new HorizontalPanel();
 		Label Data1 = new Label(this.name);
