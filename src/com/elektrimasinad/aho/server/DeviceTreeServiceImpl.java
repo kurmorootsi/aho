@@ -97,9 +97,8 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 	}
 	@Override
 	public List<MaintenanceItem> getMaintenanceEntries() throws IllegalArgumentException {
-		Key userCompanyKey = KeyFactory.createKey("Companies", userCompanyName);
 		List<MaintenanceItem> maintenanceItems = new ArrayList<MaintenanceItem>();
-		Query query = new Query("MaintenanceEntry").setAncestor(userCompanyKey);
+		Query query = new Query("MaintenanceEntry");
 		for(Entity e : ds.prepare(query).asIterable()) {
 			MaintenanceItem m = new MaintenanceItem();
 			m.setMaintenanceDevice(e.getProperty("Device").toString());
