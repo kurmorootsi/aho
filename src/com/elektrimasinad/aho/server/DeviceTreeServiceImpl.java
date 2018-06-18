@@ -77,7 +77,6 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		Query query = new Query("MaintenanceEntry").setAncestor(userCompanyKey);
 		for(Entity e : ds.prepare(query).asIterable()) {
 			MaintenanceItem m = new MaintenanceItem();
-			m.setMaintenanceKey(e.getProperty("KeyString").toString());
 			m.setMaintenanceDevice(e.getProperty("Device").toString());
 			m.setMaintenanceName(e.getProperty("Name").toString());
 			m.setMaintenanceDescription(e.getProperty("Description").toString());
