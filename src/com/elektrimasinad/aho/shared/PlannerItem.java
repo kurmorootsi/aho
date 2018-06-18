@@ -5,6 +5,7 @@ public class PlannerItem {
 	    private String address;
 	    private String name;
 	    private String id;
+	    private String marking;
 	    private String seade;
 	    private String tegevus;
 
@@ -55,6 +56,14 @@ public class PlannerItem {
 		}
 	    public String getAction() {
 	    	return this.tegevus;
+		}
+	    
+		public String getMarking() {
+			return marking;
+		}
+
+		public void setMarking(String marking) {
+			this.marking = marking;
 		}
 	  
 }
