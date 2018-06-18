@@ -48,6 +48,10 @@
     <servlet-name>deviceTreeServlet</servlet-name>
     <url-pattern>/login/deviceTree</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>deviceTreeServlet</servlet-name>
+    <url-pattern>/index/deviceTree</url-pattern>
+  </servlet-mapping>
 
   <servlet>
   	<servlet-name>userInfoServlet</servlet-name>
