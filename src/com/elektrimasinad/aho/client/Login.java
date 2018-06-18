@@ -50,6 +50,7 @@ public class Login implements EntryPoint{
 	private boolean isMobileView;
 	private String accountKey;
 	private Storage sessionStore;
+	private Label userLabel;
 	
 	@Override
 	public void onModuleLoad() {
@@ -238,8 +239,17 @@ public class Login implements EntryPoint{
 	private void createLoginPanel() {
 		contentPanel.clear();
 		VerticalPanel loginPanel = new VerticalPanel();
+		loginPanel.setStyleName("loginPanel");
+		Label userLabel = new Label();
+		userLabel.setStyleName("userLabel");
+		userLabel.setText("Ettev\u00F5te");
 		TextBox loginUser = new TextBox();
+		loginUser.setStyleName("loginUser");
+		Label pwsLabel = new Label();
+		pwsLabel.setStyleName("userLabel");
+		pwsLabel.setText("Parool");
 		PasswordTextBox loginPass = new PasswordTextBox();
+		loginPass.setStyleName("loginUser");
 		String companyName = sessionStore.getItem("selectedCompany");
 		Button loginButton = new Button("Logi sisse", new ClickHandler() {
 
@@ -249,7 +259,10 @@ public class Login implements EntryPoint{
 			}
 			
 		});
+		loginButton.setStyleName("loginBtn");
+		loginPanel.add(userLabel);
 		loginPanel.add(loginUser);
+		loginPanel.add(pwsLabel);
 		loginPanel.add(loginPass);
 		loginPanel.add(loginButton);
 		contentPanel.add(loginPanel);
