@@ -91,7 +91,7 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		if(interval > 0 ) {
 			e.setProperty("Interval", interval);
 		}
-		e.setProperty("KeyString", KeyFactory.keyToString(e.getKey()));
+		//e.setProperty("KeyString", KeyFactory.keyToString(e.getKey()));
 		ds.put(e);
 		return "Task stored";
 	}
@@ -123,7 +123,7 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		query.setFilter(FilterOperator.EQUAL.of("Device", maintenanceString));
 		for(Entity e : ds.prepare(query).asIterable()) {
 			MaintenanceItem m = new MaintenanceItem();
-			m.setMaintenanceKey(e.getProperty("KeyString").toString());
+			//m.setMaintenanceKey(e.getProperty("KeyString").toString());
 			m.setMaintenanceDevice(e.getProperty("Device").toString());
 			m.setMaintenanceName(e.getProperty("Name").toString());
 			m.setMaintenanceDescription(e.getProperty("Description").toString());
@@ -145,7 +145,7 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		Entity e;
 		try {
 			e = ds.get(maintenanceKey);
-			m.setMaintenanceKey(e.getProperty("KeyString").toString());
+			//m.setMaintenanceKey(e.getProperty("KeyString").toString());
 			m.setMaintenanceDevice(e.getProperty("Device").toString());
 			m.setMaintenanceName(e.getProperty("Name").toString());
 			m.setMaintenanceDescription(e.getProperty("Description").toString());
@@ -168,7 +168,7 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		Entity e;
 		try {
 			e = ds.get(maintenanceKey);
-			e.setProperty("KeyString", mNew.getMaintenanceKey());
+			//e.setProperty("KeyString", mNew.getMaintenanceKey());
 			e.setProperty("Device", mNew.getMaintenanceDevice());
 			e.setProperty("Name", mNew.getMaintenanceName());
 			e.setProperty("Description", mNew.getMaintenanceDescription());

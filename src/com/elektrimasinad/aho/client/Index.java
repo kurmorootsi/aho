@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Index implements EntryPoint {
 	
-	private DeviceTreeServiceAsync deviceTreeService;
+	private static DeviceTreeServiceAsync deviceTreeService = DeviceCard.getDevicetreeservice();
 	private AsyncCallback<String> storeCompanyCallback;
 	private boolean isDevMode;
 	private boolean isMobileView;
@@ -66,7 +66,6 @@ public class Index implements EntryPoint {
 				}
 				
 			};
-			deviceTreeService = GWT.create(DeviceTreeService.class);
 			HorizontalPanel navigationPanel = new HorizontalPanel();
 			getCompanyCallback = new AsyncCallback<Company>() {
 
@@ -233,5 +232,8 @@ public class Index implements EntryPoint {
 		navPanel.add(raportsImage);
 		navPanel.add(measurementImage);
 		
+	}
+	public static DeviceTreeServiceAsync getDeviceTreeService() {
+		return deviceTreeService;
 	}
 }

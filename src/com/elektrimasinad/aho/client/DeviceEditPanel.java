@@ -40,7 +40,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 
 public class DeviceEditPanel extends VerticalPanel {
-	private DeviceMaintenancePanel deviceMaintenancePanel = new DeviceMaintenancePanel();
+	//private DeviceMaintenancePanel deviceMaintenancePanel = new DeviceMaintenancePanel();
 	private String selectedDevice;
 	private List<MaintenanceItem> maintenanceList;
 	private MaintenanceItem maintenanceItem = new MaintenanceItem();
@@ -155,7 +155,7 @@ public class DeviceEditPanel extends VerticalPanel {
 				m.setMaintenanceAssignedTo();
 				m.setMaintenanceCompleteDate(m.getMaintenanceCompleteDate());
 				m.setMaintenanceDevice(m.getMaintenanceDevice());
-				deviceTreeService.updateMaintenanceEntry(m, m.getMaintenanceKey(), updateMaintenanceEntryCallback);
+				//deviceTreeService.updateMaintenanceEntry(m, m.getMaintenanceKey(), updateMaintenanceEntryCallback);
 				editPopup.hide();
 			}
 		});

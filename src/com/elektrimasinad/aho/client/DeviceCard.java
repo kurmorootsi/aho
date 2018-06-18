@@ -819,13 +819,14 @@ public class DeviceCard implements EntryPoint {
 		
 		contentPanel.showWidget(contentPanel.getWidgetIndex(newUnitPanel));
 		
-		return newUnitPanel ;
+		return newUnitPanel;
 	}
 	
 	public void createMaintenancePanelView() {
+		Window.alert("cmpv start");
 		deviceMaintenancePanel.clear();
+		Window.alert("starting cndmp on device " + selectedDevice.getDeviceName());
 		deviceMaintenancePanel.createNewDeviceMaintenancePanel(selectedDevice);
-		
 		HorizontalPanel maintHeader = new HorizontalPanel();
 		final Label lBack = new Label("T\u00FChista");
 		lBack.setStyleName("backSaveLabel");
@@ -838,6 +839,7 @@ public class DeviceCard implements EntryPoint {
 			}
 			
 		});
+		Window.alert("cmpv block1");
 		Button lBackButton = new Button();
 		lBackButton.setStyleName("backButton");
 		lBackButton.addClickHandler(new ClickHandler() {
@@ -847,11 +849,12 @@ public class DeviceCard implements EntryPoint {
 				lBack.fireEvent(event);
 			}	
 		});
-		
+		Window.alert("cmpv block2");
 		maintHeader.add(lBack);
 		maintHeader.add(lBackButton);
 		deviceMaintenancePanel.insert(maintHeader, 0);
 		contentPanel.showWidget(contentPanel.getWidgetIndex(deviceMaintenancePanel));
+		Window.alert("cmpv block3");
 	}
 	
 	public void createDeviceEditPanelView() {
@@ -885,6 +888,7 @@ public class DeviceCard implements EntryPoint {
 		Button admin = new Button("", new ClickHandler() {
 			  @Override
 			  public void onClick(ClickEvent event) {
+				  Window.alert("heyo");
 				  createMaintenancePanelView();
 		      }
 		    });
