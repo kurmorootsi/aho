@@ -41,7 +41,7 @@ Eesmärk ....
 
 ## Litsents
 
-See projekt on MIT litsendi all - vaata [LITSENTS](https://github.com/kurmorootsi/aho....) täpsema info jaoks
+See projekt on MIT litsendi all - vaata [LITSENTS](https://github.com/kurmorootsi/aho/blob/master/LICENSE.md) täpsema info jaoks
 
 
 
