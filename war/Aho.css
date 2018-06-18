@@ -856,7 +856,9 @@ h1 {
 }
 .backSavePanel {
 	height: 100px;
+	margin-left: -50px;
 }
+
 .backButton {
 	width: 64px;
     height: 60px;
@@ -890,7 +892,7 @@ h1 {
 .aho-panel1 {
 	box-shadow: 5px 8.66px 10px 0px rgba(0, 0, 0, 0.078);
 	margin-top: 4px;
-	margin-bottom: 4px;
+	/*margin-bottom: 4px;*/
 	height: 98px;
 	width: 100%;
 }

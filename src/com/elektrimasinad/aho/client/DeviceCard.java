@@ -57,7 +57,7 @@ public class DeviceCard implements EntryPoint {
 	private AsyncCallback<Measurement> getLastMeasurementCallback;
 	private AsyncCallback<String> storeMeasurementCallback;
 	
-	private int MAIN_WIDTH = 900;
+	private int MAIN_WIDTH /*= 900*/;
 	private int CONTENT_WIDTH = 800;
 	private List<Company> companyList = new ArrayList<Company>();
 	private List<Unit> unitList = new ArrayList<Unit>();

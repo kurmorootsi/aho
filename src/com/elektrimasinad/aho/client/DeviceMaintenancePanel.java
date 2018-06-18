@@ -247,7 +247,8 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	        Window.alert(event.getResults());
 	      }
 	    });
-	    //v�ljakutsumised
+	    
+	    
 		ProblemPanel.add(tb00);
 		NamePanel.add(tb00);
 		NamePanel.add(tb0);
@@ -332,7 +333,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		add(ProblemSignPanel);
 		add(ProblemPanel);
 	    
-		//teostatud t�� paneel
+		//teostatud t66 paneel
 		HorizontalPanel DonePanel = AhoWidgets.createContentHeader("Teostatud töö kokkuv\u00F5te");
 		add(DonePanel);
 		DonePanel.setVisible(false);
