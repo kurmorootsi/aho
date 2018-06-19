@@ -25,7 +25,7 @@ public class MaintenanceItem implements Serializable{
 	private Double cost;
 	private Integer downtime;
 	private Integer timeSpent;
-	private Integer upload;
+	private byte[] upload;
 	
 	public MaintenanceItem() {
 		
@@ -69,9 +69,9 @@ public class MaintenanceItem implements Serializable{
 	public void setMaintenanceTimeSpent(Integer timeSpent) {
 		this.timeSpent = timeSpent;
 	}
-	/*public void setMaintenanceImage(Integer(Integer.toString(this.upload)) {
+	public void setMaintenanceImage(byte[] upload) {
 		this.upload = upload;
-	}*/
+	}
 	public String getMaintenanceName() {
 		return this.name;
 	}

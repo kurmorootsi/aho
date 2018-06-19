@@ -1,5 +1,9 @@
 function hooldus(){
+<<<<<<< Updated upstream
   var $intern_0 = 'bootstrap', $intern_1 = 'begin', $intern_2 = 'gwt.codesvr.hooldus=', $intern_3 = 'gwt.codesvr=', $intern_4 = 'hooldus', $intern_5 = 'startup', $intern_6 = 'DUMMY', $intern_7 = 0, $intern_8 = 1, $intern_9 = 'iframe', $intern_10 = 'javascript:""', $intern_11 = 'position:absolute; width:0; height:0; border:none; left: -1000px;', $intern_12 = ' top: -1000px;', $intern_13 = 'CSS1Compat', $intern_14 = '<!doctype html>', $intern_15 = '', $intern_16 = '<html><head><\/head><body><\/body><\/html>', $intern_17 = 'undefined', $intern_18 = 'readystatechange', $intern_19 = 10, $intern_20 = 'script', $intern_21 = 'javascript', $intern_22 = 'Failed to load ', $intern_23 = 'moduleStartup', $intern_24 = 'scriptTagAdded', $intern_25 = 'moduleRequested', $intern_26 = 'meta', $intern_27 = 'name', $intern_28 = 'hooldus::', $intern_29 = '::', $intern_30 = 'gwt:property', $intern_31 = 'content', $intern_32 = '=', $intern_33 = 'gwt:onPropertyErrorFn', $intern_34 = 'Bad handler "', $intern_35 = '" for "gwt:onPropertyErrorFn"', $intern_36 = 'gwt:onLoadErrorFn', $intern_37 = '" for "gwt:onLoadErrorFn"', $intern_38 = '#', $intern_39 = '?', $intern_40 = '/', $intern_41 = 'img', $intern_42 = 'clear.cache.gif', $intern_43 = 'baseUrl', $intern_44 = 'hooldus.nocache.js', $intern_45 = 'base', $intern_46 = '//', $intern_47 = 'user.agent', $intern_48 = 'webkit', $intern_49 = 'safari', $intern_50 = 'msie', $intern_51 = 11, $intern_52 = 'ie10', $intern_53 = 9, $intern_54 = 'ie9', $intern_55 = 8, $intern_56 = 'ie8', $intern_57 = 'gecko', $intern_58 = 'gecko1_8', $intern_59 = 2, $intern_60 = 3, $intern_61 = 4, $intern_62 = 'selectingPermutation', $intern_63 = 'hooldus.devmode.js', $intern_64 = '1F05C16A7EE96BBBF3DC2B2948F82766', $intern_65 = '627F5FDEE0A1F0362DC7347BA48D53B6', $intern_66 = 'A58487FED87F5EFFDECBEA960BDF6980', $intern_67 = 'DCE7CF4F1390FCA6794B8047569F7E63', $intern_68 = 'F4B427BBB981A85DD4DDAFD81AD38165', $intern_69 = ':', $intern_70 = '.cache.js', $intern_71 = 'loadExternalRefs', $intern_72 = 'end', $intern_73 = 'http:', $intern_74 = 'file:', $intern_75 = '_gwt_dummy_', $intern_76 = '__gwtDevModeHook:hooldus', $intern_77 = 'Ignoring non-whitelisted Dev Mode URL: ', $intern_78 = ':moduleBase', $intern_79 = 'head';
+=======
+  var $intern_0 = 'bootstrap', $intern_1 = 'begin', $intern_2 = 'gwt.codesvr.hooldus=', $intern_3 = 'gwt.codesvr=', $intern_4 = 'hooldus', $intern_5 = 'startup', $intern_6 = 'DUMMY', $intern_7 = 0, $intern_8 = 1, $intern_9 = 'iframe', $intern_10 = 'javascript:""', $intern_11 = 'position:absolute; width:0; height:0; border:none; left: -1000px;', $intern_12 = ' top: -1000px;', $intern_13 = 'CSS1Compat', $intern_14 = '<!doctype html>', $intern_15 = '', $intern_16 = '<html><head><\/head><body><\/body><\/html>', $intern_17 = 'undefined', $intern_18 = 'readystatechange', $intern_19 = 10, $intern_20 = 'script', $intern_21 = 'javascript', $intern_22 = 'Failed to load ', $intern_23 = 'moduleStartup', $intern_24 = 'scriptTagAdded', $intern_25 = 'moduleRequested', $intern_26 = 'meta', $intern_27 = 'name', $intern_28 = 'hooldus::', $intern_29 = '::', $intern_30 = 'gwt:property', $intern_31 = 'content', $intern_32 = '=', $intern_33 = 'gwt:onPropertyErrorFn', $intern_34 = 'Bad handler "', $intern_35 = '" for "gwt:onPropertyErrorFn"', $intern_36 = 'gwt:onLoadErrorFn', $intern_37 = '" for "gwt:onLoadErrorFn"', $intern_38 = '#', $intern_39 = '?', $intern_40 = '/', $intern_41 = 'img', $intern_42 = 'clear.cache.gif', $intern_43 = 'baseUrl', $intern_44 = 'hooldus.nocache.js', $intern_45 = 'base', $intern_46 = '//', $intern_47 = 'user.agent', $intern_48 = 'webkit', $intern_49 = 'safari', $intern_50 = 'msie', $intern_51 = 11, $intern_52 = 'ie10', $intern_53 = 9, $intern_54 = 'ie9', $intern_55 = 8, $intern_56 = 'ie8', $intern_57 = 'gecko', $intern_58 = 'gecko1_8', $intern_59 = 2, $intern_60 = 3, $intern_61 = 4, $intern_62 = 'selectingPermutation', $intern_63 = 'hooldus.devmode.js', $intern_64 = '1BF80FAAE423C2C1B3F663E5C8315E0B', $intern_65 = '2CBD8044B003405C38B45C20C79F72C4', $intern_66 = '877BC547A7E5120149AB0F097187A0A3', $intern_67 = '9014A283BB3D5FD7180D191BADA757D5', $intern_68 = 'CF722AD0F7D9502F5EADBE4FBB5FF7F8', $intern_69 = ':', $intern_70 = '.cache.js', $intern_71 = 'loadExternalRefs', $intern_72 = 'end', $intern_73 = 'http:', $intern_74 = 'file:', $intern_75 = '_gwt_dummy_', $intern_76 = '__gwtDevModeHook:hooldus', $intern_77 = 'Ignoring non-whitelisted Dev Mode URL: ', $intern_78 = ':moduleBase', $intern_79 = 'head';
+>>>>>>> Stashed changes
   var $wnd = window;
   var $doc = document;
   sendStats($intern_0, $intern_1);
@@ -376,11 +380,19 @@ function hooldus(){
     }
     var strongName;
     try {
+<<<<<<< Updated upstream
       unflattenKeylistIntoAnswers([$intern_52], $intern_64);
       unflattenKeylistIntoAnswers([$intern_58], $intern_65);
       unflattenKeylistIntoAnswers([$intern_49], $intern_66);
       unflattenKeylistIntoAnswers([$intern_56], $intern_67);
       unflattenKeylistIntoAnswers([$intern_54], $intern_68);
+=======
+      unflattenKeylistIntoAnswers([$intern_54], $intern_64);
+      unflattenKeylistIntoAnswers([$intern_52], $intern_65);
+      unflattenKeylistIntoAnswers([$intern_56], $intern_66);
+      unflattenKeylistIntoAnswers([$intern_58], $intern_67);
+      unflattenKeylistIntoAnswers([$intern_49], $intern_68);
+>>>>>>> Stashed changes
       strongName = answers[computePropValue($intern_47)];
       var idx = strongName.indexOf($intern_69);
       if (idx != -1) {

@@ -92,6 +92,7 @@ public class DeviceEditPanel extends VerticalPanel {
 			public void onSuccess(String arg0) {
 				// TODO Auto-generated method stub
 				Window.alert("success");
+				Window.Location.reload();
 			}
 			
 		};
@@ -156,7 +157,6 @@ public class DeviceEditPanel extends VerticalPanel {
 				m.setMaintenanceAssignedTo();
 				m.setMaintenanceCompleteDate(m.getMaintenanceCompleteDate());
 				m.setMaintenanceDevice(m.getMaintenanceDevice());
-				m.setMaintenanceInterval(intervalBox.getValue());
 				deviceTreeService.updateMaintenanceEntry(m, updateMaintenanceEntryCallback);
 				editPopup.hide();
 			}
@@ -166,7 +166,6 @@ public class DeviceEditPanel extends VerticalPanel {
 		editPanel.add(editProblemDesc);
 		editPanel.add(editMaterials);
 		editPanel.add(editNotes);
-		editPanel.add(intervalBox);
 		editPanel.add(editButton);
 		editPopup.add(editPanel);
 		editPopup.center();
