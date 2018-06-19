@@ -535,10 +535,6 @@ public class Hooldus implements EntryPoint {
 		table.setRowCount(PLANNER.size(), true);
 		table.setRowData(0, PLANNER);
 		table.setColumnWidth(0, "80px");
-		table2Panel.add(doneLabel);
-		table2Panel.add(todayLabel);
-		table2Panel.add(doLabel);
-		table2Panel.add(lLabel);
 		/*AbsolutePanel markingPanel = new AbsolutePanel();
 	    markingPanel.setSize("100%", "50px");
 		markingPanel.add(AhoWidgets.getAHOImage("a", 14), 0, 5);
@@ -556,6 +552,7 @@ public class Hooldus implements EntryPoint {
 	    table.setColumnWidth(0, "35px");
 	    table.setColumnWidth(1, "35px");
 	    table.setColumnWidth(2, "35px");*/
+		table2Panel.add(lLabel);
 		table2Panel.add(table);
 		//table2Panel.add(markingPanel);
 		return table2Panel;

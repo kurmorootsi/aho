@@ -94,4 +94,7 @@
         <property name="RaportKey" direction="asc"/>
         <property name="DeviceID" direction="asc"/>
     </datastore-index>
+    <datastore-index kind="Measurement" ancestor="true" source="manual">
+        <property name="Date" direction="desc"/>
+    </datastore-index>
 </datastore-indexes>

@@ -89,7 +89,8 @@ public class Admin implements EntryPoint{
 			@Override
 			public void onSuccess(String arg0) {
 				// TODO Auto-generated method stub
-				
+				sessionStore.setItem("hasAdminLogon", arg0);
+				Window.Location.reload();
 			}
 			
 		};
@@ -152,6 +153,21 @@ public class Admin implements EntryPoint{
 			@Override
 			public void onFailure(Throwable caught) {
 				System.err.println(caught);
+			}
+			
+		};
+		createAdminAccountCallback = new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(String arg0) {
+				// TODO Auto-generated method stub
+				Window.alert(arg0);
 			}
 			
 		};

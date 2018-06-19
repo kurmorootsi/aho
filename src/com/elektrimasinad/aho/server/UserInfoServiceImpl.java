@@ -94,7 +94,8 @@ public class UserInfoServiceImpl extends RemoteServiceServlet implements UserInf
 		Query query = new Query("Admins");
 		query.setFilter(FilterOperator.EQUAL.of("Username", username));
 		Iterable<Entity> nameCheck = ds.prepare(query).asIterable();
-		if(nameCheck.iterator().hasNext() == true) {
+		if(nameCheck.iterator().hasNext() == false) {
+			System.out.println("writing user data");
 			Entity e = new Entity("Admins");
 			String salt = "ElektrimasinadAdmins";
 			byte[] saltArr = salt.getBytes();
@@ -102,6 +103,7 @@ public class UserInfoServiceImpl extends RemoteServiceServlet implements UserInf
 				String hashedPassword = hashPassword(password, saltArr);
 				e.setProperty("Username", username);
 				e.setProperty("Password", hashedPassword);
+				ds.put(e);
 				return "account stored";
 			} catch (NoSuchAlgorithmException | InvalidKeySpecException e1) {
 				// TODO Auto-generated catch block
