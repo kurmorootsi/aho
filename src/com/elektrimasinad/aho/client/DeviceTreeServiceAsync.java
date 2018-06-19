@@ -52,7 +52,7 @@ public interface DeviceTreeServiceAsync {
 	void storeMaintenanceEntry(MaintenanceItem m, String companyKey, AsyncCallback<String> callback);
 	void getMaintenanceEntries(AsyncCallback<List<MaintenanceItem>> callback);
 	void getMaintenanceEntry(String maintenanceString, AsyncCallback<MaintenanceItem> callback);
-	void updateMaintenanceEntry(MaintenanceItem mNew, String maintenanceKeyString, AsyncCallback<String> callback);
+	void updateMaintenanceEntry(MaintenanceItem mNew, AsyncCallback<String> callback);
 	void getMaintenanceEntriesFromKey(String maintenanceString, AsyncCallback<List<MaintenanceItem>> callback);
 	void getCompany(String companyName, AsyncCallback<Company> callback);
 }

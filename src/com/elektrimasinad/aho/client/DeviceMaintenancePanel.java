@@ -110,7 +110,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 			public void onSuccess(Company arg0) {
 				// TODO Auto-generated method stub
 				selectedCompany = arg0;
-				Window.alert(selectedCompany.getCompanyName());
 			}
 			
 		};
@@ -129,11 +128,9 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 			}
 			
 		};
-		Window.alert(sessionStore.getItem("selectedCompany"));
 		deviceTreeService.getCompany(sessionStore.getItem("Account"), getCompanyCallback);
 		HorizontalPanel headerPanel = AhoWidgets.createContentHeader("Seadme " + device.getDeviceName() + " hooldust\u00F6\u00F6");
 		add(headerPanel);
-		Window.alert("block1");
 		VerticalPanel RadioPanel = new VerticalPanel();
 		RadioPanel.setStyleName("aho-panel1");
 		HorizontalPanel RadioPanel1 = new HorizontalPanel();
@@ -170,7 +167,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    RadioPanel.add(RadioPanel2);
 	    RadioPanel.add(RadioPanel3);
 	    add(RadioPanel);
-	    Window.alert("block2");
 	    HorizontalPanel ProblemSignPanel = AhoWidgets.createContentHeader("Perioodiline v\u00F5i plaaniline hooldustegevus");
 	    add(ProblemSignPanel);
 		ProblemSignPanel.setVisible(false);
@@ -268,7 +264,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    form.setAction("/myFormHandler");
 	    form.setEncoding(FormPanel.ENCODING_MULTIPART);
 	    form.setMethod(FormPanel.METHOD_POST);
-	    Window.alert("block3");
 	    HorizontalPanel panel = new HorizontalPanel();
 	    form.setWidget(panel);
 
@@ -315,7 +310,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	        Window.alert(event.getResults());
 	      }
 	    });
-	    Window.alert("block4");
 	    //v�ljakutsumised
 		ProblemPanel.add(tb00);
 		NamePanel.add(tb00);
@@ -356,7 +350,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    panel.add(upload);
 		ProblemPanel.setCellHorizontalAlignment(panel, HasHorizontalAlignment.ALIGN_RIGHT);
 		ProblemPanel.setVisible(false);
-		Window.alert("block5");
 		Button b = new Button("Sisesta teenus!", new ClickHandler() {
 		      public void onClick(ClickEvent event) {
 		    	  String state;
@@ -397,7 +390,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		ProblemPanel.add(b);
 		add(ProblemSignPanel);
 		add(ProblemPanel);
-		Window.alert("block6");
 		//teostatud t66 paneel
 		HorizontalPanel DonePanel = AhoWidgets.createContentHeader("Teostatud t\u00F6\u00F6 kokkuv\u00F5te");
 		add(DonePanel);
@@ -442,7 +434,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		});
 		WorkPanel.add(w);
 		
-		Window.alert("block7");
 		ClickHandler ch1=new ClickHandler() {
 	        public void onClick(ClickEvent event) {
 		    	  DonePanel.setVisible(true);
@@ -465,7 +456,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    rb1.addClickHandler(ch);
 	    
 	    add(WorkPanel);
-	    Window.alert("block8");
 	}
 	/*public getData() {
 		return key;

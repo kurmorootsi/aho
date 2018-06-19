@@ -155,6 +155,7 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 			m.setMaintenanceCompleteDate((Date) e.getProperty("CompleteDate"));
 			m.setMaintenanceMaterials(e.getProperty("Materials").toString());
 			m.setMaintenanceNotes(e.getProperty("Notes").toString());
+			m.setMaintenanceInterval(Integer.valueOf(e.getProperty("Interval").toString()));
 		} catch (EntityNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -163,29 +164,33 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		return m;
 	}
 	@Override
-	public String updateMaintenanceEntry(MaintenanceItem mNew, String key) {
-		Key maintenanceKey = KeyFactory.stringToKey(key);
+	public String updateMaintenanceEntry(MaintenanceItem mNew) {
 		Entity e;
-		try {
-			e = ds.get(maintenanceKey);
-			//e.setProperty("KeyString", mNew.getMaintenanceKey());
-			e.setProperty("Device", mNew.getMaintenanceDevice());
-			e.setProperty("Name", mNew.getMaintenanceName());
-			e.setProperty("Description", mNew.getMaintenanceDescription());
-			e.setProperty("ProblemDescription", mNew.getMaintenanceProblemDescription());
-			e.setProperty("State", mNew.getMaintenanceState());
-			e.setProperty("AssignedTo", mNew.getMaintenanceAssignedTo());
-			e.setProperty("CompleteDate", mNew.getMaintenanceCompleteDate());
-			e.setProperty("Materials", mNew.getMaintenanceMaterials());
-			e.setProperty("Notes", mNew.getMaintenanceNotes());
-			Integer interval = mNew.getMaintenanceInterval();
-			if(interval > 0 ) {
-				e.setProperty("Interval", interval);
-			}
-			ds.put(e);
-		} catch (EntityNotFoundException e1) {
-			e1.printStackTrace();
-		}
+		Query query = new Query("MaintenanceEntry");
+		query.setFilter(FilterOperator.EQUAL.of("Name", mNew.getMaintenanceName()));
+		e = ds.prepare(query).asSingleEntity();
+		//e.setProperty("KeyString", mNew.getMaintenanceKey());
+		System.out.println(e.getProperty("Name"));
+		System.out.println(mNew.getMaintenanceDevice());
+		System.out.println(mNew.getMaintenanceDescription());
+		System.out.println(mNew.getMaintenanceProblemDescription());
+		System.out.println(mNew.getMaintenanceState());
+		System.out.println(mNew.getMaintenanceAssignedTo());
+		System.out.println(mNew.getMaintenanceCompleteDate());
+		System.out.println(mNew.getMaintenanceMaterials());
+		System.out.println(mNew.getMaintenanceNotes());
+		System.out.println(mNew.getMaintenanceInterval());
+		e.setProperty("Device", mNew.getMaintenanceDevice());
+		e.setProperty("Description", mNew.getMaintenanceDescription());
+		e.setProperty("ProblemDescription", mNew.getMaintenanceProblemDescription());
+		e.setProperty("State", mNew.getMaintenanceState());
+		e.setProperty("AssignedTo", mNew.getMaintenanceAssignedTo());
+		e.setProperty("CompleteDate", mNew.getMaintenanceCompleteDate());
+		e.setProperty("Materials", mNew.getMaintenanceMaterials());
+		e.setProperty("Notes", mNew.getMaintenanceNotes());
+		Integer interval = mNew.getMaintenanceInterval();
+		e.setProperty("Interval", interval);
+		ds.put(e);
 		return "Task updated";
 	}
 	@Override

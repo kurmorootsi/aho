@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -145,6 +146,9 @@ public class DeviceEditPanel extends VerticalPanel {
 		editMaterials.setValue(m.getMaintenanceMaterials());
 		TextArea editNotes = new TextArea();
 		editNotes.setValue(m.getMaintenanceNotes());
+		IntegerBox intervalBox = new IntegerBox();
+		Window.alert(m.getMaintenanceIntervalString());
+		intervalBox.setValue(m.getMaintenanceInterval());
 		Button editButton = new Button("Muuda", new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				m.setMaintenanceName(m.getMaintenanceName());
@@ -155,7 +159,8 @@ public class DeviceEditPanel extends VerticalPanel {
 				m.setMaintenanceAssignedTo();
 				m.setMaintenanceCompleteDate(m.getMaintenanceCompleteDate());
 				m.setMaintenanceDevice(m.getMaintenanceDevice());
-				//deviceTreeService.updateMaintenanceEntry(m, m.getMaintenanceKey(), updateMaintenanceEntryCallback);
+				m.setMaintenanceInterval(intervalBox.getValue());
+				deviceTreeService.updateMaintenanceEntry(m, updateMaintenanceEntryCallback);
 				editPopup.hide();
 			}
 		});
@@ -164,6 +169,7 @@ public class DeviceEditPanel extends VerticalPanel {
 		editPanel.add(editProblemDesc);
 		editPanel.add(editMaterials);
 		editPanel.add(editNotes);
+		editPanel.add(intervalBox);
 		editPanel.add(editButton);
 		editPopup.add(editPanel);
 		editPopup.center();

@@ -53,7 +53,7 @@ public interface DeviceTreeService extends RemoteService {
 	String storeMaintenanceEntry(MaintenanceItem m, String companyKey);
 	List<MaintenanceItem> getMaintenanceEntries() throws IllegalArgumentException;
 	MaintenanceItem getMaintenanceEntry(String maintenanceString);
-	String updateMaintenanceEntry(MaintenanceItem mNew, String maintenanceKeyString);
+	String updateMaintenanceEntry(MaintenanceItem mNew);
 	List<MaintenanceItem> getMaintenanceEntriesFromKey(String maintenanceString) throws IllegalArgumentException;
 	Company getCompany(String companyName);
 }
