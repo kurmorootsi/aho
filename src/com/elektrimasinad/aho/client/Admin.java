@@ -313,7 +313,7 @@ public class Admin implements EntryPoint{
 		loginPanel.setStyleName("loginPanel");
 		Label userLabel = new Label();
 		userLabel.setStyleName("userLabel");
-		userLabel.setText("Ettev\u00F5te");
+		userLabel.setText("Kasutajanimi");
 		TextBox loginUser = new TextBox();
 		loginUser.setStyleName("loginUser");
 		Label pwsLabel = new Label();

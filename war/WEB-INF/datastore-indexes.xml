@@ -1,3 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <datastore-indexes autoGenerate="true">
+	<datastore-index kind="Company" ancestor="false">
+        <property name="Name" direction="asc"/>
+        <property name="Key" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="MaintenanceEntry" ancestor="false">
+        <property name="Device" direction="asc" />
+        <property name="Name" direction="asc" />
+        <property name="Description" direction="asc" />
+        <property name="ProblemDescription" direction="asc" />
+        <property name="State" direction="asc" />
+        <property name="AssignedTo" direction="asc" />
+        <property name="CompleteDate" direction="asc" />
+        <property name="Materials" direction="asc" />
+        <property name="Notes" direction="asc" />
+        <property name="Interval" direction="asc" />
+    </datastore-index>
+    <datastore-index kind="Device" ancestor="true">
+        <property name="DeviceId" direction="asc"/>
+        <property name="DeviceName" direction="asc"/>
+        <property name="Location" direction="asc"/>
+        <property name="DeviceNickname" direction="asc"/>
+        <property name="kWrpm" direction="asc"/>
+        <property name="DeviceType" direction="asc"/>
+        <property name="DeviceManufacturer" direction="asc"/>
+        <property name="DElaager" direction="asc"/>
+        <property name="DEsimmer" direction="asc"/>
+        <property name="DEVtihend" direction="asc"/>
+        <property name="DEnotes" direction="asc"/>
+        <property name="NDElaager" direction="asc"/>
+        <property name="NDEsimmer" direction="asc"/>
+        <property name="NDEVtihend" direction="asc"/>
+        <property name="NDEnotes" direction="asc"/>
+        <property name="CoupledDeviceName" direction="asc"/>
+        <property name="CoupledDeviceType" direction="asc"/>
+        <property name="CoupledDeviceManufacturer" direction="asc"/>
+        <property name="MPlaager" direction="asc"/>
+        <property name="MPsimmer" direction="asc"/>
+        <property name="MPVtihend" direction="asc"/>
+        <property name="MPnotes" direction="asc"/>
+        <property name="TPlaager" direction="asc"/>
+        <property name="TPsimmer" direction="asc"/>
+        <property name="TPVtihend" direction="asc"/>
+        <property name="TPnotes" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="Measurement" ancestor="true">
+    	<property name="DeviceID" direction="asc"/>
+    	<property name="DeviceName" direction="asc"/>
+    	<property name="RaportKey" direction="asc"/>
+    	<property name="Date" direction="asc"/>
+    	<property name="Marking" direction="asc"/>
+    	<property name="Comment" direction="asc"/>
+    	<property name="NDEmms" direction="asc"/>
+    	<property name="NDEge" direction="asc"/>
+    	<property name="NDEcomment" direction="asc"/>
+    	<property name="DEmms" direction="asc"/>
+    	<property name="DEge" direction="asc"/>
+    	<property name="DEcomment" direction="asc"/>
+    	<property name="MPmms" direction="asc"/>
+    	<property name="MPge" direction="asc"/>
+    	<property name="MPcomment" direction="asc"/>
+    	<property name="TPmms" direction="asc"/>
+    	<property name="TPge" direction="asc"/>
+    	<property name="TPcomment" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="Raport" ancestor="true">
+    	<property name="UnitKey" direction="asc"/>
+    	<property name="CompanyName" direction="asc"/>
+    	<property name="UnitName" direction="asc"/>
+    	<property name="RaportID" direction="asc"/>
+    	<property name="Date" direction="asc"/>
+    	<property name="MeasurerName" direction="asc"/>
+    	<property name="MeasurerPhone" direction="asc"/>
+    	<property name="RaportKey" direction="asc" />
+    </datastore-index>
+    <datastore-index kind="Company" ancestor="true" source="manual"> 
+    	<property name="Name" direction="asc"/> 
+    </datastore-index>
+    <datastore-index kind="Unit" ancestor="true" source="manual">
+        <property name="Unit" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="Device" ancestor="true" source="manual">
+        <property name="DeviceId" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="Measurement" ancestor="true" source="manual">
+        <property name="RaportKey" direction="asc"/>
+        <property name="Date" direction="desc"/>
+    </datastore-index>
+    <datastore-index kind="Raport" ancestor="true" source="manual">
+        <property name="RaportID" direction="desc"/>
+    </datastore-index>
+    <datastore-index kind="Measurement" ancestor="true" source="manual">
+        <property name="RaportKey" direction="asc"/>
+        <property name="DeviceID" direction="asc"/>
+    </datastore-index>
 </datastore-indexes>
