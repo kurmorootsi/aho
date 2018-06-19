@@ -28,8 +28,8 @@ https://hes-projekt.appspot.com/
 * GWT Eclipse Plugin 3.0.0
 
 2. HES projekti importimine ja käivitamine
-* Lae alla aho.zip fail siit -->
-* Paki lahti .zip fail ning lisa githubist võetud /src ning /war aho kausta
+* Võta githubist kood (git clone) või lae alla .zip fail
+* Paki lahti .zip fail
 * Lisa aho kaust oma Eclipse'i töökataloogi (vaikimisi C:\Users\{nimi}\eclipse/workspace)
 * Käivita Eclipse ning impordi HES projekt Eclipse'i
   File > Open Projects from File System...
