@@ -6,6 +6,7 @@ public class DiagnostikaItem {
     private String id;
     private String seade;
     private String kommentaar;
+    private String marking;
 
     public DiagnostikaItem() {
     	
@@ -49,4 +50,13 @@ public class DiagnostikaItem {
     public String getComment() {
     	return this.kommentaar;
 	}
+    
+    public String getMarking() {
+		return marking;
+	}
+
+	public void setMarking(String marking) {
+		this.marking = marking;
+	}
+  
   } 

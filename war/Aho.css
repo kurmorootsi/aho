@@ -254,7 +254,7 @@ h1 {
 
 .backSaveLabel.noPointer {
 	display: block;
-	/*margin-left: 20px;*/
+	margin-left: 20px;
 }
 
 .dateLabel {
@@ -266,7 +266,7 @@ h1 {
 .dateLabel.o {
 	background-color: orange;
 	top: 78px;
-	left: 52%;
+	left: 62%;
 	float: left;
 }
 
@@ -276,6 +276,10 @@ h1 {
 	top: 59px;
 }
 
+.markingCell {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
 
 .aho-dropdownmenu {
 	position: absolute;
@@ -425,6 +429,7 @@ h1 {
 	padding-left: 15px;
 	padding-right: 15px;
 	padding-bottom: 15px;
+	border-collapse: collapse;
 	/*display: block; */
 }
 .aho-panel1.table2 {
@@ -432,6 +437,7 @@ h1 {
 	padding-left: 20px;
 	padding-right: 20px;
 	padding-bottom: 5px;
+	border-collapse: collapse;
 }
 
 .aho-panel1.table2.d {
@@ -439,7 +445,7 @@ h1 {
 }
 
 .aho-panel1.table.center {
-	top: 100px;
+	top: 50px;
 	position: relative;
 	display: block;
 }
@@ -1005,16 +1011,16 @@ h1 {
 }
 
 .dateLabel.o {
-	top: 150px;
+	top: 90px;
 }
 
 .dateLabel.g {
-	right: 90px;
-	top: 130px;
+	right: 70px;
+    top: 70px;
 }
 
 .dateLabel {
-	top: 110px;
+	top: 50px;
 }
 .aho-label1 {
 	font-size: 46px;

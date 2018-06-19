@@ -325,6 +325,8 @@ public class Hooldus implements EntryPoint {
 				if (measureKey.equals(raportKey)) {
 					String v = raportDataList.get(y).getComment();
 					diag.setComment(v);
+					String mMarking = raportDataList.get(y).getMarking();
+					diag.setMarking(mMarking);
 //					Debug.log("comment: " + v);
 					String st = raportDataList.get(y).getDeviceName();
 					diag.setDevice(st);
@@ -343,8 +345,36 @@ public class Hooldus implements EntryPoint {
 		tablePanel.setWidth("100%");
 		Label lLabel = new Label("Diagnostika ja monitooring");
 		lLabel.setStyleName("backSaveLabel noPointer");
+		// HOOLDUSTEGEVUSTE PILT
+		Image hooldusImage = new Image("res/pikto-hooldus.png");
+ 		hooldusImage.setStyleName("aho-hooldusImage");
+ 		hooldusImage.addClickHandler(new ClickHandler() {
+ 			
+ 			@Override
+ 			public void onClick(ClickEvent event) {
+ 				if(isDevMode) Window.Location.assign(Window.Location.getHref().replace("index", "DeviceCard"));
+ 				else Window.Location.assign("/DeviceCard.html");
+ 			}
+ 			
+ 		});
+ 		
 		CellTable<DiagnostikaItem> table = new CellTable<DiagnostikaItem>();
-	    // Add a text column to show the name.
+		Column<DiagnostikaItem, SafeHtml> markingColumn = new Column<DiagnostikaItem, SafeHtml>(new SafeHtmlCell()) {
+	    	@Override
+			public SafeHtml getValue(DiagnostikaItem object) {
+				if(object.getMarking().equals("alarm")) {
+						return object.getMarking().equals("alarm") ? SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("a", 24).toString()): null;
+					}else if (object.getMarking().equals("hoiatus")) {
+						return object.getMarking().equals("hoiatus") ? SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("h", 24).toString()): null;
+					} else {
+						return object.getMarking().equals("ok") ? SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("o", 24).toString()): null;
+					}
+			}
+		};
+		markingColumn.setCellStyleNames("markingCell");
+		table.setColumnWidth(0, "60px");
+	    table.addColumn(markingColumn);
+	    	
 	    TextColumn<DiagnostikaItem> nameColumn = new TextColumn<DiagnostikaItem>() {
 	      @Override
 	      public String getValue(DiagnostikaItem object) {
@@ -360,7 +390,7 @@ public class Hooldus implements EntryPoint {
 	        return object.getAddress();
 	      }
 	    };
-	    table.addColumn(addressColumn, "Üksus");
+	    table.addColumn(addressColumn, "\u00FCksus");
 	    
 	 // Add a text column to show the ID.
 	    TextColumn<DiagnostikaItem> idColumn = new TextColumn<DiagnostikaItem>() {
@@ -389,30 +419,6 @@ public class Hooldus implements EntryPoint {
 	    };
 	    table.addColumn(kommentaarColumn, "Kommentaar");
 	    
-	    Column<Measurement, SafeHtml> markingAColumn = new Column<Measurement, SafeHtml>(new SafeHtmlCell()) {
-
-			@Override
-			public SafeHtml getValue(Measurement measurement) {
-				return measurement.getMarking().equals("alarm") ? SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("a", 24).toString()): null;
-			}
-	    	
-	    };
-	    Column<Measurement, SafeHtml> markingHColumn = new Column<Measurement, SafeHtml>(new SafeHtmlCell()) {
-
-			@Override
-			public SafeHtml getValue(Measurement measurement) {
-				return measurement.getMarking().equals("hoiatus") ? SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("h", 24).toString()): null;
-			}
-	    	
-	    };
-	    Column<Measurement, SafeHtml> markingOColumn = new Column<Measurement, SafeHtml>(new SafeHtmlCell()) {
-
-			@Override
-			public SafeHtml getValue(Measurement measurement) {
-				return measurement.getMarking().equals("ok") ? SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("o", 24).toString()): null;
-			}
-	    	
-	    };
 	    
 	    // Set the total row count. This isn't strictly necessary, but it affects
 	    // paging calculations, so its good habit to keep the row count up to date.
@@ -425,55 +431,22 @@ public class Hooldus implements EntryPoint {
 	    return tablePanel;
 	}
 	private VerticalPanel createNewPlannerTable() {
-
 		table2Panel = new VerticalPanel();
 		table2Panel.setStyleName("aho-panel1 table center");
-		tablePanel.setWidth("100%");
+		table2Panel.setWidth("100%");
 		
 		Label lLabel = new Label("Planeeritavad tegevused");
 		lLabel.setStyleName("backSaveLabel noPointer");
-		Label doneLabel = new Label("Tähtaeg möödas");
+		Label doneLabel = new Label("T\u00E4htaeg m\u00F6\u00F6das");
 		doneLabel.setStyleName("dateLabel o");
-		Label todayLabel = new Label("Täna");
+		Label todayLabel = new Label("T\u00E4na");
 		todayLabel.setStyleName("dateLabel g");
 		Label doLabel = new Label("Tulemas");
 		doLabel.setStyleName("dateLabel");
 		
-		
 		CellTable<PlannerItem> table = new CellTable<PlannerItem>();
-		
-		Column<PlannerItem, SafeHtml> markingAColumn = new Column<PlannerItem, SafeHtml>(new SafeHtmlCell()) {
-
-			@Override
-			public SafeHtml getValue(PlannerItem object) {
-				return object.getMarking().equals("alarm") ? SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("a", 24).toString()): null;
-			}
-	    	
-	    };
-	    Column<PlannerItem, SafeHtml> markingHColumn = new Column<PlannerItem, SafeHtml>(new SafeHtmlCell()) {
-
-			@Override
-			public SafeHtml getValue(PlannerItem object) {
-				return object.getMarking().equals("hoiatus") ? SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("h", 24).toString()): null;
-			}
-	    	
-	    };
-	    Column<PlannerItem, SafeHtml> markingOColumn = new Column<PlannerItem, SafeHtml>(new SafeHtmlCell()) {
-
-			@Override
-			public SafeHtml getValue(PlannerItem object) {
-				return object.getMarking().equals("ok") ? SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("o", 24).toString()): null;
-			}
-	    	
-	    };
 		for (int x = 0; x < maintenance.size(); x++) {
 			PlannerItem plan = new PlannerItem();
-			markingAColumn.setCellStyleNames("markingCell");
-		    markingHColumn.setCellStyleNames("markingCell");
-		    markingOColumn.setCellStyleNames("markingCell");
-		    table.addColumn(markingAColumn, SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("a", 24).toString()));
-		    table.addColumn(markingHColumn, SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("h", 24).toString()));
-		    table.addColumn(markingOColumn, SafeHtmlUtils.fromTrustedString(AhoWidgets.getAHOImage("o", 24).toString()));
 			plan.setAction(maintenance.get(x).getMaintenanceName());
 			plan.setID(raports.get(x).getRaportID());
 			Debug.log("planner started");
@@ -486,7 +459,7 @@ public class Hooldus implements EntryPoint {
 						if (deviceKey.equals(mDeviceKey)) {
 							String st = raportDataList.get(y).getDeviceName();
 							plan.setDevice(st);
-							Debug.log("seade m��ratud");
+							Debug.log("seade määratud");
 								for (int z = 0; z < raportDataList.size(); z++) {
 									String deviceID = devices.get(y).getId();
 									String mDeviceID = raportDataList.get(z).getDeviceID();
@@ -496,15 +469,13 @@ public class Hooldus implements EntryPoint {
 											for (int r = 0; r < raports.size(); r++) {
 												String mRaportKey = raportDataList.get(z).getRaportKey();
 												String raportKey = raports.get(r).getRaportKey();
-												String mMarking = raportDataList.get(z).getMarking();
-												plan.setMarking(mMarking);
+
 												Debug.log(z + " measurements raport key: " + mRaportKey);
 												Debug.log(r + " real raport key: " + raportKey);
 													if (mRaportKey.equals(raportKey)) {
 														plan.setName(raports.get(r).getCompanyName());
 														plan.setAddress(raports.get(r).getUnitName());
-													}
-													
+													}	
 											}
 										}
 									}
@@ -512,9 +483,7 @@ public class Hooldus implements EntryPoint {
 					}
 			PLANNER.add(plan);
 			}
-					
-		
-		
+
 		TextColumn<PlannerItem> datesColumn = new TextColumn<PlannerItem>() {
 		   @Override
 		   public String getValue(PlannerItem object) {
@@ -522,9 +491,7 @@ public class Hooldus implements EntryPoint {
 		   }
 		};
 		table.addColumn(datesColumn, "Kuup");
-		
-	    
-		
+
 		TextColumn<PlannerItem> nameColumn = new TextColumn<PlannerItem>() {
 			@Override
 			public String getValue(PlannerItem object) {
@@ -567,11 +534,12 @@ public class Hooldus implements EntryPoint {
 		    
 		table.setRowCount(PLANNER.size(), true);
 		table.setRowData(0, PLANNER);
+		table.setColumnWidth(0, "80px");
 		table2Panel.add(doneLabel);
 		table2Panel.add(todayLabel);
 		table2Panel.add(doLabel);
 		table2Panel.add(lLabel);
-		AbsolutePanel markingPanel = new AbsolutePanel();
+		/*AbsolutePanel markingPanel = new AbsolutePanel();
 	    markingPanel.setSize("100%", "50px");
 		markingPanel.add(AhoWidgets.getAHOImage("a", 14), 0, 5);
 		markingPanel.add(AhoWidgets.getAHOImage("h", 14), 0, 20);
@@ -587,9 +555,9 @@ public class Hooldus implements EntryPoint {
 	    markingPanel.add(markingO, 25, 35);
 	    table.setColumnWidth(0, "35px");
 	    table.setColumnWidth(1, "35px");
-	    table.setColumnWidth(2, "35px");
+	    table.setColumnWidth(2, "35px");*/
 		table2Panel.add(table);
-		table2Panel.add(markingPanel);
+		//table2Panel.add(markingPanel);
 		return table2Panel;
 	}
 
