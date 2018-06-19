@@ -445,41 +445,61 @@ public class Hooldus implements EntryPoint {
 		doLabel.setStyleName("dateLabel");
 		
 		CellTable<PlannerItem> table = new CellTable<PlannerItem>();
+		firstloop:
 		for (int x = 0; x < maintenance.size(); x++) {
+			Debug.log("FIRST FOR LOOP");
+			Debug.log("		MAINTENANCE SIZE: " + maintenance.size());
 			PlannerItem plan = new PlannerItem();
 			plan.setAction(maintenance.get(x).getMaintenanceName());
-			plan.setID(raports.get(x).getRaportID());
-			Debug.log("planner started");
 			plan.setDates(maintenance.get(x).getMaintenanceCompleteDate().toString());
+			secondloop:
 				for (int y = 0; y < devices.size(); y++) {
+					Debug.log("SECOND FOR LOOP");
+					Debug.log("		DEVICES SIZE: " + devices.size());
 					String deviceKey = devices.get(y).getDeviceKey();
 					String mDeviceKey = maintenance.get(x).getMaintenanceDevice();
-					Debug.log(x + " maintenance key: " + mDeviceKey);
-					Debug.log(y + " device key: " + deviceKey);
+					Debug.log("				" + x + " maintenance key");
+					Debug.log("				" + y + " device key");
 						if (deviceKey.equals(mDeviceKey)) {
+							Debug.log("		MATCH FOUND");
 							String st = raportDataList.get(y).getDeviceName();
 							plan.setDevice(st);
-							Debug.log("seade määratud");
+							
+							thirdloop:
 								for (int z = 0; z < raportDataList.size(); z++) {
+									Debug.log("THIRD FOR LOOP");
+									Debug.log("		MEASUREMENTS SIZE: " + raportDataList.size());
 									String deviceID = devices.get(y).getId();
 									String mDeviceID = raportDataList.get(z).getDeviceID();
-									Debug.log(y + " device id: " + deviceID);
-									Debug.log(z + " measurements id: " + mDeviceID);
+									Debug.log("				" + y + " device id");
+									Debug.log("				" + z + " measurements id");
 										if (deviceID.equals(mDeviceID)) {
+											Debug.log("		MATCH FOUND");
+											
+											fourloop:
 											for (int r = 0; r < raports.size(); r++) {
+												Debug.log("FOURTH FOR LOOP");
+												Debug.log("		RAPORTS SIZE: " + raports.size());
 												String mRaportKey = raportDataList.get(z).getRaportKey();
 												String raportKey = raports.get(r).getRaportKey();
 
-												Debug.log(z + " measurements raport key: " + mRaportKey);
-												Debug.log(r + " real raport key: " + raportKey);
+												Debug.log("				" + z + " measurements raport key");
+												Debug.log("				" + r + " real raport key");
 													if (mRaportKey.equals(raportKey)) {
+														Debug.log("		MATCH FOUND");
 														plan.setName(raports.get(r).getCompanyName());
 														plan.setAddress(raports.get(r).getUnitName());
-													}	
+														plan.setID(raports.get(r).getRaportID());
+														if (x==maintenance.size()-1) {
+															Debug.log("		OUTERLOOP BREAKED");
+															break firstloop;
+														} else {Debug.log("		OUTERLOOP BREAKED");break secondloop;}
+														
+													} else {Debug.log("		NOT FOUND");}
 											}
-										}
+										} else {Debug.log("		NOT FOUND");}
 									}
-							}
+							} else {Debug.log("		NOT FOUND");}
 					}
 			PLANNER.add(plan);
 			}
