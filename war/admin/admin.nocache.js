@@ -1,5 +1,5 @@
-function login(){
-  var $intern_0 = 'bootstrap', $intern_1 = 'begin', $intern_2 = 'gwt.codesvr.login=', $intern_3 = 'gwt.codesvr=', $intern_4 = 'login', $intern_5 = 'startup', $intern_6 = 'DUMMY', $intern_7 = 0, $intern_8 = 1, $intern_9 = 'iframe', $intern_10 = 'javascript:""', $intern_11 = 'position:absolute; width:0; height:0; border:none; left: -1000px;', $intern_12 = ' top: -1000px;', $intern_13 = 'CSS1Compat', $intern_14 = '<!doctype html>', $intern_15 = '', $intern_16 = '<html><head><\/head><body><\/body><\/html>', $intern_17 = 'undefined', $intern_18 = 'readystatechange', $intern_19 = 10, $intern_20 = 'script', $intern_21 = 'javascript', $intern_22 = 'Failed to load ', $intern_23 = 'moduleStartup', $intern_24 = 'scriptTagAdded', $intern_25 = 'moduleRequested', $intern_26 = 'meta', $intern_27 = 'name', $intern_28 = 'login::', $intern_29 = '::', $intern_30 = 'gwt:property', $intern_31 = 'content', $intern_32 = '=', $intern_33 = 'gwt:onPropertyErrorFn', $intern_34 = 'Bad handler "', $intern_35 = '" for "gwt:onPropertyErrorFn"', $intern_36 = 'gwt:onLoadErrorFn', $intern_37 = '" for "gwt:onLoadErrorFn"', $intern_38 = '#', $intern_39 = '?', $intern_40 = '/', $intern_41 = 'img', $intern_42 = 'clear.cache.gif', $intern_43 = 'baseUrl', $intern_44 = 'login.nocache.js', $intern_45 = 'base', $intern_46 = '//', $intern_47 = 'user.agent', $intern_48 = 'webkit', $intern_49 = 'safari', $intern_50 = 'msie', $intern_51 = 11, $intern_52 = 'ie10', $intern_53 = 9, $intern_54 = 'ie9', $intern_55 = 8, $intern_56 = 'ie8', $intern_57 = 'gecko', $intern_58 = 'gecko1_8', $intern_59 = 2, $intern_60 = 3, $intern_61 = 4, $intern_62 = 'selectingPermutation', $intern_63 = 'login.devmode.js', $intern_64 = '0DCEA27025CC4CB8A964ED5C1B9A4292', $intern_65 = '4468772E4027592B32C008378252DD05', $intern_66 = '554B04D377861D7FD621E48D677E21DE', $intern_67 = 'D0C293DAFC232CE1C4E585E815E48C63', $intern_68 = 'DAD1865E598ED896BDA975C8DF443E2F', $intern_69 = ':', $intern_70 = '.cache.js', $intern_71 = 'loadExternalRefs', $intern_72 = 'end', $intern_73 = 'http:', $intern_74 = 'file:', $intern_75 = '_gwt_dummy_', $intern_76 = '__gwtDevModeHook:login', $intern_77 = 'Ignoring non-whitelisted Dev Mode URL: ', $intern_78 = ':moduleBase', $intern_79 = 'head';
+function admin(){
+  var $intern_0 = 'bootstrap', $intern_1 = 'begin', $intern_2 = 'gwt.codesvr.admin=', $intern_3 = 'gwt.codesvr=', $intern_4 = 'admin', $intern_5 = 'startup', $intern_6 = 'DUMMY', $intern_7 = 0, $intern_8 = 1, $intern_9 = 'iframe', $intern_10 = 'javascript:""', $intern_11 = 'position:absolute; width:0; height:0; border:none; left: -1000px;', $intern_12 = ' top: -1000px;', $intern_13 = 'CSS1Compat', $intern_14 = '<!doctype html>', $intern_15 = '', $intern_16 = '<html><head><\/head><body><\/body><\/html>', $intern_17 = 'undefined', $intern_18 = 'readystatechange', $intern_19 = 10, $intern_20 = 'script', $intern_21 = 'javascript', $intern_22 = 'Failed to load ', $intern_23 = 'moduleStartup', $intern_24 = 'scriptTagAdded', $intern_25 = 'moduleRequested', $intern_26 = 'meta', $intern_27 = 'name', $intern_28 = 'admin::', $intern_29 = '::', $intern_30 = 'gwt:property', $intern_31 = 'content', $intern_32 = '=', $intern_33 = 'gwt:onPropertyErrorFn', $intern_34 = 'Bad handler "', $intern_35 = '" for "gwt:onPropertyErrorFn"', $intern_36 = 'gwt:onLoadErrorFn', $intern_37 = '" for "gwt:onLoadErrorFn"', $intern_38 = '#', $intern_39 = '?', $intern_40 = '/', $intern_41 = 'img', $intern_42 = 'clear.cache.gif', $intern_43 = 'baseUrl', $intern_44 = 'admin.nocache.js', $intern_45 = 'base', $intern_46 = '//', $intern_47 = 'user.agent', $intern_48 = 'webkit', $intern_49 = 'safari', $intern_50 = 'msie', $intern_51 = 11, $intern_52 = 'ie10', $intern_53 = 9, $intern_54 = 'ie9', $intern_55 = 8, $intern_56 = 'ie8', $intern_57 = 'gecko', $intern_58 = 'gecko1_8', $intern_59 = 2, $intern_60 = 3, $intern_61 = 4, $intern_62 = 'selectingPermutation', $intern_63 = 'admin.devmode.js', $intern_64 = '1BB69F69438F6D8C4CCEC5B30889BE80', $intern_65 = '506D3D8A4AA89A357274887015FB79D5', $intern_66 = '83BBD86178F545A3BFE0A44ED8FE96CB', $intern_67 = 'C9805336E00D7270CFD016B47492D8B0', $intern_68 = 'EF6B8858269FC57BBDDAC0A9D314FBA2', $intern_69 = ':', $intern_70 = '.cache.js', $intern_71 = 'loadExternalRefs', $intern_72 = 'end', $intern_73 = 'http:', $intern_74 = 'file:', $intern_75 = '_gwt_dummy_', $intern_76 = '__gwtDevModeHook:admin', $intern_77 = 'Ignoring non-whitelisted Dev Mode URL: ', $intern_78 = ':moduleBase', $intern_79 = 'head';
   var $wnd = window;
   var $doc = document;
   sendStats($intern_0, $intern_1);
@@ -14,36 +14,36 @@ function login(){
     }
   }
 
-  login.__sendStats = sendStats;
-  login.__moduleName = $intern_4;
-  login.__errFn = null;
-  login.__moduleBase = $intern_6;
-  login.__softPermutationId = $intern_7;
-  login.__computePropValue = null;
-  login.__getPropMap = null;
-  login.__installRunAsyncCode = function(){
+  admin.__sendStats = sendStats;
+  admin.__moduleName = $intern_4;
+  admin.__errFn = null;
+  admin.__moduleBase = $intern_6;
+  admin.__softPermutationId = $intern_7;
+  admin.__computePropValue = null;
+  admin.__getPropMap = null;
+  admin.__installRunAsyncCode = function(){
   }
   ;
-  login.__gwtStartLoadingFragment = function(){
+  admin.__gwtStartLoadingFragment = function(){
     return null;
   }
   ;
-  login.__gwt_isKnownPropertyValue = function(){
+  admin.__gwt_isKnownPropertyValue = function(){
     return false;
   }
   ;
-  login.__gwt_getMetaProperty = function(){
+  admin.__gwt_getMetaProperty = function(){
     return null;
   }
   ;
   var __propertyErrorFunction = null;
   var activeModules = $wnd.__gwt_activeModules = $wnd.__gwt_activeModules || {};
   activeModules[$intern_4] = {moduleName:$intern_4};
-  login.__moduleStartupDone = function(permProps){
+  admin.__moduleStartupDone = function(permProps){
     var oldBindings = activeModules[$intern_4].bindings;
     activeModules[$intern_4].bindings = function(){
       var props = oldBindings?oldBindings():{};
-      var embeddedProps = permProps[login.__softPermutationId];
+      var embeddedProps = permProps[admin.__softPermutationId];
       for (var i = $intern_7; i < embeddedProps.length; i++) {
         var pair = embeddedProps[i];
         props[pair[$intern_7]] = pair[$intern_8];
@@ -124,9 +124,9 @@ function login(){
       var script = doc.createElement($intern_20);
       script.language = $intern_21;
       script.src = code_0;
-      if (login.__errFn) {
+      if (admin.__errFn) {
         script.onerror = function(){
-          login.__errFn($intern_4, new Error($intern_22 + code_0));
+          admin.__errFn($intern_4, new Error($intern_22 + code_0));
         }
         ;
       }
@@ -141,11 +141,11 @@ function login(){
     );
   }
 
-  login.__startLoadingFragment = function(fragmentFile){
+  admin.__startLoadingFragment = function(fragmentFile){
     return computeUrlForResource(fragmentFile);
   }
   ;
-  login.__installRunAsyncCode = function(code_0){
+  admin.__installRunAsyncCode = function(code_0){
     var doc = getInstallLocationDoc();
     var docbody = doc.body;
     var script = doc.createElement($intern_20);
@@ -211,7 +211,7 @@ function login(){
     }
     ;
     __propertyErrorFunction = propertyErrorFunc;
-    login.__errFn = onLoadErrorFunc;
+    admin.__errFn = onLoadErrorFunc;
   }
 
   function computeScriptBase(){
@@ -291,7 +291,7 @@ function login(){
     if (resource.match(/^[a-zA-Z]+:\/\//)) {
       return resource;
     }
-    return login.__moduleBase + resource;
+    return admin.__moduleBase + resource;
   }
 
   function getCompiledCodeFilename(){
@@ -358,7 +358,7 @@ function login(){
       return propValue in values[propName];
     }
     ;
-    login.__getPropMap = function(){
+    admin.__getPropMap = function(){
       var result = {};
       for (var key in values) {
         if (values.hasOwnProperty(key)) {
@@ -368,19 +368,19 @@ function login(){
       return result;
     }
     ;
-    login.__computePropValue = computePropValue;
-    $wnd.__gwt_activeModules[$intern_4].bindings = login.__getPropMap;
+    admin.__computePropValue = computePropValue;
+    $wnd.__gwt_activeModules[$intern_4].bindings = admin.__getPropMap;
     sendStats($intern_0, $intern_62);
     if (isHostedMode()) {
       return computeUrlForResource($intern_63);
     }
     var strongName;
     try {
-      unflattenKeylistIntoAnswers([$intern_52], $intern_64);
+      unflattenKeylistIntoAnswers([$intern_49], $intern_64);
       unflattenKeylistIntoAnswers([$intern_56], $intern_65);
-      unflattenKeylistIntoAnswers([$intern_58], $intern_66);
-      unflattenKeylistIntoAnswers([$intern_54], $intern_67);
-      unflattenKeylistIntoAnswers([$intern_49], $intern_68);
+      unflattenKeylistIntoAnswers([$intern_54], $intern_66);
+      unflattenKeylistIntoAnswers([$intern_52], $intern_67);
+      unflattenKeylistIntoAnswers([$intern_58], $intern_68);
       strongName = answers[computePropValue($intern_47)];
       var idx = strongName.indexOf($intern_69);
       if (idx != -1) {
@@ -390,7 +390,7 @@ function login(){
     }
      catch (e) {
     }
-    login.__softPermutationId = softPermutationId;
+    admin.__softPermutationId = softPermutationId;
     return computeUrlForResource(strongName + $intern_70);
   }
 
@@ -403,8 +403,8 @@ function login(){
   }
 
   processMetas();
-  login.__moduleBase = computeScriptBase();
-  activeModules[$intern_4].moduleBase = login.__moduleBase;
+  admin.__moduleBase = computeScriptBase();
+  activeModules[$intern_4].moduleBase = admin.__moduleBase;
   var filename = getCompiledCodeFilename();
   if ($wnd) {
     var devModePermitted = !!($wnd.location.protocol == $intern_73 || $wnd.location.protocol == $intern_74);
@@ -447,4 +447,4 @@ function login(){
   return true;
 }
 
-login.succeeded = login();
+admin.succeeded = admin();

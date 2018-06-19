@@ -43,8 +43,11 @@ public class Admin implements EntryPoint{
 	private DeckPanel contentPanel;
 	private Company selectedCompany;
 	private VerticalPanel companyListPanel = new VerticalPanel();
+	private VerticalPanel adminLogonPanel = new VerticalPanel();
 	private AsyncCallback<List<Measurement>> getMeasurementsCallback;
 	private AsyncCallback<String> getAccountDataCallback;
+	private AsyncCallback<String> getAdminAccountDataCallback;
+	private AsyncCallback<String> createAdminAccountCallback;
 	protected List<Measurement> measurements;
 	private List<Company> companyList = new ArrayList<Company>();
 	private boolean isDevMode;
@@ -56,7 +59,6 @@ public class Admin implements EntryPoint{
 	@Override
 	public void onModuleLoad() {
 		
-		sessionStore = Storage.getSessionStorageIfSupported();
 		if (Window.Location.getHref().contains("127.0.0.1")) isDevMode = true;
 		else isDevMode = false;
 		if (Window.getClientWidth() < 1000) {
@@ -76,6 +78,21 @@ public class Admin implements EntryPoint{
 		    	updateWidgetSizes();
 		    }
 		});
+		getAdminAccountDataCallback = new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(String arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		};
 		updateCompanyCallback = new AsyncCallback<String>() {
 
 			@Override
@@ -138,7 +155,7 @@ public class Admin implements EntryPoint{
 			}
 			
 		};
-		
+		userInfoService.createAdminAccount("admin", "test", createAdminAccountCallback);
 		
 		RootPanel root = RootPanel.get();
 		root.setStyleName("mainBackground2");
@@ -180,7 +197,12 @@ public class Admin implements EntryPoint{
 		rootPanel.setStyleName("mainBackground2");
 		rootPanel.add(mainPanel);
 		
-		init();
+		sessionStore = Storage.getSessionStorageIfSupported();
+		if(sessionStore.getItem("hasAdminLogon") == "yes") {
+			init();
+		} else {
+			initAdminLogon();
+		}
 		updateWidgetSizes();
 	}
 	private void fetchCompanies() {
@@ -211,6 +233,9 @@ public class Admin implements EntryPoint{
 		//contentPanel.add(deviceTreePanel);
 		//contentPanel.showWidget(contentPanel.getWidgetIndex(deviceTreePanel));
 		mainPanel.setCellHorizontalAlignment(contentPanel, HasHorizontalAlignment.ALIGN_CENTER);
+	}
+	private void initAdminLogon() {
+		createAdminLogonPanel();
 	}
 	public VerticalPanel createCompanyListPanel() {
 		companyListPanel.clear();
@@ -270,6 +295,37 @@ public class Admin implements EntryPoint{
 			@Override
 			public void onClick(ClickEvent event) {
 				userInfoService.getAccountData(loginUser.getValue(), loginPass.getValue(), companyName, getAccountDataCallback);
+			}
+			
+		});
+		loginButton.setStyleName("loginBtn");
+		loginPanel.add(userLabel);
+		loginPanel.add(loginUser);
+		loginPanel.add(pwsLabel);
+		loginPanel.add(loginPass);
+		loginPanel.add(loginButton);
+		contentPanel.add(loginPanel);
+		contentPanel.showWidget(contentPanel.getWidgetIndex(loginPanel));
+	}
+	private void createAdminLogonPanel() {
+		contentPanel.clear();
+		VerticalPanel loginPanel = new VerticalPanel();
+		loginPanel.setStyleName("loginPanel");
+		Label userLabel = new Label();
+		userLabel.setStyleName("userLabel");
+		userLabel.setText("Ettev\u00F5te");
+		TextBox loginUser = new TextBox();
+		loginUser.setStyleName("loginUser");
+		Label pwsLabel = new Label();
+		pwsLabel.setStyleName("userLabel");
+		pwsLabel.setText("Parool");
+		PasswordTextBox loginPass = new PasswordTextBox();
+		loginPass.setStyleName("loginUser");
+		Button loginButton = new Button("Logi sisse", new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				userInfoService.getAdminAccountData(loginUser.getValue(), loginPass.getValue(), getAdminAccountDataCallback);
 			}
 			
 		});
