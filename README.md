@@ -1,7 +1,10 @@
 # HES programm 
+Elektrimasinad OÜ veebilehe arendus 
+Hooldusprogramm Ettevõtte Seadmepargile 
+
+HES keskkond võimaldab tahvelarvutiga seadmete vahel ringi kõndides nende andmeid ning eesootavaid hooldustöid üles märkida, samuti sobivatesse kohtadesse tahvliga tehtud piltide lisamine ning masinate automaatse monitoorimise logid. HES programmi saab kasutada ka arvutis ning oleme ka mobiilisõbralikud. 
 
 (pildid siia ...)
-Eesmärk ....
 
 ## Tiimiliikmed
 * Kurmo Andres Rootsi
