@@ -2,7 +2,7 @@
 Elektrimasinad OÜ veebilehe arendus 
 Hooldusprogramm Ettevõtte Seadmepargile 
 
-HES keskkond võimaldab tahvelarvutiga seadmete vahel ringi kõndides nende andmeid ning eesootavaid hooldustöid üles märkida, samuti sobivatesse kohtadesse tahvliga tehtud piltide lisamine ning masinate automaatse monitoorimise logid. HES programmi saab kasutada ka arvutis ning oleme ka mobiilisõbralikud. 
+HES keskkond võimaldab tahvelarvutiga seadmete vahel ringi kõndides nende andmeid ning eesootavaid hooldustöid üles märkida, samuti sobivatesse kohtadesse tahvliga tehtud piltide lisamine ning masinate automaatse monitoorimise logid. HES'i kasutav ettevõte saab sisselogida ning alles siis avaneb avakuva, kus saab HES'i funktsioone kasutada. HES programmi saab kasutada ka arvutis ning oleme ka mobiilisõbralikud. 
 
 (pildid siia ...)
 
