@@ -1,2 +1,0 @@
-serviceClass: com.elektrimasinad.aho.client.DeviceTreeService
-path: 218EA267D4AB5857F9A1E862906F9816.gwt.rpc

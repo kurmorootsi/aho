@@ -28,7 +28,26 @@ public class UserInfoServiceImpl extends RemoteServiceServlet implements UserInf
 	private static final Random RANDOM = new SecureRandom();
 	private static final int ITERATIONS = 1000;
 	private static final int KEY_LENGTH = 192;
-	
+	public String getAdminAccountData(String accountName, String accountPassword) {
+		String salt = "ElektrimasinadAdmins";
+		byte[] saltArr = salt.getBytes();
+		Query query = new Query("Admins");
+		query.setFilter(FilterOperator.EQUAL.of("Username", accountName));
+		Entity e = ds.prepare(query).asSingleEntity();
+		String hashedPassword;
+		try {
+			hashedPassword = hashPassword(accountPassword, saltArr);
+			if(e.getProperty("Password").equals(hashedPassword)) {
+				return "yes";
+			} else {
+				return "no";
+			}
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return null;
+	}
 	public String getAccountData(String accountName, String accountPassword, String companyName) {
 		Key companyKey = KeyFactory.stringToKey("ag5lbGVrdHJpbWFzaW5hZHIvCxIHQ29tcGFueSIORWxla3RyaW1hc2luYWQMCxIHQ29tcGFueRiAgICAgICACgw");
 		System.out.println(KeyFactory.keyToString(companyKey));
@@ -70,5 +89,25 @@ public class UserInfoServiceImpl extends RemoteServiceServlet implements UserInf
 		SecretKeyFactory key = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
 		byte[] hashedPassword = key.generateSecret(spec).getEncoded();
 		return String.format("%x", new BigInteger(hashedPassword));
+	}
+	public String createAdminAccount(String username, String password) {
+		Query query = new Query("Admins");
+		query.setFilter(FilterOperator.EQUAL.of("Username", username));
+		Iterable<Entity> nameCheck = ds.prepare(query).asIterable();
+		if(nameCheck.iterator().hasNext() == true) {
+			Entity e = new Entity("Admins");
+			String salt = "ElektrimasinadAdmins";
+			byte[] saltArr = salt.getBytes();
+			try {
+				String hashedPassword = hashPassword(password, saltArr);
+				e.setProperty("Username", username);
+				e.setProperty("Password", hashedPassword);
+				return "account stored";
+			} catch (NoSuchAlgorithmException | InvalidKeySpecException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		return "account not stored";
 	}
 }

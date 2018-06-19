@@ -55,4 +55,5 @@ public interface DeviceTreeServiceAsync {
 	void updateMaintenanceEntry(MaintenanceItem mNew, AsyncCallback<String> callback);
 	void getMaintenanceEntriesFromKey(String maintenanceString, AsyncCallback<List<MaintenanceItem>> callback);
 	void getCompany(String companyName, AsyncCallback<Company> callback);
+
 }
