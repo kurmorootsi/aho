@@ -1,9 +1,5 @@
 package com.elektrimasinad.aho.client;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.time.format.DateTimeFormatter;
@@ -11,8 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.elektrimasinad.aho.shared.Company;
-
-import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,18 +17,14 @@ import com.elektrimasinad.aho.shared.Device;
 
 import com.elektrimasinad.aho.shared.Device;
 import com.elektrimasinad.aho.shared.MaintenanceItem;
+//import com.elektrimasinad.aho.shared.MyImage;
 import com.gargoylesoftware.htmlunit.javascript.host.file.Blob;
-import com.gargoylesoftware.htmlunit.javascript.host.file.File;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 import com.ibm.icu.text.MessagePattern.Part;
-
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.datastore.Query;
 import com.google.gwt.core.client.GWT;
@@ -68,6 +58,41 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	private AsyncCallback<String> storeCallback;
 	private Company selectedCompany;
 	private Storage sessionStore;
+	//getimage
+    
+    /*public String getImageUrl(HttpServletRequest req, HttpServletResponse resp, final String bucket) throws IOException, ServletException {
+    	Part filePart = req.getPart("file");
+    	final String fileName = filePart.getSubmittedFileName();
+    	String imageUrl = req.getParameter("imageUrl");
+    	// Check extension of file
+    	if (fileName != null && !fileName.isEmpty() && fileName.contains(".")) {
+    		final String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
+    		String[] allowedExt = { "jpg", "jpeg", "png", "gif" };
+    		for (String s : allowedExt) {
+    			if (extension.equals(s)) {
+    				return this.uploadFile(filePart, bucket);
+    			}
+    		}
+    		throw new ServletException("file must be an image");
+    	}
+    	return imageUrl;
+    }
+    
+    @SuppressWarnings("deprecation")
+    public String uploadFile(Part filePart, final String bucketName) throws IOException {
+      DateTimeFormatter dtf = DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS");
+      DateTime dt = DateTime.now(DateTimeZone.UTC);
+      String dtString = dt.toString(dtf);
+      final String fileName = filePart.getSubmittedFileName() + dtString;
+      BlobInfo blobInfo =
+          storage.create(
+              BlobInfo
+                  .newBuilder(bucketName, fileName)
+                  .setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER))))
+                  .build(),
+              filePart.getInputStream());
+      return blobInfo.getMediaLink();
+    }*/
 	
 	public DeviceMaintenancePanel() {
 		super();
@@ -102,7 +127,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 			public void onSuccess(Company arg0) {
 				// TODO Auto-generated method stub
 				selectedCompany = arg0;
-				Window.alert(selectedCompany.getCompanyName());
 			}
 			
 		};
@@ -121,11 +145,9 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 			}
 			
 		};
-		Window.alert(sessionStore.getItem("selectedCompany"));
 		deviceTreeService.getCompany(sessionStore.getItem("Account"), getCompanyCallback);
 		HorizontalPanel headerPanel = AhoWidgets.createContentHeader("Seadme " + device.getDeviceName() + " hooldust\u00F6\u00F6");
 		add(headerPanel);
-		Window.alert("block1");
 		VerticalPanel RadioPanel = new VerticalPanel();
 		RadioPanel.setStyleName("aho-panel1");
 		HorizontalPanel RadioPanel1 = new HorizontalPanel();
@@ -162,7 +184,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    RadioPanel.add(RadioPanel2);
 	    RadioPanel.add(RadioPanel3);
 	    add(RadioPanel);
-	    Window.alert("block2");
 	    HorizontalPanel ProblemSignPanel = AhoWidgets.createContentHeader("Perioodiline v\u00F5i plaaniline hooldustegevus");
 	    add(ProblemSignPanel);
 		ProblemSignPanel.setVisible(false);
@@ -260,20 +281,52 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    form.setAction("/myFormHandler");
 	    form.setEncoding(FormPanel.ENCODING_MULTIPART);
 	    form.setMethod(FormPanel.METHOD_POST);
-	    Window.alert("block3");
-	    
 	    HorizontalPanel panel = new HorizontalPanel();
 	    form.setWidget(panel);
+
+	    Label tb99 = new Label("Pildi \u00FCleslaadur ");
+	    HorizontalPanel description = new HorizontalPanel();
+	    Label nameFile = new Label("Pildifaili kirjeldus: ");
+	    final TextBox tb9 = new TextBox();
+	    tb9.setName("textBoxFormElement");
+
+	    HorizontalPanel file = new HorizontalPanel();
+	    Label chooseFile = new Label("Vali fail: ");
+	   
 	    final Label label  = new Label("Pildi lisamine: ");
-	    
 	    label.setStyleName("aho-label1");
 	    FileUpload upload = new FileUpload();
 	    upload.getElement().setAttribute("type", "file");
 	    upload.getElement().setAttribute("accept", "image/*");
 	    upload.getElement().setAttribute("capture", "camera");
 	    panel.setCellHorizontalAlignment(upload, HasHorizontalAlignment.ALIGN_LEFT);
-	    
-	    Window.alert("block4");
+
+		/*
+		//image upload servlet
+		Blob imageFor(String name, HttpServletResponse res) {
+		    PersistenceManager pm = PMF.get().getPersistenceManager();
+		    Query query = pm.newQuery("select from MyImage " +
+		        "where name = nameParam " +
+		        "parameters String nameParam");
+		    List<MyImage> results = (List<MyImage>)query.execute(name);
+		    Blob image = results.iterator().next().getImage();
+		    res.setContentType("image/jpeg");
+		    res.getOutputStream().write(image.getBytes());
+		}*/
+		
+	    form.addSubmitHandler(new FormPanel.SubmitHandler() {
+	      public void onSubmit(SubmitEvent event) {
+	        if (tb9.getText().length() == 0) {
+	          Window.alert("Palun sisesta puuduv kirje!");
+	          event.cancel();
+	        }
+	      }
+	    });
+	    form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
+	      public void onSubmitComplete(SubmitCompleteEvent event) {
+	        Window.alert(event.getResults());
+	      }
+	    });
 	    //v�ljakutsumised
 		ProblemPanel.add(tb00);
 		NamePanel.add(tb00);
@@ -314,7 +367,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    panel.add(upload);
 		ProblemPanel.setCellHorizontalAlignment(panel, HasHorizontalAlignment.ALIGN_RIGHT);
 		ProblemPanel.setVisible(false);
-		Window.alert("block5");
 		Button b = new Button("Sisesta teenus!", new ClickHandler() {
 		      public void onClick(ClickEvent event) {
 		    	  String state;
@@ -338,12 +390,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		    		  m.setMaintenanceCompleteDate(dateBox.getValue());
 		    		  m.setMaintenanceMaterials(ta.getValue());
 		    		  m.setMaintenanceNotes(note.getValue());
-		    		  /*File file = new File("upload");
-		    		  FileInputStream fis = new FileInputStream(file);
-		    		  byte[] data = new byte[(int) file.length()];
-		    		  fis.read(data);
-		    		  fis.close();*/
-		    		  //m.setMaintenanceImage(new FileInputStream(upload.getFilename()));
+		    		  //m.setMaintenanceImage(upload.getName());
 		    		  if(state.equals("periodic")) {
 		    			  m.setMaintenanceInterval(5);
 		    		  } else {
@@ -360,7 +407,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		ProblemPanel.add(b);
 		add(ProblemSignPanel);
 		add(ProblemPanel);
-		Window.alert("block6");
 		//teostatud t66 paneel
 		HorizontalPanel DonePanel = AhoWidgets.createContentHeader("Teostatud t\u00F6\u00F6 kokkuv\u00F5te");
 		add(DonePanel);
@@ -405,7 +451,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		});
 		WorkPanel.add(w);
 		
-		Window.alert("block7");
 		ClickHandler ch1=new ClickHandler() {
 	        public void onClick(ClickEvent event) {
 		    	  DonePanel.setVisible(true);
@@ -428,7 +473,6 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	    rb1.addClickHandler(ch);
 	    
 	    add(WorkPanel);
-	    Window.alert("block8");
 	}
 	/*public getData() {
 		return key;

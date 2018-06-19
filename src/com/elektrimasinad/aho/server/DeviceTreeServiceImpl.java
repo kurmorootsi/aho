@@ -163,6 +163,7 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 			m.setMaintenanceCompleteDate((Date) e.getProperty("CompleteDate"));
 			m.setMaintenanceMaterials(e.getProperty("Materials").toString());
 			m.setMaintenanceNotes(e.getProperty("Notes").toString());
+			m.setMaintenanceInterval(Integer.valueOf(e.getProperty("Interval").toString()));
 		} catch (EntityNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -177,9 +178,7 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		Query query = new Query("MaintenanceEntry");
 		query.setFilter(FilterOperator.EQUAL.of("Name", mNew.getMaintenanceName()));
 		e = ds.prepare(query).asSingleEntity();
-		//e.setProperty("KeyString", mNew.getMaintenanceKey());
 		e.setProperty("Device", mNew.getMaintenanceDevice());
-		e.setProperty("Name", mNew.getMaintenanceName());
 		e.setProperty("Description", mNew.getMaintenanceDescription());
 		e.setProperty("ProblemDescription", mNew.getMaintenanceProblemDescription());
 		e.setProperty("State", mNew.getMaintenanceState());
@@ -188,9 +187,7 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		e.setProperty("Materials", mNew.getMaintenanceMaterials());
 		e.setProperty("Notes", mNew.getMaintenanceNotes());
 		Integer interval = mNew.getMaintenanceInterval();
-		if(interval > 0 ) {
-			e.setProperty("Interval", interval);
-		}
+		e.setProperty("Interval", interval);
 		ds.put(e);
 		return "Task updated";
 	}
