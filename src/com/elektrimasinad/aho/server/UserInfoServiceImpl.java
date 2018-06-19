@@ -13,7 +13,6 @@ import com.elektrimasinad.aho.client.UserInfoService;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
@@ -21,6 +20,10 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class UserInfoServiceImpl extends RemoteServiceServlet implements UserInfoService {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2691003455069498312L;
 	private DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 	private static final Random RANDOM = new SecureRandom();
 	private static final int ITERATIONS = 1000;

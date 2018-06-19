@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class Login implements EntryPoint{
+public class Admin implements EntryPoint{
 	
 	private int MAIN_WIDTH = 900;
 	private int CONTENT_WIDTH = 800;
@@ -37,6 +37,7 @@ public class Login implements EntryPoint{
 	private static final UserInfoServiceAsync userInfoService = GWT.create(UserInfoService.class);
 	private AsyncCallback<List<Company>> getCompanyListCallback;
 	private AsyncCallback<String> storeCompanyCallback;
+	private AsyncCallback<String> updateCompanyCallback;
 	private VerticalPanel mainPanel;
 	private AbsolutePanel headerPanel;
 	private DeckPanel contentPanel;
@@ -54,12 +55,6 @@ public class Login implements EntryPoint{
 	
 	@Override
 	public void onModuleLoad() {
-		String[] testNames = {"elektrimasinad", "mitte_elektrimasinad", "auruseadmed"};
-		for (int i = 0; i < 3; i++) {
-			Company testCompany = new Company();
-			testCompany.setCompanyName(testNames[i]);
-			deviceTreeService.storeCompany(testCompany, testCompany.getCompanyName(), "test", storeCompanyCallback);
-		}
 		
 		sessionStore = Storage.getSessionStorageIfSupported();
 		if (Window.Location.getHref().contains("127.0.0.1")) isDevMode = true;
@@ -81,7 +76,21 @@ public class Login implements EntryPoint{
 		    	updateWidgetSizes();
 		    }
 		});
-		
+		updateCompanyCallback = new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(String arg0) {
+				// TODO Auto-generated method stub
+				Window.alert("Company updated!");
+			}
+			
+		};
 		getCompanyListCallback = new AsyncCallback<List<Company>>() {
 			
 			@Override
@@ -229,8 +238,8 @@ public class Login implements EntryPoint{
 				
 				@Override
 				public void onClick(ClickEvent event) {
-					sessionStore.setItem("selectedCompany", company.getCompanyName());
-					createLoginPanel();
+					sessionStore.setItem("adminPanelSelectedCompany", company.getCompanyName());
+					createEditPanel(company);
 				}
 				
 			});
@@ -250,7 +259,6 @@ public class Login implements EntryPoint{
 		userLabel.setText("Ettev\u00F5te");
 		TextBox loginUser = new TextBox();
 		loginUser.setStyleName("loginUser");
-		loginUser.setValue(sessionStore.getItem("selectedCompany"));
 		Label pwsLabel = new Label();
 		pwsLabel.setStyleName("userLabel");
 		pwsLabel.setText("Parool");
@@ -273,5 +281,39 @@ public class Login implements EntryPoint{
 		loginPanel.add(loginButton);
 		contentPanel.add(loginPanel);
 		contentPanel.showWidget(contentPanel.getWidgetIndex(loginPanel));
+	}
+	private void createEditPanel(Company c) {
+		contentPanel.clear();
+		VerticalPanel editCompany = new VerticalPanel();
+		Label editCompanyNameLabel = new Label("Nimi");
+		TextBox editCompanyName = new TextBox();
+		editCompanyName.setValue(c.getCompanyName());
+		Label editCompanyUsernameLabel = new Label("Kasutajanimi");
+		TextBox editCompanyUsername = new TextBox();
+		editCompanyName.setValue(c.getCompanyUsername());
+		Label editCompanyPasswordLabel = new Label("Salasõna");
+		PasswordTextBox editCompanyPassword = new PasswordTextBox();
+		editCompanyName.setValue(c.getCompanyPassword());
+		Button editCompanySave = new Button("Salvesta", new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				// TODO Auto-generated method stub
+				c.setCompanyName(editCompanyName.getValue().toString());
+				c.setCompanyUsername(editCompanyUsername.getValue().toString());
+				c.setCompanyPassword(editCompanyPassword.getValue().toString());
+				deviceTreeService.updateCompany(c, updateCompanyCallback);
+			}
+			
+		});
+		editCompany.add(editCompanyNameLabel);
+		editCompany.add(editCompanyName);
+		editCompany.add(editCompanyUsernameLabel);
+		editCompany.add(editCompanyUsername);
+		editCompany.add(editCompanyPasswordLabel);
+		editCompany.add(editCompanyPassword);
+		editCompany.add(editCompanySave);
+		contentPanel.add(editCompany);
+		contentPanel.showWidget(contentPanel.getWidgetIndex(editCompany));
 	}
 }

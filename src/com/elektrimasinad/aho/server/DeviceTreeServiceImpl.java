@@ -77,23 +77,31 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		Key maintenanceKey = KeyFactory.createKey("MaintenanceEntry", m.getMaintenanceName());
 		System.out.println(KeyFactory.keyToString(maintenanceKey));
 		Entity e = new Entity("MaintenanceEntry", maintenanceKey);
-		
-		e.setProperty("Device", m.getMaintenanceDevice());
-		e.setProperty("Name", m.getMaintenanceName());
-		e.setProperty("Description", m.getMaintenanceDescription());
-		e.setProperty("ProblemDescription", m.getMaintenanceProblemDescription());
-		e.setProperty("State", m.getMaintenanceState());
-		e.setProperty("AssignedTo", m.getMaintenanceAssignedTo());
-		e.setProperty("CompleteDate", m.getMaintenanceCompleteDate());
-		e.setProperty("Materials", m.getMaintenanceMaterials());
-		e.setProperty("Notes", m.getMaintenanceNotes());
-		Integer interval = m.getMaintenanceInterval();
-		if(interval > 0 ) {
-			e.setProperty("Interval", interval);
+		Iterable<Entity> nameCheck;
+		Query query = new Query("MaintenanceEntry");
+		query.setFilter(FilterOperator.EQUAL.of("Name", m.getMaintenanceName()));
+		nameCheck = ds.prepare(query).asIterable();
+		if(nameCheck.iterator().hasNext() == true ){
+			return "Name already taken!";
+		} else {
+			e.setProperty("Device", m.getMaintenanceDevice());
+			e.setProperty("Name", m.getMaintenanceName());
+			e.setProperty("Description", m.getMaintenanceDescription());
+			e.setProperty("ProblemDescription", m.getMaintenanceProblemDescription());
+			e.setProperty("State", m.getMaintenanceState());
+			e.setProperty("AssignedTo", m.getMaintenanceAssignedTo());
+			e.setProperty("CompleteDate", m.getMaintenanceCompleteDate());
+			e.setProperty("Materials", m.getMaintenanceMaterials());
+			e.setProperty("Notes", m.getMaintenanceNotes());
+			Integer interval = m.getMaintenanceInterval();
+			if(interval > 0 ) {
+				e.setProperty("Interval", interval);
+			}
+			//e.setProperty("KeyString", KeyFactory.keyToString(e.getKey()));
+			ds.put(e);
+			return "Task stored";
 		}
-		//e.setProperty("KeyString", KeyFactory.keyToString(e.getKey()));
-		ds.put(e);
-		return "Task stored";
+		
 	}
 	@Override
 	public List<MaintenanceItem> getMaintenanceEntries() throws IllegalArgumentException {
@@ -166,20 +174,10 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 	@Override
 	public String updateMaintenanceEntry(MaintenanceItem mNew) {
 		Entity e;
+		Iterable<Entity> nameCheck;
 		Query query = new Query("MaintenanceEntry");
 		query.setFilter(FilterOperator.EQUAL.of("Name", mNew.getMaintenanceName()));
 		e = ds.prepare(query).asSingleEntity();
-		//e.setProperty("KeyString", mNew.getMaintenanceKey());
-		System.out.println(e.getProperty("Name"));
-		System.out.println(mNew.getMaintenanceDevice());
-		System.out.println(mNew.getMaintenanceDescription());
-		System.out.println(mNew.getMaintenanceProblemDescription());
-		System.out.println(mNew.getMaintenanceState());
-		System.out.println(mNew.getMaintenanceAssignedTo());
-		System.out.println(mNew.getMaintenanceCompleteDate());
-		System.out.println(mNew.getMaintenanceMaterials());
-		System.out.println(mNew.getMaintenanceNotes());
-		System.out.println(mNew.getMaintenanceInterval());
 		e.setProperty("Device", mNew.getMaintenanceDevice());
 		e.setProperty("Description", mNew.getMaintenanceDescription());
 		e.setProperty("ProblemDescription", mNew.getMaintenanceProblemDescription());
@@ -193,6 +191,7 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 		ds.put(e);
 		return "Task updated";
 	}
+		//e.setProperty("KeyString", mNew.getMaintenanceKey());
 	@Override
 	public String storeCompany(Company company, String username, String password) throws IllegalArgumentException {
 		//Check if company with specified name already exists
@@ -264,6 +263,8 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 	@Override
 	public String updateCompany(Company updatedCompany) throws IllegalArgumentException {
 		Entity e;
+		String saltString = "Elektrimasinad";
+		byte[] salt = saltString.getBytes();
 		try {
 			e = ds.get(KeyFactory.stringToKey(updatedCompany.getCompanyKey()));
 			//Check if company name has been changed
@@ -278,9 +279,16 @@ public class DeviceTreeServiceImpl extends RemoteServiceServlet implements Devic
 			}
 			
 			//Update company if company does not already exist
+			System.out.println(updatedCompany.getCompanyName());
+			System.out.println(updatedCompany.getCompanyUsername());
 			e.setProperty("Name", updatedCompany.getCompanyName());
+			e.setProperty("Username", updatedCompany.getCompanyUsername());
+			String passwordToProc = updatedCompany.getCompanyPassword().toString();
+			System.out.println(hashPassword(passwordToProc, salt));
+			String proccedPassword = hashPassword(passwordToProc, salt);
+			e.setProperty("Password", proccedPassword);
 			ds.put(e);
-		} catch (EntityNotFoundException e1) {
+		} catch (EntityNotFoundException | NoSuchAlgorithmException | InvalidKeySpecException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			return "Company not found!";

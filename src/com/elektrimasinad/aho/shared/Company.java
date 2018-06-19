@@ -11,6 +11,8 @@ public class Company implements Serializable {
 	private static final long serialVersionUID = -711750541648786588L;
 	private String companyKey;
 	private String companyName;
+	private String username;
+	private String password;
 	private List<Unit> locationList = new ArrayList<Unit>();
 	
 	public Company() {}
@@ -57,11 +59,22 @@ public class Company implements Serializable {
 	public String getCompanyKey() {
 		return companyKey;
 	}
-
+	public String getCompanyUsername() {
+		return username;
+	}
+	public String getCompanyPassword() {
+		return password;
+	}
 	/**
 	 * @param companyKey the companyKey to set
 	 */
 	public void setCompanyKey(String companyKey) {
 		this.companyKey = companyKey;
+	}
+	public void setCompanyUsername(String username) {
+		this.username = username;
+	}
+	public void setCompanyPassword(String password) {
+		this.password = password;
 	}
 }

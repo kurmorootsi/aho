@@ -102,9 +102,6 @@ public class MaintenanceItem implements Serializable{
 	public Integer getMaintenanceInterval() {
 		return this.interval;
 	}
-	public String getMaintenanceIntervalString() {
-		return this.interval.toString();
-	}
 	public Double getMaintenanceCost() {
 		return this.cost;
 	}

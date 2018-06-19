@@ -60,7 +60,6 @@ public class DeviceEditPanel extends VerticalPanel {
 			public void onSelectionChange(SelectionChangeEvent arg0) {
 				// TODO Auto-generated method stub
 				MaintenanceItem selectedItem = (MaintenanceItem) tableSelModel.getSelectedObject();
-				Window.alert(selectedItem.getMaintenanceName());
 				showEditPanel(selectedItem);
 			}
 			
@@ -99,7 +98,6 @@ public class DeviceEditPanel extends VerticalPanel {
 		super.clear();
 		deviceTreeService = DeviceCard.getDevicetreeservice();
 		selectedDevice = device.getDeviceKey();
-		Window.alert(selectedDevice);
 		deviceTreeService.getMaintenanceEntriesFromKey(selectedDevice, getDeviceEntriesCallback);
 		
 		maintenanceTable = new CellTable<MaintenanceItem>();
@@ -147,7 +145,6 @@ public class DeviceEditPanel extends VerticalPanel {
 		TextArea editNotes = new TextArea();
 		editNotes.setValue(m.getMaintenanceNotes());
 		IntegerBox intervalBox = new IntegerBox();
-		Window.alert(m.getMaintenanceIntervalString());
 		intervalBox.setValue(m.getMaintenanceInterval());
 		Button editButton = new Button("Muuda", new ClickHandler() {
 			public void onClick(ClickEvent event) {

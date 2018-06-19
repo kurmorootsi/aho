@@ -1,6 +1,7 @@
 package com.elektrimasinad.aho.client;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -54,6 +55,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	private List<MaintenanceItem> itemsToEdit;
 	private AsyncCallback<List<MaintenanceItem>> getMaintenanceItemsCallback;
 	private AsyncCallback<Company> getCompanyCallback;
+	private AsyncCallback<String> storeCallback;
 	private Company selectedCompany;
 	private Storage sessionStore;
 	//getimage
@@ -98,6 +100,21 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 	}
 	public void createNewDeviceMaintenancePanel(Device device) {
 		sessionStore = Storage.getSessionStorageIfSupported();
+		storeCallback = new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				// TODO Auto-generated method stub
+				//Window.alert(arg0);
+			}
+
+			@Override
+			public void onSuccess(String arg0) {
+				// TODO Auto-generated method stub
+				Window.alert(arg0);
+			}
+			
+		};
 		getCompanyCallback = new AsyncCallback<Company>() {
 
 			@Override
@@ -379,7 +396,7 @@ public class DeviceMaintenancePanel extends VerticalPanel {
 		    		  } else {
 		    			 m.setMaintenanceInterval(0);
 		    		  }
-		    		  deviceTreeService.storeMaintenanceEntry(m, selectedCompany.getCompanyKey(), null);
+		    		  deviceTreeService.storeMaintenanceEntry(m, selectedCompany.getCompanyKey(), storeCallback);
 			    	  Window.alert("Teie teenus on sisestatud!");
 		    	  } else {
 		    		  Window.alert("Probleem");
