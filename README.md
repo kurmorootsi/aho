@@ -21,7 +21,7 @@ https://hes-projekt.appspot.com/
 ## HES arenduskeskkonna seadistamine 
 1. Vajalik tarkvara 
 * Java SE Development Kit 8 Update 151 (64-bit) (versioon 8.0.1510.12)
-* Google Cloud SDK ja Appengine Java component
+* [Google Cloud SDK ja Appengine Java component](https://cloud.google.com/appengine/docs/standard/java/building-app/environment-setup)
 * Eclipse Oxygen.2 Release (4.7.2)
 * Google Cloud Tools for Eclipse 1.6.0 
 * GWT Eclipse Plugin 3.0.0
