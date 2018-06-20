@@ -5,7 +5,6 @@
 
 HES keskkond võimaldab tahvelarvutiga seadmete vahel ringi kõndides nende andmeid ning eesootavaid hooldustöid üles märkida, samuti sobivatesse kohtadesse tahvliga tehtud piltide lisamine ning masinate automaatse monitoorimise logid. HES'i kasutav ettevõte saab sisselogida ning alles siis avaneb avakuva, kus saab HES'i funktsioone kasutada. HES programmi saab kasutada ka arvutis ning oleme ka mobiilisõbralikud. 
 
-(pildid siia ...)
 
 ## Tiimiliikmed
 * Kurmo Andres Rootsi
@@ -38,6 +37,7 @@ https://hes-projekt.appspot.com/
   Configure > Convert to Appengine Standard
 * Seejärel 
   GWT > Compile
+* Parem klikk projektile > properties > Java build path > sealt valida menüüst libraries > Google Cloud platform > märgi ära Appengine API
 * Projekti käivitamiseks vali
   Run as > App Engine 
 3. Lisa
@@ -50,7 +50,12 @@ https://hes-projekt.appspot.com/
 
 See projekt on MIT litsendi all - vaata [LITSENTS](https://github.com/kurmorootsi/aho/blob/master/LICENSE.md) täpsema info jaoks
 
+## Pildid
 
-
-
+![alt text](https://github.com/kurmorootsi/aho/blob/master/login.png)
+![alt text](https://github.com/kurmorootsi/aho/blob/master/avakuva.png)
+![alt text](https://github.com/kurmorootsi/aho/blob/master/hooldustoo.png)
+![alt text](https://github.com/kurmorootsi/aho/blob/master/raport.png)
+![alt text](https://github.com/kurmorootsi/aho/blob/master/monitooring.png)
+![alt text](https://github.com/kurmorootsi/aho/blob/master/hooldus.png)
 
